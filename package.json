@@ -1,0 +1,8 @@
+{
+  "name": "transferplan",
+  "version": "2.0.0",
+  "private": true,
+  "description": "TransferPlan — Global Transfer Intelligence",
+  "engines": { "node": ">=18" },
+  "dependencies": {}
+}
