@@ -324,6 +324,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 
 </script>
 <script>
+/* Transfer365 */
+
 /* Transfer365 App */
 const {
   useState,
@@ -2358,6 +2360,13 @@ function handleCheckout(planId, billingCycle) {
   }
 }
 function App() {
+  /* ── i18n state (English-only standalone) ── */
+  const [lang,       setLang]   = useState(LANGS[0]);
+  const [loading,    setLoading]= useState(false);
+  const [errMsg,     setErrMsg] = useState(null);
+  const [showPicker, setPicker] = useState(false);
+  const [langSearch, setLsrch]  = useState("");
+  const cache = useRef({en: BASE});
   const [page, setPage] = useState("dash");
   const [modal, setModal] = useState(null); // {type:"player"|"deal", id}
   const [deals, setDeals] = useState(INIT_DEALS);
@@ -9058,6 +9067,7 @@ function App() {
   }, "Close")))));
 }
 ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(App, null));
+
 </script>
 </body>
 </html>
