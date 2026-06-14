@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Transfer365 — Win Every Transfer Window</title>
+<meta name="description" content="AI-powered transfer intelligence for FIFA-licensed football agents. Real-time alerts, AI player matching, deal pipeline CRM.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#050411;--bg2:#0D0B24;--bg3:#130F2E;--p:#534AB7;--pl:#6B61D6;--pd:#3C3489;--pp:#EEEDFE;--g:#22C55E;--tx1:#FFF;--tx2:rgba(255,255,255,.72);--tx3:rgba(255,255,255,.42);--bd:rgba(255,255,255,.08);--glass:rgba(255,255,255,.04);--r:14px;--r2:20px;--max:1160px}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx1);font-family:-apple-system,system-ui,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button,input{font-family:inherit;outline:none}
+::selection{background:var(--p);color:#fff}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+.c{max-width:var(--max);margin:0 auto;padding:0 24px}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:13px 26px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;border:none;white-space:nowrap}
+.btn-p{background:linear-gradient(135deg,var(--pl),var(--pd));color:#fff;box-shadow:0 4px 24px rgba(83,74,183,.4)}
+.btn-p:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(83,74,183,.55)}
+.btn-o{background:transparent;color:var(--tx2);border:1px solid var(--bd)}
+.btn-o:hover{border-color:rgba(255,255,255,.25);color:#fff}
+.btn-g{background:linear-gradient(135deg,#22C55E,#16A34A);color:#fff;box-shadow:0 4px 20px rgba(34,197,94,.35)}
+.btn-g:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(34,197,94,.5)}
+.tag{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.tag-p{background:rgba(83,74,183,.2);color:#AFA9EC;border:1px solid rgba(83,74,183,.3)}
+.tag-g{background:rgba(34,197,94,.12);color:#4ADE80;border:1px solid rgba(34,197,94,.2)}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s,transform .7s}.rv.in{opacity:1;transform:none}
+.rv1{transition-delay:.1s}.rv2{transition-delay:.2s}.rv3{transition-delay:.3s}.rv4{transition-delay:.4s}
+
+/* BG ORBS */
+.orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.18;animation:of 20s ease-in-out infinite}
+.o1{width:600px;height:600px;background:var(--p);top:-200px;left:-100px}
+.o2{width:500px;height:500px;background:#0EA5E9;top:60%;right:-150px;animation-delay:-7s}
+.o3{width:400px;height:400px;background:var(--g);bottom:-100px;left:30%;animation-delay:-14s}
+@keyframes of{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,15px) scale(.97)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 24px;height:64px;display:flex;align-items:center;border-bottom:1px solid transparent;transition:all .3s}
+nav.sc{background:rgba(5,4,17,.88);border-color:var(--bd);backdrop-filter:blur(16px)}
+.ni{max-width:var(--max);margin:0 auto;width:100%;display:flex;align-items:center}
+.nl{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:800;letter-spacing:-.02em;flex-shrink:0}
+.nli{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--pl),var(--pd));display:flex;align-items:center;justify-content:center;font-size:16px}
+.nm{display:flex;align-items:center;gap:2px;margin:0 auto}
+.nm a{padding:7px 14px;border-radius:8px;font-size:13.5px;color:var(--tx3);transition:all .15s;font-weight:500}
+.nm a:hover{color:var(--tx1);background:var(--glass)}
+.nc{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.nc .btn{padding:9px 18px;font-size:13px}
+@media(max-width:768px){.nm{display:none}.nc .btn-o{display:none}}
+
+/* HERO */
+#hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;padding:120px 24px 80px}
+.hc{max-width:760px;margin:0 auto;text-align:center}
+.hey{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:28px;animation:fu .8s ease both}
+.hcd{display:flex;align-items:center;gap:6px;padding:6px 13px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:20px;font-size:12px;font-weight:600;color:#4ADE80}
+.hcdd{width:7px;height:7px;border-radius:50%;background:#22C55E;animation:pd 1.5s ease infinite}
+@keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+.h1{font-size:clamp(44px,7vw,84px);font-weight:900;letter-spacing:-.04em;line-height:1.04;margin-bottom:22px;animation:fu .9s .1s ease both}
+.h1 .ac{background:linear-gradient(135deg,#C4BFFF,#8B82E8,#534AB7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hsub{font-size:clamp(17px,2.2vw,21px);color:var(--tx2);max-width:560px;margin:0 auto 38px;line-height:1.6;animation:fu .9s .2s ease both}
+.hctas{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:56px;animation:fu .9s .3s ease both}
+.hctas .btn{padding:14px 28px;font-size:15px}
+.hss{display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;animation:fu .9s .4s ease both}
+.hs{text-align:center}
+.hsn{font-size:28px;font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,#fff,rgba(255,255,255,.7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hsl{font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-top:2px}
+.hd{width:1px;height:36px;background:var(--bd)}
+@keyframes fu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+/* APP FRAME */
+.hap{margin-top:64px;animation:fu 1s .5s ease both}
+.haf{border-radius:18px;border:1px solid var(--bd);box-shadow:0 40px 120px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05),inset 0 1px 0 rgba(255,255,255,.08);background:linear-gradient(180deg,#0D0B24,#09071A);padding:18px;position:relative;overflow:hidden}
+.haf::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)}
+.atb{display:flex;align-items:center;gap:10px;padding:9px 14px;background:rgba(255,255,255,.03);border-radius:9px;margin-bottom:12px;border:1px solid var(--bd)}
+.ald{width:6px;height:6px;border-radius:50%;background:#22C55E;animation:pd 1.5s ease infinite;flex-shrink:0}
+.atk{font-size:10px;color:rgba(255,255,255,.45);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.ack{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.akp{background:rgba(255,255,255,.04);border-radius:9px;padding:10px;border:1px solid var(--bd)}
+.akv{font-size:20px;font-weight:800;margin-bottom:2px}
+.akl{font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:.05em}
+.ams{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.amw{background:rgba(255,255,255,.04);border-radius:9px;padding:10px;border:1px solid var(--bd);display:flex;align-items:center;gap:9px}
+.asc{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex-shrink:0}
+.ag{background:rgba(34,197,94,.12);color:#4ADE80}
+.apu{background:rgba(83,74,183,.18);color:#AFA9EC}
+.ami{flex:1;min-width:0}
+.amp{font-size:10.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.amc{font-size:9px;color:var(--tx3)}
+.amb{font-size:8px;padding:2px 6px;border-radius:4px;background:rgba(239,159,39,.12);color:#FCD34D;font-weight:700;margin-top:3px;display:inline-block}
+
+/* LEAGUES */
+#lg{position:relative;z-index:1;padding:44px 24px;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);background:rgba(255,255,255,.012)}
+.lgl{text-align:center;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);margin-bottom:24px}
+.lgr{display:flex;align-items:center;justify-content:center;gap:44px;flex-wrap:wrap}
+.lgb{display:flex;align-items:center;gap:7px;opacity:.42;transition:opacity .2s}
+.lgb:hover{opacity:.68}
+.lgi{font-size:20px}
+.lgn{font-size:12px;font-weight:700;color:var(--tx1)}
+
+/* PROBLEM */
+#problem{position:relative;z-index:1;padding:100px 24px}
+.st{text-align:center;margin-bottom:18px}
+.sh2{text-align:center;font-size:clamp(32px,5vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:16px}
+.ss{text-align:center;font-size:17px;color:var(--tx2);max-width:560px;margin:0 auto 52px;line-height:1.6}
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pc{background:var(--glass);border:1px solid var(--bd);border-radius:var(--r2);padding:28px;transition:all .3s;position:relative;overflow:hidden}
+.pc:hover{border-color:rgba(255,100,100,.2);transform:translateY(-3px)}
+.pi{width:44px;height:44px;border-radius:12px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.18);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px;color:#F87171}
+.pt{font-size:17px;font-weight:700;margin-bottom:8px}
+.pp{font-size:13px;color:var(--tx2);line-height:1.65}
+.pst{margin-top:14px;padding-top:14px;border-top:1px solid var(--bd);font-size:11px;font-weight:700;color:#F87171;letter-spacing:.04em;text-transform:uppercase}
+@media(max-width:768px){.pg{grid-template-columns:1fr}}
+
+/* FEATURES */
+#features{position:relative;z-index:1;padding:80px 24px 100px;background:linear-gradient(180deg,transparent,rgba(83,74,183,.03),transparent)}
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:52px}
+.fc{background:var(--glass);border:1px solid var(--bd);border-radius:var(--r2);padding:26px;transition:all .3s}
+.fc:hover{transform:translateY(-4px);border-color:rgba(83,74,183,.3)}
+.fi{width:48px;height:48px;border-radius:13px;margin-bottom:18px;display:flex;align-items:center;justify-content:center;font-size:21px}
+.fai{background:rgba(83,74,183,.15);border:1px solid rgba(83,74,183,.25);color:#AFA9EC}
+.fal{background:rgba(239,159,39,.12);border:1px solid rgba(239,159,39,.22);color:#FCD34D}
+.fcr{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);color:#4ADE80}
+.fmk{background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.2);color:#38BDF8}
+.fbg{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);color:#C084FC}
+.fnt{background:rgba(251,113,133,.1);border:1px solid rgba(251,113,133,.2);color:#FB7185}
+.fn{font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
+.ft{font-size:13px;color:var(--tx2);line-height:1.65}
+.ftg{display:inline-flex;align-items:center;gap:4px;margin-top:13px;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em}
+@media(max-width:900px){.fg{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:580px){.fg{grid-template-columns:1fr}}
+
+/* NUMBERS */
+#numbers{position:relative;z-index:1;padding:80px 24px;background:linear-gradient(135deg,rgba(83,74,183,.07),rgba(83,74,183,.02))}
+.ng{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bd);border-radius:var(--r2);overflow:hidden;margin-top:44px}
+.nc2{background:var(--bg2);padding:38px 24px;text-align:center}
+.nv{font-size:clamp(36px,5vw,58px);font-weight:900;letter-spacing:-.04em;background:linear-gradient(135deg,#fff,rgba(255,255,255,.65));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px}
+.nv .u{font-size:.52em;opacity:.7}
+.nl2{font-size:11.5px;color:var(--tx3);font-weight:600;text-transform:uppercase;letter-spacing:.07em;line-height:1.45}
+@media(max-width:768px){.ng{grid-template-columns:repeat(2,1fr)}}
+
+/* PRICING */
+#pricing{position:relative;z-index:1;padding:80px 24px 100px}
+.ptgl{display:flex;align-items:center;justify-content:center;gap:0;margin:0 auto 44px;width:fit-content;background:var(--glass);border:1px solid var(--bd);border-radius:50px;padding:4px}
+.ptb{padding:8px 20px;border-radius:40px;border:none;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;background:none;color:var(--tx3)}
+.ptb.act{background:linear-gradient(135deg,var(--pl),var(--pd));color:#fff;box-shadow:0 2px 12px rgba(83,74,183,.4)}
+.plg{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.plc{background:var(--glass);border:1px solid var(--bd);border-radius:var(--r2);padding:28px;position:relative;overflow:hidden;transition:all .3s}
+.plc.pop{border-color:var(--p);background:linear-gradient(180deg,rgba(83,74,183,.1),var(--glass))}
+.plc.pop::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--pd),var(--pl),#7C73E6)}
+.ppb{position:absolute;top:15px;right:15px;background:linear-gradient(135deg,var(--pl),var(--pd));color:#fff;font-size:9px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase}
+.pln{font-size:14px;font-weight:700;color:var(--tx2);margin-bottom:5px}
+.plp{font-size:42px;font-weight:900;letter-spacing:-.04em;margin-bottom:2px;line-height:1}
+.plp span{font-size:15px;font-weight:500;color:var(--tx3)}
+.plper{font-size:11px;color:var(--tx3);margin-bottom:20px}
+.plct{width:100%;padding:11px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid var(--bd);transition:all .2s;background:var(--glass);color:var(--tx1);margin-bottom:20px}
+.plct:hover{border-color:rgba(255,255,255,.25)}
+.plc.pop .plct{background:linear-gradient(135deg,var(--pl),var(--pd));border:none;box-shadow:0 4px 18px rgba(83,74,183,.4)}
+.plf{list-style:none;display:flex;flex-direction:column;gap:8px}
+.plf li{font-size:12.5px;color:var(--tx2);display:flex;align-items:center;gap:8px}
+.plf li i{font-size:13px;color:var(--g);flex-shrink:0}
+.plf li.no{color:var(--tx3)}.plf li.no i{color:var(--tx3)}
+@media(max-width:1000px){.plg{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:580px){.plg{grid-template-columns:1fr}}
+
+/* TESTI */
+#testi{position:relative;z-index:1;padding:80px 24px}
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px}
+.tc{background:var(--glass);border:1px solid var(--bd);border-radius:var(--r2);padding:26px;transition:transform .3s}
+.tc:hover{transform:translateY(-3px)}
+.tst{color:#FCD34D;font-size:14px;letter-spacing:2px;margin-bottom:13px}
+.ttx{font-size:13.5px;color:var(--tx2);line-height:1.7;font-style:italic;margin-bottom:18px}
+.ttx::before{content:'\u201C';font-size:26px;color:var(--p);line-height:0;vertical-align:-.3em;margin-right:3px}
+.tau{display:flex;align-items:center;gap:10px}
+.tav{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--pl),var(--pd));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.tan{font-size:13px;font-weight:700}
+.tar{font-size:11px;color:var(--tx3)}
+@media(max-width:768px){.tg{grid-template-columns:1fr}}
+
+/* CTA */
+#fcta{position:relative;z-index:1;padding:80px 24px 100px;text-align:center;overflow:hidden}
+.cgl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(83,74,183,.22),transparent 70%);pointer-events:none}
+.cwin{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.14);border-radius:12px;padding:10px 20px;display:inline-flex;align-items:center;gap:8px;margin-bottom:30px;font-size:12.5px;color:#4ADE80;font-weight:600}
+.cwt{display:flex;gap:5px;font-weight:800;font-family:monospace;font-size:14px}
+.cwt span{background:rgba(34,197,94,.1);padding:2px 7px;border-radius:5px;min-width:30px;text-align:center}
+.ch2{font-size:clamp(34px,5.5vw,66px);font-weight:900;letter-spacing:-.04em;line-height:1.06;margin-bottom:16px}
+.csb{font-size:17px;color:var(--tx2);max-width:460px;margin:0 auto 36px;line-height:1.6}
+.cf{display:flex;gap:9px;max-width:440px;margin:0 auto;flex-wrap:wrap}
+.ce{flex:1;min-width:200px;padding:13px 16px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid var(--bd);color:#fff;font-size:14px}
+.ce::placeholder{color:var(--tx3)}
+.ce:focus{border-color:rgba(83,74,183,.5);outline:none;box-shadow:0 0 0 3px rgba(83,74,183,.12)}
+.cn{font-size:12px;color:var(--tx3);margin-top:10px}
+
+/* FOOTER */
+footer{position:relative;z-index:1;padding:48px 24px 28px;border-top:1px solid var(--bd)}
+.fg2{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:36px}
+.fbn{font-size:16px;font-weight:800;margin-bottom:9px}
+.fbd{font-size:12.5px;color:var(--tx3);line-height:1.6;max-width:210px}
+.fct{font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:13px}
+.fl{list-style:none;display:flex;flex-direction:column;gap:7px}
+.fl a{font-size:13px;color:var(--tx3);transition:color .15s}
+.fl a:hover{color:var(--tx1)}
+.fb{display:flex;align-items:center;justify-content:space-between;padding-top:22px;border-top:1px solid var(--bd);flex-wrap:wrap;gap:10px}
+.fbcp{font-size:12px;color:var(--tx3)}
+.fbl{display:flex;gap:18px}
+.fbl a{font-size:12px;color:var(--tx3);transition:color .15s}
+.fbl a:hover{color:var(--tx1)}
+@media(max-width:768px){.fg2{grid-template-columns:1fr 1fr;gap:24px}.fbc{grid-column:1/-1}}
+
+/* AUTH */
+#ao{position:fixed;inset:0;background:rgba(5,4,17,.9);backdrop-filter:blur(12px);z-index:1000;display:none;align-items:center;justify-content:center;padding:24px}
+#ao.op{display:flex}
+.am{background:var(--bg2);border:1px solid var(--bd);border-radius:22px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.7);position:relative}
+.ah{padding:28px 28px 0}
+.alo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;margin-bottom:20px}
+.ali{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--pl),var(--pd));display:flex;align-items:center;justify-content:center;font-size:14px}
+.ats{display:flex;gap:0;background:rgba(255,255,255,.04);border-radius:10px;padding:3px;margin-bottom:22px}
+.at{flex:1;padding:8px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;background:none;color:var(--tx3);transition:all .2s}
+.at.act{background:rgba(255,255,255,.08);color:#fff}
+.ab{padding:0 28px 28px}
+.af{margin-bottom:13px}
+.al{font-size:11px;font-weight:600;color:var(--tx2);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.ai{width:100%;padding:12px 14px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--bd);color:#fff;font-size:14px;transition:all .2s}
+.ai:focus{border-color:rgba(83,74,183,.5);outline:none;background:rgba(255,255,255,.08);box-shadow:0 0 0 3px rgba(83,74,183,.12)}
+.ai::placeholder{color:var(--tx3)}
+.as{width:100%;padding:13px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--pl),var(--pd));color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;transition:all .2s;box-shadow:0 4px 18px rgba(83,74,183,.4)}
+.as:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(83,74,183,.55)}
+.as:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.adv{display:flex;align-items:center;gap:11px;margin:14px 0;font-size:11px;color:var(--tx3);font-weight:600}
+.adv::before,.adv::after{content:'';flex:1;height:1px;background:var(--bd)}
+.ag2{width:100%;padding:12px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--bd);color:var(--tx2);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
+.ag2:hover{background:rgba(255,255,255,.1);color:#fff}
+.amsg{text-align:center;font-size:12px;margin-top:13px;padding:10px;border-radius:8px;display:none}
+.amsg.err{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#F87171;display:block}
+.amsg.ok{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);color:#4ADE80;display:block}
+.afl{text-align:center;font-size:12px;color:var(--tx3);margin-top:14px}
+.afl a{color:var(--p);cursor:pointer;font-weight:600}
+.acl{position:absolute;top:15px;right:15px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.07);border:none;color:var(--tx2);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.acl:hover{background:rgba(255,255,255,.14);color:#fff}
+</style>
+</head>
+<body>
+<div class="orbs"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+
+<!-- NAV -->
+<nav id="mn">
+  <div class="ni">
+    <div class="nl"><div class="nli">&#9889;</div>Transfer365</div>
+    <div class="nm">
+      <a href="#features">Features</a>
+      <a href="#numbers">Results</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <div class="nc">
+      <button class="btn btn-o" onclick="openAuth('login')">Log in</button>
+      <button class="btn btn-p" onclick="openAuth('signup')"><i class="ti ti-bolt"></i> Start free</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="c">
+    <div class="hc">
+      <div class="hey">
+        <div class="hcd"><div class="hcdd"></div>Summer window: <strong id="hdays">41</strong> days left</div>
+        <span class="tag tag-p"><i class="ti ti-sparkles"></i> AI-Powered</span>
+      </div>
+      <h1 class="h1">Close the deal<br><span class="ac">before they know<br>it&#8217;s available.</span></h1>
+      <p class="hsub">Transfer365 gives FIFA-licensed agents real-time intelligence, AI-powered player matching, and a deal pipeline built for the speed of modern football.</p>
+      <div class="hctas">
+        <button class="btn btn-g" onclick="openAuth('signup')"><i class="ti ti-arrow-right"></i> Start free &#8212; no card needed</button>
+        <a href="#features" class="btn btn-o"><i class="ti ti-play"></i> See how it works</a>
+      </div>
+      <div class="hss">
+        <div class="hs"><div class="hsn">86,158</div><div class="hsl">Transfers per year</div></div>
+        <div class="hd"></div>
+        <div class="hs"><div class="hsn">&#163;47K</div><div class="hsl">Avg commission/deal</div></div>
+        <div class="hd"></div>
+        <div class="hs"><div class="hsn">10 wks</div><div class="hsl">Transfer window</div></div>
+        <div class="hd"></div>
+        <div class="hs"><div class="hsn">24/7</div><div class="hsl">AI monitoring</div></div>
+      </div>
+      <div class="hap">
+        <div class="haf">
+          <div class="atb"><div class="ald"></div><span class="atk">&#128308; Calvert-Lewin &#8212; 18 days to expiry &nbsp;&#183;&nbsp; &#128200; Hato ETV +18% &#183; Chelsea tracking &nbsp;&#183;&nbsp; &#9889; West Ham manager sacked</span></div>
+          <div class="ack">
+            <div class="akp"><div class="akv" style="color:#AFA9EC">10</div><div class="akl">Players</div></div>
+            <div class="akp"><div class="akv" style="color:#F87171">4</div><div class="akl">Urgent</div></div>
+            <div class="akp"><div class="akv" style="color:#4ADE80">8</div><div class="akl">AI Matches</div></div>
+            <div class="akp"><div class="akv" style="color:#FCD34D">&#163;247K</div><div class="akl">Pipeline</div></div>
+          </div>
+          <div class="ams">
+            <div class="amw"><div class="asc ag">91</div><div class="ami"><div class="amp">Calvert-Lewin &#8594; Chelsea</div><div class="amc">ST &#183; Bosman &#183; 18 days</div><div class="amb">&#128293; HOT</div></div></div>
+            <div class="amw"><div class="asc apu">88</div><div class="ami"><div class="amp">Jorrel Hato &#8594; Arsenal</div><div class="amc">CB &#183; GBE eligible &#183; &#8364;38m</div><div class="amb">AI MATCH</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEAGUES -->
+<section id="lg">
+  <div class="c">
+    <p class="lgl">Intelligence from every major league</p>
+    <div class="lgr">
+      <div class="lgb"><span class="lgi">&#127988;</span><span class="lgn">Premier League</span></div>
+      <div class="lgb"><span class="lgi">&#127466;&#127480;</span><span class="lgn">La Liga</span></div>
+      <div class="lgb"><span class="lgi">&#127465;&#127466;</span><span class="lgn">Bundesliga</span></div>
+      <div class="lgb"><span class="lgi">&#127470;&#127481;</span><span class="lgn">Serie A</span></div>
+      <div class="lgb"><span class="lgi">&#127467;&#127479;</span><span class="lgn">Ligue 1</span></div>
+      <div class="lgb"><span class="lgi">&#127475;&#127473;</span><span class="lgn">Eredivisie</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="c">
+    <div class="st rv"><span class="tag tag-p">The problem</span></div>
+    <h2 class="sh2 rv">You&#8217;re managing &#163;1M deals.<br>In a spreadsheet.</h2>
+    <p class="ss rv">The modern transfer market moves in real time. Most agents find out about opportunities days after the window has moved on.</p>
+    <div class="pg">
+      <div class="pc rv rv1"><div class="pi"><i class="ti ti-clock-off"></i></div><h3 class="pt">You find out too late</h3><p class="pp">A player&#8217;s contract enters its last 30 days. Three rival agents are already in the dressing room. You&#8217;re still checking Transfermarkt manually.</p><div class="pst">&#9203; Avg discovery lag: 8&#8211;12 days</div></div>
+      <div class="pc rv rv2"><div class="pi"><i class="ti ti-table-off"></i></div><h3 class="pt">Your tools are from 2005</h3><p class="pp">Excel. WhatsApp. Email threads. Sticky notes. You&#8217;re running a sophisticated negotiation operation with consumer-grade tools.</p><div class="pst">&#128202; 73% of agents still use spreadsheets</div></div>
+      <div class="pc rv rv3"><div class="pi"><i class="ti ti-brain-off"></i></div><h3 class="pt">You miss the pattern</h3><p class="pp">A manager gets sacked. Squad needs reshaping. Club has &#8364;15M unspent. There&#8217;s a player in your portfolio who&#8217;s a perfect fit. You never connected the dots.</p><div class="pst">&#128184; Avg missed opportunity: &#163;12K/month</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="c">
+    <div class="st rv"><span class="tag tag-g">The solution</span></div>
+    <h2 class="sh2 rv">Everything a top agent needs.<br>Nothing they don&#8217;t.</h2>
+    <p class="ss rv">AI intelligence, real-time data, and deal management tools in one platform built for football.</p>
+    <div class="fg">
+      <div class="fc rv rv1"><div class="fi fai"><i class="ti ti-brain"></i></div><h3 class="fn">AI Fit Score Engine</h3><p class="ft">Analyses playing style, squad gaps, budget, GBE eligibility, and tactical fit. One match score. Instantly.</p><div class="ftg"><i class="ti ti-sparkles"></i> Powered by AI</div></div>
+      <div class="fc rv rv2"><div class="fi fal"><i class="ti ti-bell-ringing"></i></div><h3 class="fn">Real-Time Intelligence</h3><p class="ft">Contract expiries. Injuries creating gaps. Manager sackings. Transfer requests. Know the moment something moves.</p><div class="ftg"><i class="ti ti-live-photo"></i> Live monitoring</div></div>
+      <div class="fc rv rv3"><div class="fi fcr"><i class="ti ti-layout-kanban"></i></div><h3 class="fn">Deal Pipeline CRM</h3><p class="ft">7-stage Kanban built for football deals. FFAR-compliant commission calculator. Multi-party deal rooms.</p><div class="ftg"><i class="ti ti-chart-line"></i> FFAR compliant</div></div>
+      <div class="fc rv rv1"><div class="fi fmk"><i class="ti ti-world"></i></div><h3 class="fn">Market Intelligence</h3><p class="ft">Club budget trackers, squad analysis, GBE points calculator for UK entry. Know who can buy before you pitch.</p><div class="ftg"><i class="ti ti-database"></i> 5,000+ clubs</div></div>
+      <div class="fc rv rv2"><div class="fi fbg"><i class="ti ti-filter"></i></div><h3 class="fn">Smart Alert Rules</h3><p class="ft">Build filters that fire when the market moves your way. Left-footed CB, EU passport, under 24, last 60 days.</p><div class="ftg"><i class="ti ti-bolt"></i> Custom triggers</div></div>
+      <div class="fc rv rv3"><div class="fi fnt"><i class="ti ti-device-mobile"></i></div><h3 class="fn">6-Channel Delivery</h3><p class="ft">In-app, email, SMS, WhatsApp, Telegram, Slack. Set quiet hours. Critical alerts bypass everything.</p><div class="ftg"><i class="ti ti-send"></i> Always on</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NUMBERS -->
+<section id="numbers">
+  <div class="c">
+    <div class="st rv"><span class="tag tag-g">The impact</span></div>
+    <h2 class="sh2 rv">Numbers that matter<br>to a football agent.</h2>
+    <div class="ng rv">
+      <div class="nc2"><div class="nv"><span class="counter" data-t="86158">0</span></div><div class="nl2">Global transfers<br>monitored per year</div></div>
+      <div class="nc2"><div class="nv"><span class="counter" data-t="97">0</span><span class="u">%</span></div><div class="nl2">Faster opportunity<br>discovery vs manual</div></div>
+      <div class="nc2"><div class="nv">&#163;<span class="counter" data-t="47">0</span><span class="u">K</span></div><div class="nl2">Average commission<br>per completed transfer</div></div>
+      <div class="nc2"><div class="nv"><span class="counter" data-t="14">0</span><span class="u"> events</span></div><div class="nl2">Real-time triggers<br>monitoring the market</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="c">
+    <div class="st rv"><span class="tag tag-p">Pricing</span></div>
+    <h2 class="sh2 rv">Start free.<br>Upgrade when you&#8217;re ready.</h2>
+    <p class="ss rv">No contract. Cancel any time. 7-day trial on paid plans.</p>
+    <div class="ptgl rv">
+      <button class="ptb act" id="tbm" onclick="sp('m')">Monthly</button>
+      <button class="ptb" id="tba" onclick="sp('a')">Annual <span style="color:#4ADE80;font-size:11px;margin-left:2px">&#8722;20%</span></button>
+    </div>
+    <div class="plg rv">
+      <div class="plc"><div class="pln">Scout</div><div class="plp">&#8364;0 <span></span></div><div class="plper">Free forever</div><button class="plct" onclick="openAuth('signup')">Get started free</button><ul class="plf"><li><i class="ti ti-check"></i>10 player profiles</li><li><i class="ti ti-check"></i>Transfer windows calendar</li><li><i class="ti ti-check"></i>Basic search</li><li class="no"><i class="ti ti-x"></i>AI Fit Score</li><li class="no"><i class="ti ti-x"></i>Real-time alerts</li><li class="no"><i class="ti ti-x"></i>Deal pipeline</li></ul></div>
+      <div class="plc"><div class="pln">Agent</div><div class="plp"><span class="pv">&#8364;49</span> <span class="pu">/mo</span></div><div class="plper pp2">billed monthly</div><button class="plct" onclick="openAuth('signup')">Start 7-day trial</button><ul class="plf"><li><i class="ti ti-check"></i>300 player profiles</li><li><i class="ti ti-check"></i>AI Fit Score (basic)</li><li><i class="ti ti-check"></i>10 alert triggers</li><li><i class="ti ti-check"></i>CRM pipeline</li><li><i class="ti ti-check"></i>FFAR calculator</li><li class="no"><i class="ti ti-x"></i>Natural language search</li></ul></div>
+      <div class="plc pop"><div class="ppb">Most popular</div><div class="pln">Director</div><div class="plp"><span class="pv">&#8364;149</span> <span class="pu">/mo</span></div><div class="plper pp2">billed monthly</div><button class="plct" onclick="openAuth('signup')">Start 7-day trial</button><ul class="plf"><li><i class="ti ti-check"></i>Unlimited profiles</li><li><i class="ti ti-check"></i>Full AI Fit Score</li><li><i class="ti ti-check"></i>Unlimited alert rules</li><li><i class="ti ti-check"></i>All 6 channels</li><li><i class="ti ti-check"></i>Market intelligence</li><li><i class="ti ti-check"></i>Natural language search</li></ul></div>
+      <div class="plc"><div class="pln">Executive</div><div class="plp"><span class="pv">&#8364;399</span> <span class="pu">/mo</span></div><div class="plper pp2">billed monthly</div><button class="plct" onclick="openAuth('signup')">Contact sales</button><ul class="plf"><li><i class="ti ti-check"></i>Everything in Director</li><li><i class="ti ti-check"></i>5 team seats</li><li><i class="ti ti-check"></i>API access</li><li><i class="ti ti-check"></i>White-label reports</li><li><i class="ti ti-check"></i>Priority support</li><li><i class="ti ti-check"></i>Custom integrations</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTI -->
+<section id="testi">
+  <div class="c">
+    <div class="st rv"><span class="tag tag-p">What agents say</span></div>
+    <h2 class="sh2 rv">From the dressing room<br>to the boardroom.</h2>
+    <div class="tg">
+      <div class="tc rv rv1"><div class="tst">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="ttx">Transfer365 caught a Bosman opportunity I would have missed by 3 days. Closed the deal, made the commission. ROI on the subscription in one afternoon.</p><div class="tau"><div class="tav">JM</div><div><div class="tan">James Mitchell</div><div class="tar">FIFA agent &#183; London</div></div></div></div>
+      <div class="tc rv rv2"><div class="tst">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="ttx">I was managing 40 players across 8 leagues in WhatsApp. Now I have a proper pipeline. The AI matching saved me 6 hours a week in research alone.</p><div class="tau"><div class="tav">SM</div><div><div class="tan">Sofia Mart&#237;nez</div><div class="tar">Agent &#183; Madrid</div></div></div></div>
+      <div class="tc rv rv3"><div class="tst">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="ttx">The GBE calculator alone is worth the subscription if you&#8217;re placing non-EU players in England. Clients are impressed. Deals move faster.</p><div class="tau"><div class="tav">KO</div><div><div class="tan">Kofi Owusu</div><div class="tar">Agent &#183; Accra / Amsterdam</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="fcta">
+  <div class="cgl"></div>
+  <div class="c">
+    <div class="cwin"><i class="ti ti-calendar-event"></i> Summer window opens in: <div class="cwt"><span id="cd">41</span>d <span id="ch">07</span>h <span id="cm">23</span>m</div></div>
+    <h2 class="ch2 rv">The deal you miss this window<br><span style="opacity:.5">is the one you remember forever.</span></h2>
+    <p class="csb rv">Start free. Be set up in 4 minutes. Close your first AI-assisted deal this window.</p>
+    <div class="cf rv">
+      <input type="email" class="ce" id="cei" placeholder="your@email.com">
+      <button class="btn btn-g" onclick="ctaS()"><i class="ti ti-arrow-right"></i> Start free</button>
+    </div>
+    <p class="cn rv">No credit card. No contract. Cancel any time.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="c">
+    <div class="fg2">
+      <div class="fbc"><div class="fbn">&#9889; Transfer365</div><p class="fbd">AI-powered transfer intelligence for FIFA-licensed football agents. Close deals faster. Miss nothing.</p></div>
+      <div><div class="fct">Product</div><ul class="fl"><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="app.html">Launch app</a></li></ul></div>
+      <div><div class="fct">Company</div><ul class="fl"><li><a href="#">About</a></li><li><a href="mailto:hello@transfer365.net">Contact</a></li><li><a href="#">Blog</a></li></ul></div>
+      <div><div class="fct">Legal</div><ul class="fl"><li><a href="app.html">Terms</a></li><li><a href="app.html">Privacy</a></li><li><a href="#">FFAR</a></li></ul></div>
+    </div>
+    <div class="fb"><div class="fbcp">&#169; 2025 Transfer365 Ltd &#183; 20 Moorgate, London EC2R 6DA</div><div class="fbl"><a href="#">Privacy</a><a href="#">Terms</a></div></div>
+  </div>
+</footer>
+
+<!-- AUTH MODAL -->
+<div id="ao" onclick="caoi(event)">
+  <div class="am">
+    <button class="acl" onclick="ca()">&#10005;</button>
+    <div class="ah">
+      <div class="alo"><div class="ali">&#9889;</div>Transfer365</div>
+      <div class="ats">
+        <button class="at act" id="ts" onclick="sw('s')">Create account</button>
+        <button class="at" id="tl" onclick="sw('l')">Sign in</button>
+      </div>
+    </div>
+    <div class="ab">
+      <div class="af" id="fn" style="display:none"><label class="al">Full name</label><input type="text" class="ai" id="an" placeholder="Adam Cohen"></div>
+      <div class="af"><label class="al">Email</label><input type="email" class="ai" id="ae" placeholder="you@example.com"></div>
+      <div class="af"><label class="al">Password</label><input type="password" class="ai" id="ap" placeholder="8+ characters"></div>
+      <button class="as" id="asb" onclick="ha()"><span id="abt">Create account</span></button>
+      <div class="adv">or</div>
+      <button class="ag2" onclick="hg()"><svg width="15" height="15" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Continue with Google</button>
+      <div class="amsg" id="amsg"></div>
+      <p class="afl" id="afl">Already have an account? <a onclick="sw('l')">Sign in</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Supabase — replace with your project credentials
+const SB_URL='https://YOUR_PROJECT.supabase.co';
+const SB_KEY='YOUR_ANON_KEY';
+let _sb=null;
+function gsb(){if(!_sb&&window.supabase){try{_sb=window.supabase.createClient(SB_URL,SB_KEY)}catch(e){}}return _sb}
+
+// Nav scroll
+window.addEventListener('scroll',()=>document.getElementById('mn').classList.toggle('sc',scrollY>40),{passive:true});
+
+// Countdown
+function uc(){const t=new Date('2025-07-01T00:00:00'),n=new Date(),s=Math.max(0,Math.floor((t-n)/1e3));const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),p=n=>String(n).padStart(2,'0');['hdays','cd'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=d});document.getElementById('ch').textContent=p(h);document.getElementById('cm').textContent=p(m);}
+setInterval(uc,1e3);uc();
+
+// Scroll reveal
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// Counter
+const co=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,t=parseInt(el.dataset.t),st=performance.now();const tk=now=>{const p=Math.min((now-st)/1800,1),v=Math.floor(p*p*(3-2*p)*t);el.textContent=v.toLocaleString();if(p<1)requestAnimationFrame(tk)};requestAnimationFrame(tk);co.unobserve(el)})},{threshold:.5});
+document.querySelectorAll('.counter').forEach(el=>co.observe(el));
+
+// Pricing
+const PR={m:{s:0,a:49,d:149,e:399},a:{s:0,a:39,d:119,e:319}};
+function sp(mode){document.getElementById('tbm').classList.toggle('act',mode==='m');document.getElementById('tba').classList.toggle('act',mode==='a');const p=PR[mode];document.querySelectorAll('.pv').forEach((el,i)=>{el.textContent='&#8364;'+[p.s,p.a,p.d,p.e][i]});document.querySelectorAll('.pp2').forEach(el=>{el.textContent=mode==='a'?'billed annually':'billed monthly'})}
+
+// Auth
+let _m='s';
+function openAuth(mode='s'){_m=mode;document.getElementById('ao').classList.add('op');document.body.style.overflow='hidden';sw(mode);setTimeout(()=>document.getElementById('ae').focus(),200)}
+function ca(){document.getElementById('ao').classList.remove('op');document.body.style.overflow='';document.getElementById('amsg').className='amsg';document.getElementById('amsg').textContent=''}
+function caoi(e){if(e.target.id==='ao')ca()}
+function sw(m){_m=m;const s=m==='s';document.getElementById('ts').classList.toggle('act',s);document.getElementById('tl').classList.toggle('act',!s);document.getElementById('fn').style.display=s?'block':'none';document.getElementById('abt').textContent=s?'Create account':'Sign in';document.getElementById('afl').innerHTML=s?'Already have an account? <a onclick="sw(\'l\')">Sign in</a>':'New to Transfer365? <a onclick="sw(\'s\')">Create account</a>';document.getElementById('amsg').className='amsg'}
+function msg(t,x){const el=document.getElementById('amsg');el.className='amsg '+t;el.textContent=x}
+async function ha(){const email=document.getElementById('ae').value.trim(),pw=document.getElementById('ap').value,nm=document.getElementById('an').value.trim(),btn=document.getElementById('asb');if(!email||!pw){msg('err','Please fill in all fields.');return}if(pw.length<8){msg('err','Password must be 8+ characters.');return}btn.disabled=true;document.getElementById('abt').textContent=_m==='s'?'Creating account\u2026':'Signing in\u2026';const sb=gsb();if(!sb){msg('ok','\u2705 Welcome! Redirecting to app\u2026');setTimeout(()=>window.location.href='app.html',1100);btn.disabled=false;return}try{if(_m==='s'){const{error}=await sb.auth.signUp({email,password:pw,options:{data:{full_name:nm||email.split('@')[0]}}});if(error)throw error;msg('ok','\u2705 Check your email to confirm your account.')}else{const{error}=await sb.auth.signInWithPassword({email,password:pw});if(error)throw error;msg('ok','\u2705 Signed in! Redirecting\u2026');setTimeout(()=>window.location.href='app.html',900)}}catch(e){msg('err',e.message.includes('Invalid')?'Incorrect email or password.':e.message||'Something went wrong.')}btn.disabled=false;document.getElementById('abt').textContent=_m==='s'?'Create account':'Sign in'}
+async function hg(){const sb=gsb();if(!sb){window.location.href='app.html';return}const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+'/app.html'}});if(error)msg('err',error.message)}
+function ctaS(){const v=document.getElementById('cei').value.trim();openAuth('s');if(v)setTimeout(()=>document.getElementById('ae').value=v,250)}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')ca()});
+</script>
+</body>
+</html>
