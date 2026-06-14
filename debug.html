@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Transfer365 — Debug</title>
 <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
 <style>
@@ -14,27 +13,16 @@ button,input,select,textarea{font-family:inherit}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:#D8D7E6;border-radius:8px}
 
-#debug-error{position:fixed;top:0;left:0;right:0;background:#1a0000;color:#ff6b6b;padding:16px;font-family:monospace;font-size:12px;z-index:9999;white-space:pre-wrap;max-height:50vh;overflow:auto}
+#debug-error{position:fixed;top:0;left:0;right:0;background:#1a0000;color:#ff6b6b;padding:16px;font:12px monospace;z-index:9999;white-space:pre-wrap;max-height:50vh;overflow:auto;display:none}
 </style>
 </head>
 <body>
-<div id="root"><div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#6E6C84">Loading Transfer365...</div></div>
+<div id="root"></div>
 <script>
-// ── GLOBAL ERROR HANDLER ──────────────────────────────
-window.onerror = function(msg, src, line, col, err) {
-  var box = document.getElementById('debug-error') || document.createElement('div');
-  box.id = 'debug-error';
-  box.textContent = '❌ JS ERROR\n' + msg + '\nLine: ' + line + ' Col: ' + col + '\n' + (err && err.stack ? err.stack : '');
-  document.body.prepend(box);
-  return false;
-};
-window.onunhandledrejection = function(e) {
-  var box = document.getElementById('debug-error') || document.createElement('div');
-  box.id = 'debug-error';
-  box.textContent = '❌ PROMISE REJECTION\n' + (e.reason && e.reason.stack ? e.reason.stack : String(e.reason));
-  document.body.prepend(box);
-};
+window.onerror=function(m,s,l,c,e){var b=document.getElementById('debug-error');b.style.display='block';b.textContent='❌ JS ERROR: '+m+'\nLine:'+l+'\n'+(e&&e.stack?e.stack:'');return false;};
+window.onunhandledrejection=function(e){var b=document.getElementById('debug-error');b.style.display='block';b.textContent='❌ PROMISE: '+(e.reason&&e.reason.stack?e.reason.stack:String(e.reason));};
 </script>
+<div id="debug-error"></div>
 <script>/**
  * @license React
  * react.production.min.js
@@ -336,24 +324,15 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 })();
 </script>
 <script>
-// ── ERROR BOUNDARY ────────────────────────────────────
-class ErrorBoundary extends React.Component {
-  constructor(p) { super(p); this.state = {err: null}; }
-  static getDerivedStateFromError(e) { return {err: e}; }
-  componentDidCatch(err, info) {
-    var box = document.getElementById('debug-error') || document.createElement('div');
-    box.id = 'debug-error';
-    box.textContent = '❌ REACT ERROR\n' + err.message + '\n' + err.stack + '\nComponent: ' + JSON.stringify(info);
-    document.body.prepend(box);
-  }
-  render() {
-    if (this.state.err) return React.createElement('div', {style:{padding:20,color:'red'}}, '❌ App crashed: ' + this.state.err.message);
-    return this.props.children;
-  }
+class ErrorBoundary extends React.Component{
+  constructor(p){super(p);this.state={err:null};}
+  static getDerivedStateFromError(e){return{err:e};}
+  componentDidCatch(err,info){var b=document.getElementById('debug-error');b.style.display='block';b.textContent='❌ REACT: '+err.message+'\n'+err.stack+'\nComponent:'+JSON.stringify(info);}
+  render(){if(this.state.err)return React.createElement('div',{style:{padding:20,color:'red'}},'❌ Crashed: '+this.state.err.message);return this.props.children;}
 }
+try{
+/* Transfer365 */
 
-// ── APP CODE ──────────────────────────────────────────
-try {
 /* Transfer365 App */
 const {
   useState,
@@ -2388,6 +2367,13 @@ function handleCheckout(planId, billingCycle) {
   }
 }
 function App() {
+  /* ── i18n state (English-only standalone) ── */
+  const [lang,       setLang]   = useState(LANGS[0]);
+  const [loading,    setLoading]= useState(false);
+  const [errMsg,     setErrMsg] = useState(null);
+  const [showPicker, setPicker] = useState(false);
+  const [langSearch, setLsrch]  = useState("");
+  const cache = useRef({en: BASE});
   const [page, setPage] = useState("dash");
   const [modal, setModal] = useState(null); // {type:"player"|"deal", id}
   const [deals, setDeals] = useState(INIT_DEALS);
@@ -9088,17 +9074,9 @@ function App() {
   }, "Close")))));
 }
 ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(App, null));
-} catch(e) {
-  document.getElementById('root').innerHTML = '<div style="padding:20px;color:red;font-family:monospace">❌ LOAD ERROR: ' + e.message + '<br>' + e.stack.replace(/\n/g,'<br>') + '</div>';
-}
-
-// ── RENDER WITH BOUNDARY ─────────────────────────────
-try {
-  ReactDOM.createRoot(document.getElementById('root')).render(
-    React.createElement(ErrorBoundary, null, React.createElement(App, null))
-  );
-} catch(e) {
-  document.getElementById('root').innerHTML = '<div style="padding:20px;color:red;font-family:monospace">❌ RENDER ERROR: ' + e.message + '</div>';
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(ErrorBoundary,null,React.createElement(App,null)));
+}catch(e){
+document.getElementById('root').innerHTML='<div style="padding:20px;color:red;font-family:monospace">❌ '+e.message+'<br>'+e.stack.replace(/\n/g,'<br>')+'</div>';
 }
 </script>
 </body>
