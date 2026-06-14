@@ -1,0 +1,6 @@
+# SPA routing — all routes serve index.html
+# Netlify reads this file automatically
+/*    /index.html   200
+
+# Webhook stays on its own path (Netlify Functions)
+/.netlify/functions/*  /.netlify/functions/:splat  200
