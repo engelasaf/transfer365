@@ -17,9 +17,7 @@ button,input,select,textarea{font-family:inherit}
 </head>
 <body>
 <div id="root"></div>
-<script>
-/* React 18 */
-/**
+<script>/**
  * @license React
  * react.production.min.js
  *
@@ -50,11 +48,8 @@ render:a}};c.isValidElement=M;c.lazy=function(a){return{$$typeof:Aa,_payload:{_s
 c.useEffect=function(a,b){return g.current.useEffect(a,b)};c.useId=function(){return g.current.useId()};c.useImperativeHandle=function(a,b,c){return g.current.useImperativeHandle(a,b,c)};c.useInsertionEffect=function(a,b){return g.current.useInsertionEffect(a,b)};c.useLayoutEffect=function(a,b){return g.current.useLayoutEffect(a,b)};c.useMemo=function(a,b){return g.current.useMemo(a,b)};c.useReducer=function(a,b,c){return g.current.useReducer(a,b,c)};c.useRef=function(a){return g.current.useRef(a)};
 c.useState=function(a){return g.current.useState(a)};c.useSyncExternalStore=function(a,b,c){return g.current.useSyncExternalStore(a,b,c)};c.useTransition=function(){return g.current.useTransition()};c.version="18.3.1"});
 })();
-
 </script>
-<script>
-/* ReactDOM 18 */
-/**
+<script>/**
  * @license React
  * react-dom.production.min.js
  *
@@ -321,9 +316,9 @@ c,!1,d,e);a[Ja]=b.current;sc(8===a.nodeType?a.parentNode:a);return new Xf(b)};Q.
 var d=null!=c&&c.hydratedSources||null,e=!1,f="",g=aj;null!==c&&void 0!==c&&(!0===c.unstable_strictMode&&(e=!0),void 0!==c.identifierPrefix&&(f=c.identifierPrefix),void 0!==c.onRecoverableError&&(g=c.onRecoverableError));b=Wi(b,null,a,1,null!=c?c:null,e,!1,f,g);a[Ja]=b.current;sc(a);if(d)for(a=0;a<d.length;a++)c=d[a],e=c._getVersion,e=e(c._source),null==b.mutableSourceEagerHydrationData?b.mutableSourceEagerHydrationData=[c,e]:b.mutableSourceEagerHydrationData.push(c,e);return new Ud(b)};Q.render=
 function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmountComponentAtNode=function(a){if(!Vd(a))throw Error(m(40));return a._reactRootContainer?(yb(function(){Wd(null,null,a,!1,function(){a._reactRootContainer=null;a[Ja]=null})}),!0):!1};Q.unstable_batchedUpdates=Tf;Q.unstable_renderSubtreeIntoContainer=function(a,b,c,d){if(!Vd(c))throw Error(m(200));if(null==a||void 0===a._reactInternals)throw Error(m(38));return Wd(a,b,c,!1,d)};Q.version="18.3.1-next-f1338f8080-20240426"});
 })();
-
 </script>
 <script>
+
 /* Transfer365 */
 
 /* Transfer365 App */
@@ -2361,10 +2356,9 @@ function handleCheckout(planId, billingCycle) {
 }
 function App() {
   /* ── i18n state (English-only standalone) ── */
-  const [lang,       setLang]   = useState(LANGS[0]);
+  const lang = {c:"en",n:"English",na:"English",f:"\u{1F1EC}\u{1F1E7}",r:false}; /* EN-only */
   const [loading,    setLoading]= useState(false);
   const [errMsg,     setErrMsg] = useState(null);
-  const [showPicker, setPicker] = useState(false);
   const [langSearch, setLsrch]  = useState("");
   const cache = useRef({en: BASE});
   const [page, setPage] = useState("dash");
@@ -9067,7 +9061,6 @@ function App() {
   }, "Close")))));
 }
 ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(App, null));
-
 </script>
 </body>
 </html>
