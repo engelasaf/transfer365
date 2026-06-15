@@ -504,6 +504,7 @@ footer{padding:44px 5vw;display:flex;align-items:center;justify-content:space-be
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 /* ─── SUPABASE CONFIG ─────────────────────────────────────────────────────
    1. Go to supabase.com → New project (free)
@@ -514,7 +515,15 @@ const SB_URL = 'https://hivyothlbntxcbsilktp.supabase.co';
 const SB_KEY = 'sb_publishable_JSj4WcwoxYSrEC7Hi2Zxlg_0rboiHzE';
 const DEMO   = SB_URL.includes('YOUR_PROJECT');
 let sb = null;
-if (!DEMO) { try { sb = supabase.createClient(SB_URL, SB_KEY); } catch(e){} }
+function getSb(){
+  if(sb) return sb;
+  if(typeof supabase !== 'undefined' && !DEMO){
+    try{ sb = supabase.createClient(SB_URL, SB_KEY); }catch(e){ console.warn('Supabase init:', e); }
+  }
+  return sb;
+}
+// Initialize now
+getSb();
 
 /* ─── FEED DATA ─────────────────────────────────────────────────────────── */
 const FEED=[
@@ -614,7 +623,13 @@ function toggleFaq(q){
 
 /* ─── AUTH ───────────────────────────────────────────────────────────────── */
 let atab='login';
-function openAuth(t='login'){setTab(t);document.getElementById('aov').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('aemail').focus(),80);}
+function openAuth(t='login'){
+  getSb(); // try to init Supabase if not yet
+  setTab(t);
+  document.getElementById('aov').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('aemail').focus(),80);
+}
 function closeAuth(){document.getElementById('aov').classList.remove('open');document.body.style.overflow='';['aerr','aok'].forEach(id=>document.getElementById(id).style.display='none');}
 function setTab(t){
   atab=t;const il=t==='login';
@@ -634,8 +649,9 @@ async function doAuth(){
   if(!email||!pw){err.textContent='Please enter your email and password.';err.style.display='block';return;}
   if(pw.length<8&&atab==='signup'){err.textContent='Password must be at least 8 characters.';err.style.display='block';return;}
   if(DEMO){
-    btn.disabled=true;document.getElementById('abtntext').textContent='Loading…';
-    await new Promise(r=>setTimeout(r,900));
+    // Demo mode — simulate login and enter app
+    btn.disabled=true;document.getElementById('abtntext').textContent='Entering app…';
+    await new Promise(r=>setTimeout(r,700));
     localStorage.setItem('t365_session',JSON.stringify({email,plan:'free',demo:true}));
     window.location.href='/app';return;
   }
@@ -652,7 +668,7 @@ async function doAuth(){
 }
 async function doGoogle(){
   if(DEMO){openAuth();return;}
-  try{await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+'/'} });}
+  try{const _sbg=getSb();if(!_sbg)throw new Error("Auth not ready");await _sbg.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+'/'} });}
   catch(e){document.getElementById('aerr').textContent=e.message;document.getElementById('aerr').style.display='block';}
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAuth();});
@@ -665,6 +681,6 @@ window.addEventListener('scroll',()=>{
 document.querySelector('.fu').classList.add('vis'); // hero immediate
 </script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.26.0/dist/tabler-icons.min.css" media="print" onload="this.media='all'">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+
 </body>
 </html>
