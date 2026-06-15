@@ -1,4 +1,5 @@
 // netlify/functions/setup-email.mjs — DELETE after use
+// v2 — reads from Netlify env vars
 export default async req => {
   const u=new URL(req.url);
   if(u.searchParams.get("run")!=="yes")return new Response("Add ?run=yes",{status:400});
