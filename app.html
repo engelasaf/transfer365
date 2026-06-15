@@ -34,6 +34,16 @@ button,input,select,textarea{font-family:inherit}
 </style>
 </head>
 <body>
+<script>
+/* ─── AUTH GUARD ─────────────────────────────────────
+   If no session in localStorage, redirect to landing.
+   In production: verify JWT server-side (Supabase handles this).
+   ───────────────────────────────────────────────── */
+(function(){
+  var s = localStorage.getItem('t365_session');
+  if (!s) { window.location.replace('/'); }
+})();
+</script>
 <div id="root"></div>
 <script>/**
  * @license React
