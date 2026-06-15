@@ -1,6 +1,10 @@
-# SPA routing — all routes serve index.html
-# Netlify reads this file automatically
-/*    /index.html   200
+# Transfer365 routing
+# Landing page is index.html (at /)
+/           /index.html    200
 
-# Webhook stays on its own path (Netlify Functions)
-/.netlify/functions/*  /.netlify/functions/:splat  200
+# App is at /app — serves app.html
+/app        /app.html      200
+/app/*      /app.html      200
+
+# LemonSqueezy webhook stays at its path
+/.netlify/functions/*   /.netlify/functions/:splat  200
