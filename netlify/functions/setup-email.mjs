@@ -14,7 +14,7 @@ export default async req => {
     headers: {"Authorization": `Bearer ${PAT}`, "Content-Type": "application/json"},
     body: JSON.stringify({
       smtp_host:        "smtp.resend.com",
-      smtp_port:        465,
+      smtp_port:        "465",
       smtp_user:        "resend",
       smtp_pass:        RK,
       smtp_admin_email: "noreply@transfer365.net",
