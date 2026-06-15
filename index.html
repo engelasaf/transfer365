@@ -5,14 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Transfer365 — Find deals before the market does</title>
 <meta name="description" content="AI-powered transfer intelligence for football agents. Real-time triggers, smart matching, professional deal management.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"><\/script>
 <style>
+html{background:#080714}
 :root{--bg:#080714;--bg2:#0F0D24;--bg3:#16133A;--brand:#3C3489;--brandl:#534AB7;--brandll:#AFA9EC;--green:#26D07C;--white:#F5F4FE;--muted:#7A78A0;--border:rgba(255,255,255,.08);--red:#E0453E;--orange:#E8870C}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--white);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{background:var(--bg);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 button{cursor:pointer;font-family:inherit}a{text-decoration:none;color:inherit}
 
 nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,7,20,.8);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:0 5vw;display:flex;align-items:center;height:62px;gap:32px;transition:box-shadow .3s}
@@ -50,14 +49,14 @@ h1 em{font-style:normal;color:var(--green)}
 .tbar{background:#12103A;padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
 .tdots{display:flex;gap:6px}
 .tdots span{width:11px;height:11px;border-radius:50%}
-.ttitle{font-size:11.5px;color:var(--muted);font-weight:500;margin-left:8px;font-family:'Inter',sans-serif}
-.tlive{margin-left:auto;display:flex;align-items:center;gap:5px;font-family:'Inter',sans-serif;font-size:11px;color:var(--green);font-weight:600}
+.ttitle{font-size:11.5px;color:var(--muted);font-weight:500;margin-left:8px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif}
+.tlive{margin-left:auto;display:flex;align-items:center;gap:5px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;font-size:11px;color:var(--green);font-weight:600}
 .tbody{padding:14px;height:420px;overflow:hidden;position:relative;font-family:'Courier New',monospace}
 .tfeed{display:flex;flex-direction:column;animation:scrl 50s linear infinite}
 @keyframes scrl{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
 .trow{padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:flex-start;gap:9px}
 .ttime{color:#444;font-size:10px;flex-shrink:0;margin-top:2px;letter-spacing:.04em}
-.tbadge{font-family:'Inter',sans-serif;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:5px;flex-shrink:0;margin-top:1px;white-space:nowrap}
+.tbadge{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:5px;flex-shrink:0;margin-top:1px;white-space:nowrap}
 .bc{background:rgba(60,52,137,.5);color:#AFA9EC}
 .bi{background:rgba(224,69,62,.2);color:#F09090}
 .bb{background:rgba(38,208,124,.15);color:#26D07C}
@@ -202,7 +201,7 @@ footer{padding:44px 5vw;display:flex;align-items:center;justify-content:space-be
 .atab{flex:1;padding:9px;border:none;border-radius:9px;font-size:14px;font-weight:600;color:var(--muted);background:none;transition:all .2s}
 .atab.on{background:var(--brand);color:#fff}
 .albl{font-size:12px;color:var(--muted);font-weight:500;margin-bottom:6px;display:block;letter-spacing:.02em}
-.ainp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--white);font-size:14px;font-family:'Inter',sans-serif;margin-bottom:14px;transition:border-color .2s;outline:none}
+.ainp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--white);font-size:14px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;margin-bottom:14px;transition:border-color .2s;outline:none}
 .ainp:focus{border-color:var(--brandl)}.ainp::placeholder{color:var(--muted)}
 .abtn{width:100%;background:var(--green);color:#001A09;font-weight:700;font-size:15px;padding:14px;border-radius:11px;border:none;margin-top:6px;transition:all .2s}
 .abtn:hover{background:#31e88b}
