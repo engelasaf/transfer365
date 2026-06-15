@@ -46,6 +46,19 @@ button,input,select,textarea{font-family:inherit}
   var s = localStorage.getItem('t365_session');
   if (!s) { window.location.replace('/'); }
 })();
+
+/* ── User session helper ── */
+window._T365 = (function(){
+  try { return JSON.parse(localStorage.getItem('t365_session') || '{}'); }
+  catch(e) { return {}; }
+})();
+window._T365.displayName = (function(){
+  var u = window._T365;
+  if (u.full_name && u.full_name.trim()) return u.full_name.trim();
+  var e = (u.email || '').split('@')[0];
+  return e.replace(/[._-]/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();}) || 'Agent';
+})();
+window._T365.planLabel = (window._T365.plan || 'free');
 </script>
 <div id="root"></div>
 <script>/**
@@ -878,6 +891,8 @@ const PLAYERS = [{
   fee: "£116m",
   saga: "Joined Liverpool from Leverkusen in a Bundesliga-record deal (summer 2025). Previously linked with Bayern, Man City, Real Madrid.",
   note: "Value range — sources disagree (€100m–€131m)"
+  agent: "Max Hagmayr",
+  agency: "LIAN Sports",
 }, {
   id: "calvert",
   name: "D. Calvert-Lewin",
@@ -1128,6 +1143,8 @@ const PLAYERS = [{
   fee: "£50m",
   saga: "Rising star at Bayern. Long contract — not available.",
   note: ""
+  agent: "Hasan Cetinkaya",
+  agency: "HCM Sports Management",
 }, {
   id: "kerkez",
   name: "Milos Kerkez",
@@ -1171,6 +1188,8 @@ const PLAYERS = [{
   fee: "£40m",
   saga: "Joined Liverpool from Bournemouth (summer 2025). Not available.",
   note: ""
+  agent: "Jonathan Barnett",
+  agency: "ICM Stellar Sports",
 }, {
   id: "nkunku",
   name: "Christopher Nkunku",
@@ -1213,6 +1232,8 @@ const PLAYERS = [{
   fee: "£52m",
   saga: "Arrived at Chelsea with huge expectations. Contract expiring — a potential cut-price exit.",
   note: ""
+  agent: "Neil Fewings",
+  agency: "Wasserman",
 }, {
   id: "gvardiol",
   name: "Joško Gvardiol",
@@ -1256,6 +1277,8 @@ const PLAYERS = [{
   fee: "£77m",
   saga: "Premium CB at Man City. Long-term contract — not available.",
   note: ""
+  agent: "Mate Lalic",
+  agency: "Sportagent d.o.o.",
 }];
 
 /* ─── TRIGGERS ─── */
@@ -2397,7 +2420,6 @@ function App() {
   },[]);
   const [loading,    setLoading]= useState(false);
   const [errMsg,     setErrMsg] = useState(null);
-  const [langSearch, setLsrch]  = useState("");
   const cache = useRef({en: BASE});
   const [page, setPage] = useState("dash");
   const [modal, setModal] = useState(null); // {type:"player"|"deal", id}
@@ -8911,7 +8933,7 @@ function App() {
       fontWeight: 600,
       color: "#fff"
     }
-  }, "Adam Cohen"), /*#__PURE__*/React.createElement("div", {
+  }, (window._T365 && window._T365.displayName) || "Agent"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 9,
       color: "rgba(255,255,255,.4)",
