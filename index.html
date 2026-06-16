@@ -239,6 +239,18 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
   #pitch-wrap img{object-position:70% 20%}
   #pitch-wrap{background:#0a0d1a}
 }
+
+@media(max-width:900px){
+  #hero{grid-template-columns:1fr!important}
+  #hero>div:first-child{padding:90px 24px 40px!important;min-height:auto!important}
+  #hero>div:last-child{min-height:60vw;order:-1}
+  .hright{display:none}
+}
+
+[dir="rtl"] #hero{direction:rtl}
+[dir="rtl"] #hero>div:first-child{order:2}
+[dir="rtl"] #hero>div:last-child{order:1}
+[dir="rtl"] #hero>div:last-child img{object-position:45% center}
 </style>
 </head>
 <body>
