@@ -235,6 +235,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 [dir="rtl"] .pbadge {direction:rtl}
 .hide-mobile{display:inline}.show-mobile{display:none}@media(max-width:640px){.hide-mobile{display:none}.show-mobile{display:inline}.bprim{padding:6px 12px;font-size:12px}}
 </style>
+<script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 </head>
 <body>
 
@@ -655,7 +656,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
     </div>
     <div class="plc">
       <div class="pname" data-i18n="plan_agent">Agent</div><div class="pprice" id="ppa"><span>€</span>39</div><div class="pperiod" id="ppap" data-i18n="plan_free">per month</div>
-      <button class="pcta ou" onclick="openAuth('signup')" data-i18n="plan_cta_trial">Start 7-day trial</button>
+      <button class="pcta ou" onclick="openCheckout('['director'].pop(); return 'agent'" data-i18n="plan_cta_trial">Start 7-day trial</button>
       <div class="pdiv"></div>
       <div class="pft"><i class="ti ti-check"></i><span data-i18n="pa1">300 player profiles</span></div>
       <div class="pft"><i class="ti ti-check"></i><span data-i18n="pa2">50 AI matches / month</span></div>
@@ -667,7 +668,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
     <div class="plc pop">
       <div class="pbadge" data-i18n="plan_pop">⭐ Most popular</div>
       <div class="pname" data-i18n="plan_dir">Director</div><div class="pprice" id="ppd"><span>€</span>119</div><div class="pperiod" id="ppdp">per month</div>
-      <button class="pcta pr" onclick="openAuth('signup')" data-i18n="plan_cta_trial">Start 7-day trial</button>
+      <button class="pcta pr" onclick="openCheckout(\'agent\',_billing)" data-i18n="plan_cta_trial">Start 7-day trial</button>
       <div class="pdiv"></div>
       <div class="pft"><i class="ti ti-check"></i><span data-i18n="pd1">Unlimited profiles &amp; matches</span></div>
       <div class="pft"><i class="ti ti-check"></i><span data-i18n="pd2">Full AI Fit Score</span></div>
@@ -678,7 +679,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
     </div>
     <div class="plc">
       <div class="pname" data-i18n="plan_exec">Executive</div><div class="pprice" id="ppe"><span>€</span>319</div><div class="pperiod" id="ppep">per month</div>
-      <button class="pcta ou" onclick="openAuth('signup')" data-i18n="plan_cta_trial">Start 7-day trial</button>
+      <button class="pcta ou" onclick="openCheckout('['director'].pop(); return 'agent'" data-i18n="plan_cta_trial">Start 7-day trial</button>
       <div class="pdiv"></div>
       <div class="pft"><i class="ti ti-check"></i><span data-i18n="pe1">Everything in Director</span></div>
       <div class="pft"><i class="ti ti-check"></i><span data-i18n="pe2">5 user seats</span></div>
@@ -1212,6 +1213,49 @@ const initLang=detectLang();setLang(initLang);
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
+
+/* ─── LEMONSQUEEZY CHECKOUT ───────────────────────────────────────────── */
+let _lsConfig = null;
+
+async function getLsConfig() {
+  if (_lsConfig) return _lsConfig;
+  try {
+    const r = await fetch('/api/ls-config');
+    _lsConfig = await r.json();
+  } catch(e) {
+    _lsConfig = { configured: false };
+  }
+  return _lsConfig;
+}
+
+async function openCheckout(plan, billing) {
+  billing = billing || (document.getElementById('bill-toggle')?.dataset?.billing || 'monthly');
+  const config = await getLsConfig();
+
+  if (!config.configured && !config.plans) {
+    // Not set up yet — fall back to auth signup
+    openAuth('signup');
+    return;
+  }
+
+  const plans = config.plans || {};
+  const planData = plans[plan] || plans.agent;
+  const url = planData?.[billing] || planData?.monthly;
+
+  if (!url) { openAuth('signup'); return; }
+
+  // Use LemonSqueezy overlay if available
+  if (window.LemonSqueezy) {
+    window.LemonSqueezy.Url.Open(url);
+  } else {
+    window.open(url, '_blank');
+  }
+}
+
+/* Current billing period (monthly/annual) */
+var _billing = 'monthly';
+
+
 </script>
 </body>
 </html>
