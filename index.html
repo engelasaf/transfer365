@@ -258,7 +258,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
   <div class="nctas">
     <div class="lpick">
       <button class="ltrig" id="ltrig" onclick="toggleLangPicker()" aria-label="Select language">🇬🇧 EN <i class="ti ti-chevron-down" style="font-size:10px;margin-top:1px"></i></button>
-      <div class="ldrop" id="ldrop"></div>
+      
     </div>
     <button class="bghost" onclick="openAuth('login')" data-i18n="nav_login">Log in</button>
     <button class="bprim" onclick="openAuth('signup')" data-i18n="nav_start">Start free trial</button>
@@ -840,18 +840,23 @@ function buildLangPicker(){
 }
 
 function toggleLangPicker(){
-  const drop = document.getElementById('ldrop');
-  drop.classList.toggle('open');
+  var btn=document.getElementById("ltrig");
+  var drop=document.getElementById("ldrop");
+  if(!btn||!drop)return;
+  if(drop.style.display==="block"){drop.style.display="none";return;}
+  var r=btn.getBoundingClientRect();
+  drop.style.top=(r.bottom+6)+"px";
+  drop.style.right=(window.innerWidth-r.right)+"px";
+  drop.style.left="auto";
+  drop.style.display="block";
 }
-
 function closeLangPicker(){
-  const drop = document.getElementById('ldrop');
-  if(drop) drop.classList.remove('open');
+  var d=document.getElementById("ldrop");
+  if(d)d.style.display="none";
 }
-
-document.addEventListener('click', function(e){
-  if(!e.target.closest('.lpick')) closeLangPicker();
-}, false);
+document.addEventListener("click",function(e){
+  if(!e.target.closest(".lpick")&&!e.target.closest("#ldrop"))closeLangPicker();
+},false);
 
 /* ─── TERMINAL FEED ─────────────────────────────────────────────────── */
 const FEED = [
@@ -871,28 +876,27 @@ const FEED = [
   ['bc','CONTRACT','<strong>Gvardiol (Man City)</strong> — long-term deal signed. Not moving.'],
 ];
 function buildFeed(){
-  // Try to load real alerts from Supabase scanner
-  const SB="https://hivyothlbntxcbsilktp.supabase.co",KEY="sb_publishable_JSj4WcwoxYSrEC7Hi2Zxlg_0rboiHzE";
-  fetch(`${SB}/rest/v1/alerts?order=created_at.desc&limit=24`,{
-    headers:{"apikey":KEY,"Authorization":`Bearer ${KEY}`}
-  }).then(r=>r.ok?r.json():null).then(data=>{
-    if(!Array.isArray(data)||data.length===0){buildFeedStatic();return;}
-    const feed=document.getElementById('tfeed');
-    if(!feed)return;
-    const TYPE_CLS={injury:'bi',transfer:'bc',contract:'bc',performance:'bh',discipline:'bi',club:'bm'};
-    const rows=data.map(a=>{
-      const cls=TYPE_CLS[a.trigger_type]||'bh';
-      const typ=(a.trigger_type||'ALERT').toUpperCase();
-      const d=new Date(a.published_at||a.created_at);
-      const t=isNaN(d)?'':d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
-      const link=a.url?`&nbsp;<a href="${a.url}" target="_blank" rel="noopener" style="color:#22C55E;font-size:9px">↗</a>`:'';
-      return `<div class="trow"><span class="ttime">${t}</span><span class="tbadge ${cls}">${typ}</span><span class="ttext"><strong>${a.player_name}</strong> — ${(a.headline||'').slice(0,75)}${link}</span></div>`;
-    }).join('');
+  buildFeedStatic();
+  var SB="https://hivyothlbntxcbsilktp.supabase.co",K="sb_publishable_JSj4WcwoxYSrEC7Hi2Zxlg_0rboiHzE";
+  fetch(SB+"/rest/v1/alerts?order=created_at.desc&limit=24",{
+    headers:{"apikey":K,"Authorization":"Bearer "+K}
+  }).then(function(r){return r.ok?r.json():null;}).then(function(data){
+    if(!Array.isArray(data)||data.length<3)return;
+    var feed=document.getElementById("tfeed");if(!feed)return;
+    var CLS={injury:"bi",transfer:"bc",contract:"bc",performance:"bh",discipline:"bi",club:"bm"};
+    var rows=data.map(function(a){
+      var cls=CLS[a.trigger_type]||"bh";
+      var typ=(a.trigger_type||"ALERT").toUpperCase().slice(0,10);
+      var dt=new Date(a.published_at||a.created_at);
+      var t=isNaN(dt.getTime())?"":("0"+dt.getHours()).slice(-2)+":"+("0"+dt.getMinutes()).slice(-2);
+      var lnk=a.url?" <a href=\""+a.url+"\" target=\"_blank\" style=\"color:#22C55E;font-size:9px\">↗</a>":"";
+      return "<div class=\"trow\"><span class=\"ttime\">"+t+"</span><span class=\"tbadge "+cls+"\">"+typ+"</span><span class=\"ttext\"><strong>"+(a.player_name||"")+"</strong> — "+(a.headline||"").slice(0,80)+lnk+"</span></div>";
+    }).join("");
     feed.innerHTML=rows+rows;
-  }).catch(()=>buildFeedStatic());
-  // Refresh every 5 minutes
+  }).catch(function(){});
   setTimeout(buildFeed,300000);
 }
+
 function buildFeedStatic(){
   const el = document.getElementById('tfeed');
   const now = new Date();
