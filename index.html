@@ -230,18 +230,15 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 [dir="rtl"] .ainp {text-align:right;direction:rtl}
 [dir="rtl"] .anote {direction:rtl}
 [dir="rtl"] #mainnav {direction:rtl}
-[dir="rtl"] .hright {order:-1}
+[dir="rtl"] /* hright order removed */
 [dir="rtl"] .cdbo {direction:rtl;text-align:right}
 [dir="rtl"] .pbadge {direction:rtl}
 
-@media(max-width:900px){
-  #pitch-wrap img{object-position:70% 20%}
-  #pitch-wrap{background:#0a0d1a}
-}
+/* pitch-wrap mobile removed */
 
 
   #hero>div:last-child{min-height:60vw;order:-1}
-  .hright{display:none}
+  .hright{display:block}
 }
 
 [dir="rtl"] #hero{direction:rtl}
@@ -259,9 +256,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
   </div>
   <div class="nlinks">
     <a href="#features" data-i18n=
-@media(max-width:900px){
-  #hero{grid-template-columns:1fr!important;min-height:auto!important}
-  #hero>div:first-child{padding:90px 24px 36px!important;min-height:auto!important}
+/* hero mobile — see below */
   #hero>div:last-child{min-height:55vw!important;order:-1!important}
   .nlinks{display:none}
 }
@@ -270,6 +265,36 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 [dir="rtl"] #hero>div:last-child{order:1}
 [dir="rtl"] #hero>div:last-child img{object-position:40% center}
 [dir="rtl"] #hero>div:last-child>div:nth-child(2){background:linear-gradient(to left,var(--bg) 0%,rgba(8,7,20,.35) 25%,transparent 55%)!important}
+
+/* ── MOBILE HERO — image on top, content below ─────────────────── */
+@media(max-width:900px){
+  #hero{
+    grid-template-columns:1fr!important;
+    min-height:auto!important;
+  }
+  /* Image column: comes first visually, fixed height */
+  #hero>.hright{
+    display:block!important;
+    order:-1!important;
+    height:68vw!important;
+    min-height:240px!important;
+    max-height:420px!important;
+  }
+  /* Content column: below image */
+  #hero>div:not(.hright){
+    padding:36px 20px 48px!important;
+    min-height:auto!important;
+  }
+  /* Slightly smaller headline on mobile */
+  #hero h1{font-size:clamp(26px,6.5vw,40px)!important}
+  /* Hide desktop nav links */
+  .nlinks{display:none!important}
+  /* Language picker stays visible */
+  .nctas{gap:6px}
+}
+@media(max-width:580px){
+  #hero>.hright{height:75vw!important}
+}
 </style>tures">Features</a>
     <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
     <a href="#testimonials" data-i18n="nav_stories">Stories</a>
