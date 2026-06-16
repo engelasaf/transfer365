@@ -1,176 +1,140 @@
 // netlify/functions/ls-setup.mjs
-// Auto-creates all Transfer365 plans in LemonSqueezy
-// GET /api/ls-setup  (uses LEMONSQUEEZY_API_KEY env var)
+// Creates Transfer365 plans in LemonSqueezy
+// Uses only built-in Node modules — no npm packages needed
 
-import { getStore } from "@netlify/blobs";
-
-const PLANS = [
-  { name:"Transfer365 Agent Monthly",   slug:"agent",     billing:"monthly", price:4900,  interval:"month", trial:7 },
-  { name:"Transfer365 Agent Annual",    slug:"agent",     billing:"annual",  price:46800, interval:"year",  trial:7 },
-  { name:"Transfer365 Director Monthly",slug:"director",  billing:"monthly", price:9900,  interval:"month", trial:7 },
-  { name:"Transfer365 Director Annual", slug:"director",  billing:"annual",  price:94800, interval:"year",  trial:7 },
-  { name:"Transfer365 Executive Monthly",slug:"executive",billing:"monthly", price:19900, interval:"month", trial:7 },
-  { name:"Transfer365 Executive Annual", slug:"executive",billing:"annual",  price:190800,interval:"year",  trial:7 },
-];
-
-const PRODUCT_DESCRIPTIONS = {
-  agent:     "Intelligence platform for licensed football agents. Real-time alerts, 300 player profiles, 50 AI match scores/month.",
-  director:  "Unlimited intelligence for serious football intermediaries. No limits on profiles, scores, or alert rules.",
-  executive: "Full agency solution. 5 team seats, branded PDF reports, API access, dedicated account manager.",
-};
-
-async function lsAPI(apiKey, path, method="GET", body=null) {
+async function lsAPI(apiKey, path, method = "GET", body = null) {
   const opts = {
     method,
     headers: {
       "Authorization": `Bearer ${apiKey}`,
       "Content-Type": "application/vnd.api+json",
-      "Accept": "application/vnd.api+json",
+      "Accept":        "application/vnd.api+json",
     },
   };
   if (body) opts.body = JSON.stringify(body);
   const r = await fetch(`https://api.lemonsqueezy.com/v1${path}`, opts);
   const text = await r.text();
-  if (!r.ok) throw new Error(`LS ${method} ${path} → ${r.status}: ${text.slice(0,300)}`);
+  if (!r.ok) throw new Error(`LS ${method} ${path} → ${r.status}: ${text.slice(0, 300)}`);
   return text ? JSON.parse(text) : {};
 }
 
 export default async (req) => {
-  const cors = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Cache-Control": "no-store",
-  };
+  const cors = { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" };
   if (req.method === "OPTIONS") return new Response("", { status: 200, headers: cors });
 
   const apiKey = Netlify.env.get("LEMONSQUEEZY_API_KEY");
   if (!apiKey) {
-    return Response.json({ error: "LEMONSQUEEZY_API_KEY not set in Netlify env vars" }, { status: 400, headers: cors });
+    return Response.json({
+      error: "LEMONSQUEEZY_API_KEY not set",
+      fix: "It should already be set — try redeploying"
+    }, { status: 400, headers: cors });
   }
 
   try {
-    // 1. Get store
+    // 1. Find store
     const storesRes = await lsAPI(apiKey, "/stores");
-    const store = storesRes.data?.[0];
-    if (!store) throw new Error("No store found in LemonSqueezy account");
-    const storeId = store.id;
+    const store     = storesRes.data?.[0];
+    if (!store) throw new Error("No LemonSqueezy store found for this API key");
+    const storeId   = store.id;
     const storeSlug = store.attributes.slug;
-    console.log(`Store: ${storeId} (${storeSlug})`);
+    const storeName = store.attributes.name;
+    console.log(`Store: ${storeName} (id=${storeId}, slug=${storeSlug})`);
 
-    // 2. Get existing products to avoid duplicates
-    const existingProds = await lsAPI(apiKey, `/products?filter[store_id]=${storeId}&page[size]=50`);
-    const existingByName = {};
-    (existingProds.data || []).forEach(p => {
-      existingByName[p.attributes.name] = p.id;
-    });
-    console.log("Existing products:", Object.keys(existingByName));
+    // 2. Define plans
+    const PLANS = [
+      { productSlug: "agent",     productName: "Transfer365 Agent",     desc: "Essential intelligence for licensed football agents.",              monthly: 4900,  annual: 46800  },
+      { productSlug: "director",  productName: "Transfer365 Director",  desc: "Unlimited intelligence for serious football intermediaries.",       monthly: 9900,  annual: 94800  },
+      { productSlug: "executive", productName: "Transfer365 Executive", desc: "Full agency solution — team seats, API access, branded reports.",   monthly: 19900, annual: 190800 },
+    ];
 
-    // 3. Create/find products and variants
-    const results = { agent:{}, director:{}, executive:{} };
-    const productMap = {}; // slug → productId
+    // 3. Get existing products (skip duplicates)
+    const existingProds  = await lsAPI(apiKey, `/products?filter[store_id]=${storeId}&page[size]=50`);
+    const prodByName     = {};
+    (existingProds.data || []).forEach(p => { prodByName[p.attributes.name] = p.id; });
 
-    // First pass: create products
-    for (const planSlug of ["agent","director","executive"]) {
-      const productName = `Transfer365 ${planSlug.charAt(0).toUpperCase()+planSlug.slice(1)}`;
-      if (existingByName[productName]) {
-        productMap[planSlug] = existingByName[productName];
-        console.log(`Using existing product: ${productName} → ${productMap[planSlug]}`);
+    const results = {};
+
+    for (const plan of PLANS) {
+      // Create or reuse product
+      let productId = prodByName[plan.productName];
+      if (productId) {
+        console.log(`Reusing product: ${plan.productName} → ${productId}`);
       } else {
         const prod = await lsAPI(apiKey, "/products", "POST", {
           data: {
             type: "products",
-            attributes: {
-              name: productName,
-              description: PRODUCT_DESCRIPTIONS[planSlug],
-              slug: `t365-${planSlug}-${Date.now()}`,
-            },
-            relationships: {
-              store: { data: { type: "stores", id: String(storeId) } }
-            }
+            attributes: { name: plan.productName, description: plan.desc },
+            relationships: { store: { data: { type: "stores", id: String(storeId) } } }
           }
         });
-        productMap[planSlug] = prod.data.id;
-        console.log(`Created product: ${productName} → ${productMap[planSlug]}`);
+        productId = prod.data.id;
+        console.log(`Created product: ${plan.productName} → ${productId}`);
       }
-    }
 
-    // Second pass: create variants
-    // Get existing variants
-    const existingVars = await lsAPI(apiKey, `/variants?page[size]=100`);
-    const existingVarNames = {};
-    (existingVars.data || []).forEach(v => {
-      existingVarNames[`${v.attributes.product_id}_${v.attributes.name}`] = { id: v.id, productId: v.attributes.product_id };
-    });
+      // Get existing variants for this product
+      const existVars = await lsAPI(apiKey, `/variants?filter[product_id]=${productId}&page[size]=20`);
+      const varByName = {};
+      (existVars.data || []).forEach(v => { varByName[v.attributes.name] = v.id; });
 
-    for (const plan of PLANS) {
-      const productId = productMap[plan.slug];
-      const varKey = `${productId}_${plan.name}`;
-
-      let variantId;
-      if (existingVarNames[varKey]) {
-        variantId = existingVarNames[varKey].id;
-        console.log(`Using existing variant: ${plan.name} → ${variantId}`);
-      } else {
-        const v = await lsAPI(apiKey, "/variants", "POST", {
+      // Monthly variant
+      let monthlyId = varByName["Monthly"];
+      if (!monthlyId) {
+        const vm = await lsAPI(apiKey, "/variants", "POST", {
           data: {
             type: "variants",
-            attributes: {
-              name: plan.name,
-              price: plan.price,
-              is_subscription: true,
-              interval: plan.interval,
-              interval_count: 1,
-              has_free_trial: true,
-              trial_interval: "day",
-              trial_interval_count: plan.trial,
-              status: "published",
-            },
-            relationships: {
-              product: { data: { type: "products", id: String(productId) } }
-            }
+            attributes: { name: "Monthly", price: plan.monthly, is_subscription: true, interval: "month", interval_count: 1, has_free_trial: true, trial_interval: "day", trial_interval_count: 7, status: "published" },
+            relationships: { product: { data: { type: "products", id: String(productId) } } }
           }
         });
-        variantId = v.data.id;
-        console.log(`Created variant: ${plan.name} → ${variantId}`);
+        monthlyId = vm.data.id;
+        console.log(`Created Monthly variant: ${monthlyId}`);
       }
 
-      const checkoutUrl = `https://${storeSlug}.lemonsqueezy.com/checkout/buy/${variantId}?embed=1`;
-      results[plan.slug][plan.billing] = { variantId, checkoutUrl };
+      // Annual variant
+      let annualId = varByName["Annual"];
+      if (!annualId) {
+        const va = await lsAPI(apiKey, "/variants", "POST", {
+          data: {
+            type: "variants",
+            attributes: { name: "Annual", price: plan.annual, is_subscription: true, interval: "year", interval_count: 1, has_free_trial: true, trial_interval: "day", trial_interval_count: 7, status: "published" },
+            relationships: { product: { data: { type: "products", id: String(productId) } } }
+          }
+        });
+        annualId = va.data.id;
+        console.log(`Created Annual variant: ${annualId}`);
+      }
+
+      results[plan.productSlug] = {
+        productId,
+        monthly: { variantId: monthlyId, url: `https://${storeSlug}.lemonsqueezy.com/checkout/buy/${monthlyId}?embed=1` },
+        annual:  { variantId: annualId,  url: `https://${storeSlug}.lemonsqueezy.com/checkout/buy/${annualId}?embed=1`  },
+      };
     }
 
-    // 4. Save to Netlify Blobs
-    const blobStore = getStore("ls-config");
-    const config = {
-      storeId,
-      storeSlug,
-      updatedAt: new Date().toISOString(),
-      plans: {
-        agent:     { monthly: results.agent.monthly,    annual: results.agent.annual     },
-        director:  { monthly: results.director.monthly, annual: results.director.annual  },
-        executive: { monthly: results.executive.monthly,annual: results.executive.annual },
-      }
-    };
-    await blobStore.setJSON("checkout-config", config);
-
-    // 5. Return env vars to set for webhook
+    // 4. Return everything needed
     return Response.json({
-      success: true,
-      storeId,
-      storeSlug,
-      plans: config.plans,
-      env_vars_for_webhook: {
-        LS_VARIANT_AGENT_MONTHLY:      results.agent.monthly?.variantId,
-        LS_VARIANT_AGENT_ANNUAL:       results.agent.annual?.variantId,
-        LS_VARIANT_DIRECTOR_MONTHLY:   results.director.monthly?.variantId,
-        LS_VARIANT_DIRECTOR_ANNUAL:    results.director.annual?.variantId,
-        LS_VARIANT_EXECUTIVE_MONTHLY:  results.executive.monthly?.variantId,
-        LS_VARIANT_EXECUTIVE_ANNUAL:   results.executive.annual?.variantId,
+      success:    true,
+      store:      { id: storeId, slug: storeSlug, name: storeName },
+      plans:      results,
+      webhook:    { url: "https://transfer365.net/.netlify/functions/lemonsqueezy-webhook" },
+      env_vars:   {
+        LEMONSQUEEZY_STORE_ID:         storeId,
+        LS_VARIANT_AGENT_MONTHLY:      results.agent?.monthly?.variantId,
+        LS_VARIANT_AGENT_ANNUAL:       results.agent?.annual?.variantId,
+        LS_VARIANT_DIRECTOR_MONTHLY:   results.director?.monthly?.variantId,
+        LS_VARIANT_DIRECTOR_ANNUAL:    results.director?.annual?.variantId,
+        LS_VARIANT_EXECUTIVE_MONTHLY:  results.executive?.monthly?.variantId,
+        LS_VARIANT_EXECUTIVE_ANNUAL:   results.executive?.annual?.variantId,
       },
-      webhook_url: "https://transfer365.net/.netlify/functions/lemonsqueezy-webhook",
-      next_step: "Register the webhook_url in LemonSqueezy Dashboard → Settings → Webhooks",
+      next_steps: [
+        "1. Copy env_vars above → Netlify dashboard → Environment Variables",
+        "2. Register webhook URL in LemonSqueezy → Settings → Webhooks",
+        "3. Set LEMONSQUEEZY_WEBHOOK_SECRET from the webhook page",
+        "4. Redeploy Netlify — buttons will now use real checkout URLs",
+      ]
     }, { headers: cors });
 
-  } catch(e) {
+  } catch (e) {
     console.error("ls-setup error:", e.message);
     return Response.json({ error: e.message }, { status: 500, headers: cors });
   }
