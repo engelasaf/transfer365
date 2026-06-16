@@ -34,7 +34,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,7,20,.85);
 .lopt{display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:8px;font-size:13px;color:rgba(255,255,255,.7);cursor:pointer;transition:all .15s;white-space:nowrap;font-weight:500}.lopt:hover{background:rgba(255,255,255,.08);color:var(--white)}.lopt.active{color:var(--green);font-weight:700;background:rgba(34,197,94,.08)}
 
 /* HERO */
-#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:80px 5vw 60px;max-width:1280px;margin:0 auto}
+#hero{min-height:600px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:80px 5vw 60px;max-width:1280px;margin:0 auto}
 .hleft{display:flex;flex-direction:column;gap:22px}
 .eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:var(--green);padding:5px 13px;border-radius:100px;font-size:12px;font-weight:600;width:fit-content}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 2s ease infinite}
@@ -178,7 +178,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 .anote{font-size:11px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.5}.anote a{color:var(--bll)}
 
 /* RESPONSIVE */
-@media(max-width:900px){#hero{grid-template-columns:1fr;padding-top:20px;min-height:auto;align-items:flex-start}.hright{display:none}
+@media(max-width:900px){#pitch-wrap{display:none}#hero{grid-template-columns:1fr;padding-top:20px;min-height:auto;align-items:flex-start}.hright{display:none}
   .pgrid,.fgrid{grid-template-columns:1fr}.pgrid2{grid-template-columns:1fr 1fr}
   .stats{grid-template-columns:1fr 1fr}.tgrid{grid-template-columns:1fr}
   .nlinks{display:none}footer{flex-direction:column;text-align:center}
@@ -271,6 +271,58 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 
 <div style="padding-top:60px;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(13,31,20,.95) 0%,var(--bg) 70%)">
 <div id="hero" style="position:relative">
+<div id="pitch-wrap" style="position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none">
+<svg id="pitch-svg" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:.18" viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice">
+  <!-- Grass surface -->
+  <rect width="1000" height="620" fill="#063a0a"/>
+  <!-- Alternating grass bands -->
+  <rect x="0" y="0" width="1000" height="62" fill="#074a0c" opacity=".5"/>
+  <rect x="0" y="124" width="1000" height="62" fill="#074a0c" opacity=".5"/>
+  <rect x="0" y="248" width="1000" height="62" fill="#074a0c" opacity=".5"/>
+  <rect x="0" y="372" width="1000" height="62" fill="#074a0c" opacity=".5"/>
+  <rect x="0" y="496" width="1000" height="62" fill="#074a0c" opacity=".5"/>
+  <!-- Outer boundary -->
+  <rect x="30" y="20" width="940" height="580" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2.5"/>
+  <!-- Halfway line -->
+  <line x1="500" y1="20" x2="500" y2="600" stroke="rgba(255,255,255,.55)" stroke-width="2"/>
+  <!-- Centre circle -->
+  <circle cx="500" cy="310" r="91.5" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2"/>
+  <!-- Centre spot -->
+  <circle cx="500" cy="310" r="3.5" fill="rgba(255,255,255,.7)"/>
+  <!-- Penalty areas (left) -->
+  <rect x="30" y="155" width="165" height="300" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2"/>
+  <!-- 6-yard box (left) -->
+  <rect x="30" y="227" width="55" height="156" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+  <!-- Goal (left) -->
+  <rect x="14" y="263" width="16" height="84" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
+  <!-- Penalty spot (left) -->
+  <circle cx="141" cy="310" r="3" fill="rgba(255,255,255,.6)"/>
+  <!-- D arc (left) -->
+  <path d="M 195 248 A 91.5 91.5 0 0 1 195 372" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+  <!-- Penalty areas (right) -->
+  <rect x="805" y="155" width="165" height="300" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2"/>
+  <!-- 6-yard box (right) -->
+  <rect x="915" y="227" width="55" height="156" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+  <!-- Goal (right) -->
+  <rect x="970" y="263" width="16" height="84" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
+  <!-- Penalty spot (right) -->
+  <circle cx="859" cy="310" r="3" fill="rgba(255,255,255,.6)"/>
+  <!-- D arc (right) -->
+  <path d="M 805 248 A 91.5 91.5 0 0 0 805 372" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+  <!-- Corner arcs -->
+  <path d="M 30 40 A 14 14 0 0 1 44 20" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+  <path d="M 956 20 A 14 14 0 0 1 970 40" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+  <path d="M 30 580 A 14 14 0 0 0 44 600" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+  <path d="M 956 600 A 14 14 0 0 0 970 580" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+</svg>
+
+<!-- Animated player dots on pitch -->
+<canvas id="pitchCanvas" style="pointer-events:none" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none"></canvas>
+
+<!-- Green gradient overlay to blend into dark bg at top/bottom -->
+<div style="position:absolute;inset:0;background:linear-gradient(to bottom,#080714 0%,rgba(8,7,20,.5) 20%,rgba(8,7,20,.2) 50%,rgba(8,7,20,.5) 80%,#080714 100%);z-index:2"></div>
+</div>
+
 
   <div class="hleft" style="position:relative;z-index:3">
     <div class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">9,200+ players monitored · 120 leagues · contracts, injuries & budgets · live</span></div>
@@ -821,6 +873,172 @@ const initLang=detectLang();setLang(initLang);
 
 
 
+
+
+/* ── Pitch Players + Transfer Arrows Animation ─────────────────── */
+(function(){
+  const cv = document.getElementById('pitchCanvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+
+  // Named player positions on the pitch (normalized 0-1)
+  const PLAYERS = [
+    // Defenders
+    {x:.15,y:.5,  pos:'GK',c:'#AFA9EC',label:'GK',  contract:false},
+    {x:.22,y:.3,  pos:'CB',c:'#534AB7',label:'CB',  contract:false},
+    {x:.22,y:.5,  pos:'CB',c:'#534AB7',label:'CB',  contract:true },
+    {x:.22,y:.7,  pos:'LB',c:'#534AB7',label:'LB',  contract:false},
+    {x:.25,y:.15, pos:'RB',c:'#534AB7',label:'RB',  contract:false},
+    // Midfielders
+    {x:.38,y:.35, pos:'CM',c:'#3C3489',label:'CM',  contract:false},
+    {x:.38,y:.5,  pos:'DM',c:'#3C3489',label:'DM',  contract:false},
+    {x:.38,y:.65, pos:'CM',c:'#3C3489',label:'CM',  contract:true },
+    // Attackers
+    {x:.55,y:.25, pos:'AM',c:'#22C55E',label:'AM',  contract:false, alert:true},
+    {x:.55,y:.5,  pos:'SS',c:'#22C55E',label:'SS',  contract:false},
+    {x:.55,y:.75, pos:'LW',c:'#22C55E',label:'LW',  contract:true , alert:true},
+    {x:.70,y:.5,  pos:'ST',c:'#E8870C',label:'ST',  contract:false, injury:true},
+    // Opponents (right side)
+    {x:.85,y:.5,  pos:'GK',c:'rgba(255,255,255,.25)',label:'GK',opp:true},
+    {x:.78,y:.3,  pos:'CB',c:'rgba(255,255,255,.2)',label:'CB', opp:true},
+    {x:.78,y:.7,  pos:'CB',c:'rgba(255,255,255,.2)',label:'CB', opp:true},
+    {x:.72,y:.2,  pos:'RB',c:'rgba(255,255,255,.15)',label:'RB',opp:true},
+    {x:.72,y:.8,  pos:'LB',c:'rgba(255,255,255,.15)',label:'LB',opp:true},
+    {x:.65,y:.35, pos:'CM',c:'rgba(255,255,255,.15)',label:'CM',opp:true},
+    {x:.65,y:.65, pos:'CM',c:'rgba(255,255,255,.15)',label:'CM',opp:true},
+    {x:.62,y:.5,  pos:'AM',c:'rgba(255,255,255,.15)',label:'AM',opp:true},
+  ];
+
+  // Transfer arrows: from player index to a target club (x,y on pitch)
+  const ARROWS = [
+    {from:8,  tx:.92, ty:.08, color:'rgba(34,197,94,.9)',  label:'TRANSFER', t:0, spd:.004},
+    {from:10, tx:.88, ty:.9,  color:'rgba(234,179,8,.9)',  label:'CONTRACT', t:.3, spd:.003},
+    {from:11, tx:.05, ty:.35, color:'rgba(220,38,38,.9)',  label:'INJURY',   t:.6, spd:.0035},
+  ];
+
+  // Injury pulse rings
+  const RINGS = [{pidx:11, t:0}, {pidx:2, t:.5}, {pidx:7, t:.8}];
+
+  let W=0, H=0, RAF;
+
+  function resize(){
+    const r = Math.min(window.devicePixelRatio||1, 2);
+    W = cv.width  = cv.offsetWidth  * r;
+    H = cv.height = cv.offsetHeight * r;
+    ctx.scale(r, r);
+    W /= r; H /= r;
+  }
+
+  function px(p){ return {x: p.x * W, y: p.y * H}; }
+
+  function drawArrow(from, tx, ty, color, t) {
+    const fp = px(PLAYERS[from]);
+    const ex = tx * W, ey = ty * H;
+    // Bezier control point (arc)
+    const cpx = (fp.x + ex)/2 + (ey - fp.y)*.3;
+    const cpy = (fp.y + ey)/2 - Math.abs(ex - fp.x)*.25;
+
+    // Draw full path (faint)
+    ctx.beginPath();
+    ctx.moveTo(fp.x, fp.y);
+    ctx.quadraticCurveTo(cpx, cpy, ex, ey);
+    ctx.strokeStyle = color.replace('.9)', '.15)');
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4,6]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Animated dot traveling path (t = 0..1)
+    const tt = t % 1;
+    const bx = (1-tt)*(1-tt)*fp.x + 2*(1-tt)*tt*cpx + tt*tt*ex;
+    const by = (1-tt)*(1-tt)*fp.y + 2*(1-tt)*tt*cpy + tt*tt*ey;
+    // Glow
+    ctx.beginPath(); ctx.arc(bx,by,7,0,Math.PI*2);
+    ctx.fillStyle = color.replace('.9)', '.12)'); ctx.fill();
+    // Dot
+    ctx.beginPath(); ctx.arc(bx,by,3.5,0,Math.PI*2);
+    ctx.fillStyle = color; ctx.fill();
+  }
+
+  function draw(){
+    RAF = requestAnimationFrame(draw);
+    ctx.clearRect(0,0,W,H);
+
+    // Advance arrows
+    ARROWS.forEach(a => { a.t += a.spd; if(a.t > 2) a.t = 0; });
+    RINGS.forEach(r => { r.t += .008; if(r.t > 1) r.t = 0; });
+
+    // Draw transfer arrows
+    ARROWS.forEach(a => drawArrow(a.from, a.tx, a.ty, a.color, a.t));
+
+    // Draw players
+    PLAYERS.forEach((p, i) => {
+      if(p.opp) return; // opponents drawn simpler below
+      const {x,y} = px(p);
+      const r = p.alert ? 9 : p.injury ? 8 : 8;
+
+      // Glow for alerts
+      if(p.alert || p.injury || p.contract){
+        ctx.beginPath(); ctx.arc(x,y,r*2.2,0,Math.PI*2);
+        ctx.fillStyle = p.injury ? 'rgba(220,38,38,.12)' :
+                        p.contract ? 'rgba(234,179,8,.12)' : 'rgba(34,197,94,.12)';
+        ctx.fill();
+      }
+
+      // Player circle
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2);
+      ctx.fillStyle = p.c;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,.35)';
+      ctx.lineWidth = 1.2; ctx.stroke();
+
+      // Position label
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 7px -apple-system,sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(p.pos, x, y);
+    });
+
+    // Draw opponent players (faint)
+    PLAYERS.filter(p=>p.opp).forEach(p => {
+      const {x,y} = px(p);
+      ctx.beginPath(); ctx.arc(x,y,7,0,Math.PI*2);
+      ctx.fillStyle = 'rgba(255,255,255,.12)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,.2)';
+      ctx.lineWidth = 1; ctx.stroke();
+    });
+
+    // Pulse rings for contract/injury alerts
+    RINGS.forEach(ring => {
+      const p = PLAYERS[ring.pidx];
+      const {x,y} = px(p);
+      const t = ring.t;
+      const r = 12 + t * 22;
+      const a = 0.55 * (1 - t);
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2);
+      ctx.strokeStyle = p.injury ? `rgba(220,38,38,${a})` : `rgba(234,179,8,${a})`;
+      ctx.lineWidth = 1.5; ctx.stroke();
+    });
+
+    // Injury badge on ST
+    const inj = px(PLAYERS[11]);
+    ctx.fillStyle = '#DC2626';
+    ctx.beginPath(); ctx.arc(inj.x+10, inj.y-10, 6, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 8px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('!', inj.x+10, inj.y-10);
+  }
+
+  function init(){
+    resize();
+    draw();
+    window.addEventListener('resize', ()=>{ ctx.resetTransform(); resize(); }, {passive:true});
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
 </script>
 </body>
 </html>
