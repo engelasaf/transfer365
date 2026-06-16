@@ -1037,6 +1037,13 @@ function updateEyebrow(){
 window.addEventListener('scroll',()=>{document.getElementById('mainnav').style.boxShadow=scrollY>8?'0 1px 32px rgba(0,0,0,.5)':'none';},{passive:true});
 
 /* ─── INIT ──────────────────────────────────────────────────────────── */
+// Create ldrop at body level (avoids nav backdrop-filter stacking context)
+(function(){
+  var el=document.createElement('div');
+  el.id='ldrop';
+  el.style.cssText='position:fixed;background:#0F0D28;border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:6px;min-width:190px;display:none;box-shadow:0 20px 56px rgba(0,0,0,.9);z-index:99999;font-family:-apple-system,sans-serif';
+  document.body.appendChild(el);
+})();
 buildFeed();buildTicker();updateCD();setInterval(updateCD,30000);buildLangPicker();
 const initLang=detectLang();setLang(initLang);
 
@@ -1208,3 +1215,5 @@ const initLang=detectLang();setLang(initLang);
 })();
 
 </script>
+</body>
+</html>
