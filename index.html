@@ -415,6 +415,179 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 
 <div class="div"></div>
 
+
+<div class="div"></div>
+
+<section id="pitch-section" style="padding:72px 5vw;max-width:1280px;margin:0 auto">
+  <div style="text-align:center;margin-bottom:32px">
+    <div class="slbl">Live Intelligence</div>
+    <h2 class="sh2">Your portfolio. On the pitch. Right now.</h2>
+    <p class="ssub" style="margin:10px auto 0;max-width:520px">Every player you track — flagged the moment their situation changes. Injury. Contract. Transfer request. Budget movement.</p>
+  </div>
+
+  <div style="position:relative;max-width:860px;margin:0 auto">
+    <!-- PITCH SVG -->
+    <svg viewBox="0 0 860 540" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.5)">
+      <!-- Pitch surface -->
+      <defs>
+        <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0a3d0a"/>
+          <stop offset="100%" stop-color="#062a06"/>
+        </linearGradient>
+      </defs>
+      <rect width="860" height="540" fill="url(#grass)" rx="14"/>
+      <!-- Grass stripes -->
+      <rect x="0" y="0"   width="860" height="54" fill="#0b420b" opacity=".45"/>
+      <rect x="0" y="108" width="860" height="54" fill="#0b420b" opacity=".45"/>
+      <rect x="0" y="216" width="860" height="54" fill="#0b420b" opacity=".45"/>
+      <rect x="0" y="324" width="860" height="54" fill="#0b420b" opacity=".45"/>
+      <rect x="0" y="432" width="860" height="54" fill="#0b420b" opacity=".45"/>
+      <!-- Pitch lines -->
+      <rect x="22" y="18" width="816" height="504" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2.5" rx="2"/>
+      <line x1="430" y1="18" x2="430" y2="522" stroke="rgba(255,255,255,.55)" stroke-width="2"/>
+      <circle cx="430" cy="270" r="72" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2"/>
+      <circle cx="430" cy="270" r="3" fill="rgba(255,255,255,.7)"/>
+      <!-- Left box -->
+      <rect x="22" y="144" width="144" height="252" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+      <rect x="22" y="196" width="48" height="148" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+      <rect x="7"  y="228" width="15" height="84"  fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2.5"/>
+      <circle cx="124" cy="270" r="3" fill="rgba(255,255,255,.5)"/>
+      <path d="M 166 210 A 72 72 0 0 1 166 330" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+      <!-- Right box -->
+      <rect x="694" y="144" width="144" height="252" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+      <rect x="790" y="196" width="48" height="148" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+      <rect x="838" y="228" width="15" height="84"  fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2.5"/>
+      <circle cx="736" cy="270" r="3" fill="rgba(255,255,255,.5)"/>
+      <path d="M 694 210 A 72 72 0 0 0 694 330" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+      <!-- Corners -->
+      <path d="M 22 32 A 12 12 0 0 1 34 18"  fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+      <path d="M 826 18 A 12 12 0 0 1 838 32" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+      <path d="M 22 508 A 12 12 0 0 0 34 522"  fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+      <path d="M 826 522 A 12 12 0 0 0 838 508" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+
+      <!-- ═══ PLAYERS ═══ -->
+
+      <!-- GK — active -->
+      <circle cx="70" cy="270" r="16" fill="#27500A" stroke="#22C55E" stroke-width="2"/>
+      <text x="70" y="275" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="sans-serif">GK</text>
+
+      <!-- CB left — INJURED (red pulse) -->
+      <circle cx="175" cy="200" r="18" fill="#7F1D1D" stroke="#EF4444" stroke-width="2.5"/>
+      <text x="175" y="205" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="sans-serif">CB</text>
+      <circle cx="175" cy="200" r="18" fill="none" stroke="#EF4444" stroke-width="2" opacity=".7">
+        <animate attributeName="r" values="18;32;18" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".7;0;.7" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <!-- Injury badge -->
+      <circle cx="190" cy="185" r="10" fill="#EF4444"/>
+      <text x="190" y="189" text-anchor="middle" fill="#fff" font-size="11" font-weight="900" font-family="sans-serif">!</text>
+
+      <!-- CB right — CONTRACT EXPIRY (orange) -->
+      <circle cx="175" cy="340" r="18" fill="#78350F" stroke="#F97316" stroke-width="2.5"/>
+      <text x="175" y="345" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="sans-serif">CB</text>
+      <!-- Contract badge -->
+      <circle cx="190" cy="325" r="10" fill="#F97316"/>
+      <text x="190" y="329" text-anchor="middle" fill="#fff" font-size="9" font-weight="900" font-family="sans-serif">C</text>
+
+      <!-- LB — active -->
+      <circle cx="175" cy="430" r="16" fill="#27500A" stroke="#22C55E" stroke-width="2"/>
+      <text x="175" y="435" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="sans-serif">LB</text>
+
+      <!-- RB — active -->
+      <circle cx="175" cy="110" r="16" fill="#27500A" stroke="#22C55E" stroke-width="2"/>
+      <text x="175" y="115" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="sans-serif">RB</text>
+
+      <!-- CM left — active -->
+      <circle cx="310" cy="200" r="16" fill="#1e3a5f" stroke="#3B82F6" stroke-width="2"/>
+      <text x="310" y="205" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="sans-serif">CM</text>
+
+      <!-- DM — active -->
+      <circle cx="290" cy="270" r="16" fill="#1e3a5f" stroke="#3B82F6" stroke-width="2"/>
+      <text x="290" y="275" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="sans-serif">DM</text>
+
+      <!-- CM right — CONTRACT EXPIRY -->
+      <circle cx="310" cy="340" r="18" fill="#78350F" stroke="#F97316" stroke-width="2.5"/>
+      <text x="310" y="345" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="sans-serif">CM</text>
+      <circle cx="325" cy="325" r="10" fill="#F97316"/>
+      <text x="325" y="329" text-anchor="middle" fill="#fff" font-size="9" font-weight="900" font-family="sans-serif">C</text>
+
+      <!-- RW — TRANSFER REQUEST (blue pulse) -->
+      <circle cx="540" cy="110" r="18" fill="#1e1e5f" stroke="#818CF8" stroke-width="2.5"/>
+      <text x="540" y="115" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="sans-serif">RW</text>
+      <!-- Transfer badge -->
+      <circle cx="555" cy="95" r="10" fill="#818CF8"/>
+      <text x="555" y="99" text-anchor="middle" fill="#fff" font-size="9" font-weight="900" font-family="sans-serif">T</text>
+
+      <!-- ST — TRANSFER REQUEST + PULSE (main focus) -->
+      <circle cx="600" cy="270" r="22" fill="#3C3489" stroke="#AFA9EC" stroke-width="3"/>
+      <text x="600" y="276" text-anchor="middle" fill="#fff" font-size="11" font-weight="900" font-family="sans-serif">ST</text>
+      <circle cx="600" cy="270" r="22" fill="none" stroke="#AFA9EC" stroke-width="2.5" opacity=".8">
+        <animate attributeName="r" values="22;42;22" dur="1.8s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".8;0;.8" dur="1.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="617" cy="252" r="11" fill="#AFA9EC"/>
+      <text x="617" y="256" text-anchor="middle" fill="#3C3489" font-size="9" font-weight="900" font-family="sans-serif">T</text>
+
+      <!-- LW — active -->
+      <circle cx="540" cy="430" r="16" fill="#27500A" stroke="#22C55E" stroke-width="2"/>
+      <text x="540" y="435" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="sans-serif">LW</text>
+
+      <!-- TRANSFER ARROW: RW → opposing club -->
+      <path d="M 558 118 Q 700 60 770 120" fill="none" stroke="#818CF8" stroke-width="2"
+            stroke-dasharray="8,5" opacity=".8">
+        <animate attributeName="stroke-dashoffset" values="0;-26" dur="1.2s" repeatCount="indefinite"/>
+      </path>
+      <!-- Destination club marker -->
+      <circle cx="775" cy="125" r="12" fill="rgba(129,140,248,.15)" stroke="#818CF8" stroke-width="1.5"/>
+      <text x="775" y="129" text-anchor="middle" fill="#818CF8" font-size="8" font-weight="700" font-family="sans-serif">CL</text>
+
+      <!-- TRANSFER ARROW: ST → target club -->
+      <path d="M 622 265 Q 720 200 800 210" fill="none" stroke="#AFA9EC" stroke-width="2.5"
+            stroke-dasharray="8,5" opacity=".85">
+        <animate attributeName="stroke-dashoffset" values="0;-26" dur="1s" repeatCount="indefinite"/>
+      </path>
+      <circle cx="805" cy="213" r="14" fill="rgba(175,169,236,.12)" stroke="#AFA9EC" stroke-width="2"/>
+      <text x="805" y="217" text-anchor="middle" fill="#AFA9EC" font-size="8" font-weight="700" font-family="sans-serif">€</text>
+    </svg>
+
+    <!-- ALERT CARDS overlaid -->
+    <div style="position:absolute;top:12px;left:12px;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);border-radius:8px;padding:8px 12px;backdrop-filter:blur(8px)">
+      <div style="font-size:9px;color:#FCA5A5;font-weight:700;letter-spacing:.06em">● INJURY ALERT</div>
+      <div style="font-size:12px;color:#fff;font-weight:700;margin-top:2px">CB — Hamstring · 6 weeks</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:1px">3 clubs tracking replacement</div>
+    </div>
+
+    <div style="position:absolute;top:12px;right:12px;background:rgba(129,140,248,.12);border:1px solid rgba(129,140,248,.4);border-radius:8px;padding:8px 12px;backdrop-filter:blur(8px)">
+      <div style="font-size:9px;color:#A5B4FC;font-weight:700;letter-spacing:.06em">● TRANSFER REQUEST</div>
+      <div style="font-size:12px;color:#fff;font-weight:700;margin-top:2px">ST — Formal request filed</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:1px">Release clause: €150M · Jul 1</div>
+    </div>
+
+    <div style="position:absolute;bottom:12px;left:12px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.4);border-radius:8px;padding:8px 12px;backdrop-filter:blur(8px)">
+      <div style="font-size:9px;color:#FDBA74;font-weight:700;letter-spacing:.06em">● CONTRACT EXPIRY</div>
+      <div style="font-size:12px;color:#fff;font-weight:700;margin-top:2px">CM — 23 days remaining</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:1px">Pre-contract window open now</div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div style="display:flex;gap:24px;justify-content:center;margin-top:20px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)">
+      <span style="width:10px;height:10px;border-radius:50%;background:#EF4444;display:inline-block"></span>Injury confirmed
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)">
+      <span style="width:10px;height:10px;border-radius:50%;background:#F97316;display:inline-block"></span>Contract expiring
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)">
+      <span style="width:10px;height:10px;border-radius:50%;background:#818CF8;display:inline-block"></span>Transfer request
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)">
+      <span style="width:10px;height:10px;border-radius:50%;background:#22C55E;display:inline-block"></span>Monitored · active
+    </div>
+  </div>
+</section>
+
+
 <section id="features">
   <div class="slbl" data-i18n="sec_platform">Platform</div>
   <h2 class="sh2" data-i18n-html="feat_h">Everything a serious agent needs.<br>Nothing they don't.</h2>
