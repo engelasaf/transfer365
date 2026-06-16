@@ -34,12 +34,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,7,20,.85);
 .lopt{display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:8px;font-size:13px;color:rgba(255,255,255,.7);cursor:pointer;transition:all .15s;white-space:nowrap;font-weight:500}.lopt:hover{background:rgba(255,255,255,.08);color:var(--white)}.lopt.active{color:var(--green);font-weight:700;background:rgba(34,197,94,.08)}
 
 /* HERO */
-
-
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:80px 5vw 60px;max-width:1280px;margin:0 auto}
+.hleft{display:flex;flex-direction:column;gap:22px}
 .eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:var(--green);padding:5px 13px;border-radius:100px;font-size:12px;font-weight:600;width:fit-content}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 2s ease infinite}
 @keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
-h1{font-size:clamp(32px,4vw,58px);font-weight:900;line-height:1.08;letter-spacing:-.04em;text-shadow:0 2px 20px rgba(0,0,0,.4)}
+h1{font-size:clamp(32px,4vw,58px);font-weight:900;line-height:1.08;letter-spacing:-.04em}
 h1 em{font-style:normal;color:var(--green)}
 .sub{font-size:clamp(14px,1.2vw,16px);color:var(--muted);line-height:1.7;max-width:480px}
 .acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
@@ -178,12 +178,22 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 .anote{font-size:11px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.5}.anote a{color:var(--bll)}
 
 /* RESPONSIVE */
-
+@media(max-width:900px){
+  #hero{grid-template-columns:1fr;padding-top:90px}.hright{display:none}
   .pgrid,.fgrid{grid-template-columns:1fr}.pgrid2{grid-template-columns:1fr 1fr}
   .stats{grid-template-columns:1fr 1fr}.tgrid{grid-template-columns:1fr}
   .nlinks{display:none}footer{flex-direction:column;text-align:center}
 }
+@media(max-width:580px){.pgrid2,.stats{grid-template-columns:1fr}}
 
+/* ── RTL Layout (Hebrew, Arabic) ──────────────────────────────── */
+[dir="rtl"] {font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif}
+[dir="rtl"] nav {flex-direction:row-reverse}
+[dir="rtl"] .nlinks {flex-direction:row-reverse;padding-left:0;padding-right:12px}
+[dir="rtl"] .nctas {flex-direction:row-reverse}
+[dir="rtl"] .nlogo {flex-direction:row-reverse}
+[dir="rtl"] #hero {direction:rtl}
+[dir="rtl"] .hleft {text-align:right}
 [dir="rtl"] .eyebrow {flex-direction:row-reverse}
 [dir="rtl"] .acts {flex-direction:row-reverse}
 [dir="rtl"] .trust {flex-direction:row-reverse}
@@ -221,21 +231,9 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 [dir="rtl"] .ainp {text-align:right;direction:rtl}
 [dir="rtl"] .anote {direction:rtl}
 [dir="rtl"] #mainnav {direction:rtl}
-[dir="rtl"] 
+[dir="rtl"] .hright {order:-1}
 [dir="rtl"] .cdbo {direction:rtl;text-align:right}
 [dir="rtl"] .pbadge {direction:rtl}
-
-
-
-
-  #hero>div:last-child{min-height:60vw;order:-1}
-  
-}
-
-[dir="rtl"] #hero{direction:rtl}
-[dir="rtl"] #hero>div:first-child{order:2}
-[dir="rtl"] #hero>div:last-child{order:1}
-[dir="rtl"] #hero>div:last-child img{object-position:45% center}
 </style>
 </head>
 <body>
@@ -246,72 +244,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
     Transfer365
   </div>
   <div class="nlinks">
-    <a href="#features" data-i18n=
-
-  #hero>div:last-child{min-height:55vw!important;order:-1!important}
-  .nlinks{display:none}
-}
-
-[dir="rtl"] #hero>div:first-child{order:2}
-[dir="rtl"] #hero>div:last-child{order:1}
-[dir="rtl"] #hero>div:last-child img{object-position:40% center}
-[dir="rtl"] #hero>div:last-child>div:nth-child(2){background:linear-gradient(to left,var(--bg) 0%,rgba(8,7,20,.35) 25%,transparent 55%)!important}
-
-
-
-  /* Content column: below image */
-  #hero>div:not(.hright){
-    padding:36px 20px 48px!important;
-    min-height:auto!important;
-  }
-  /* Slightly smaller headline on mobile */
-  #hero h1{font-size:clamp(26px,6.5vw,40px)!important}
-  /* Hide desktop nav links */
-  .nlinks{display:none!important}
-  /* Language picker stays visible */
-  .nctas{gap:6px}
-}
-
-
-/* ── MOBILE — full bleed hero stacks cleanly ──────────────── */
-
-  .nlinks{display:none!important}
-  .nctas .bprim span{display:none}
-  .nctas .bprim::after{content:"Free trial"}
-}
-/* RTL hero — flip text alignment */
-[dir="rtl"] #hero>div:last-child>div{margin-right:0;margin-left:auto;text-align:right}
-[dir="rtl"] #hero>div:last-child>div .acts{flex-direction:row-reverse}
-[dir="rtl"] #hero>div:last-child>div .trust{flex-direction:row-reverse}
-[dir="rtl"] #hero>div:last-child>div .eyebrow{flex-direction:row-reverse}
-
-
-
-/* ── Hero ────────────────────────────────────────────────── */
-.hleft{display:flex;flex-direction:column;gap:22px;max-width:560px}
-@media(max-width:900px){
-  #hero-section img{object-position:70% 18%!important}
-  #hero-section>div:last-child{padding:0 24px!important;padding-top:60px!important}
-  #hero-section>div:last-child>div{max-width:none!important}
-  #hero-section{min-height:96vw!important}
-  .nlinks{display:none!important}
-}
-@media(max-width:600px){
-  #hero-section img{object-position:60% 12%!important}
-  #hero-section{min-height:110vw!important}
-  #hero-section>div:last-child{align-items:flex-end!important;padding-bottom:48px!important}
-}
-[dir="rtl"] #hero-section>div:last-child{justify-content:flex-end}
-[dir="rtl"] #hero-section>div:last-child>div{text-align:right}
-[dir="rtl"] #hero-section>div:last-child>div .acts{flex-direction:row-reverse}
-[dir="rtl"] #hero-section>div:last-child>div .trust{flex-direction:row-reverse}
-[dir="rtl"] #hero-section>div:last-child>div .eyebrow{flex-direction:row-reverse}
-[dir="rtl"] #hero-section>div:nth-child(3){background:
-  linear-gradient(255deg,
-    rgba(4,10,6,.97) 0%,rgba(4,10,6,.94) 28%,rgba(4,10,6,.78) 42%,
-    rgba(4,10,6,.40) 58%,rgba(4,10,6,.10) 74%,transparent 88%
-  )!important}
-</style>tures">Features</a>
+    <a href="#features" data-i18n="nav_features">Features</a>
     <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
     <a href="#testimonials" data-i18n="nav_stories">Stories</a>
     <a href="#faq" data-i18n="nav_faq">FAQ</a>
@@ -327,70 +260,85 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
   </div>
 </nav>
 
-<div id="hero-section" style="position:relative;min-height:100vh;overflow:hidden;background:#040c06">
+<div style="padding-top:60px;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(13,31,20,.95) 0%,var(--bg) 70%)">
+<div id="hero" style="position:relative"><div id="pitch-wrap" style="position:absolute;inset:0;overflow:hidden;z-index:0">
+<svg id="pitch-svg" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:.18" viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice">
+  <!-- Grass surface -->
+  <rect width="1000" height="620" fill="#063a0a"/>
+  <!-- Alternating grass bands -->
+  <rect x="0" y="0" width="1000" height="62" fill="#074a0c" opacity=".5"/>
+  <rect x="0" y="124" width="1000" height="62" fill="#074a0c" opacity=".5"/>
+  <rect x="0" y="248" width="1000" height="62" fill="#074a0c" opacity=".5"/>
+  <rect x="0" y="372" width="1000" height="62" fill="#074a0c" opacity=".5"/>
+  <rect x="0" y="496" width="1000" height="62" fill="#074a0c" opacity=".5"/>
+  <!-- Outer boundary -->
+  <rect x="30" y="20" width="940" height="580" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2.5"/>
+  <!-- Halfway line -->
+  <line x1="500" y1="20" x2="500" y2="600" stroke="rgba(255,255,255,.55)" stroke-width="2"/>
+  <!-- Centre circle -->
+  <circle cx="500" cy="310" r="91.5" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2"/>
+  <!-- Centre spot -->
+  <circle cx="500" cy="310" r="3.5" fill="rgba(255,255,255,.7)"/>
+  <!-- Penalty areas (left) -->
+  <rect x="30" y="155" width="165" height="300" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2"/>
+  <!-- 6-yard box (left) -->
+  <rect x="30" y="227" width="55" height="156" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+  <!-- Goal (left) -->
+  <rect x="14" y="263" width="16" height="84" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
+  <!-- Penalty spot (left) -->
+  <circle cx="141" cy="310" r="3" fill="rgba(255,255,255,.6)"/>
+  <!-- D arc (left) -->
+  <path d="M 195 248 A 91.5 91.5 0 0 1 195 372" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+  <!-- Penalty areas (right) -->
+  <rect x="805" y="155" width="165" height="300" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2"/>
+  <!-- 6-yard box (right) -->
+  <rect x="915" y="227" width="55" height="156" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+  <!-- Goal (right) -->
+  <rect x="970" y="263" width="16" height="84" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
+  <!-- Penalty spot (right) -->
+  <circle cx="859" cy="310" r="3" fill="rgba(255,255,255,.6)"/>
+  <!-- D arc (right) -->
+  <path d="M 805 248 A 91.5 91.5 0 0 0 805 372" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+  <!-- Corner arcs -->
+  <path d="M 30 40 A 14 14 0 0 1 44 20" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+  <path d="M 956 20 A 14 14 0 0 1 970 40" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+  <path d="M 30 580 A 14 14 0 0 0 44 600" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+  <path d="M 956 600 A 14 14 0 0 0 970 580" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+</svg>
 
-  <!-- ① Real photo: fills full hero, people visible right side -->
-  <img
-    src="/assets/hero.jpg"
-    alt="Football agents at the stadium"
-    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 18%;z-index:0"
-    loading="eager" fetchpriority="high"
-  >
+<!-- Animated player dots on pitch -->
+<canvas id="pitchCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none"></canvas>
 
-  <!-- ② Subtle pitch lines overlay (very faint) -->
-  <canvas id="pitchCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.15"></canvas>
-
-  <!-- ③ Gradient: LEFT dark for text, RIGHT transparent to reveal photo -->
-  <div style="position:absolute;inset:0;z-index:2;pointer-events:none;background:
-    linear-gradient(105deg,
-      rgba(4,10,6,.97)  0%,
-      rgba(4,10,6,.94)  28%,
-      rgba(4,10,6,.78)  42%,
-      rgba(4,10,6,.40)  58%,
-      rgba(4,10,6,.10)  74%,
-      transparent       88%
-    )"></div>
-
-  <!-- ④ Top edge for nav readability -->
-  <div style="position:absolute;top:0;left:0;right:0;height:90px;z-index:3;pointer-events:none;
-    background:linear-gradient(to bottom,rgba(4,10,6,.75),transparent)"></div>
-
-  <!-- ⑤ Bottom edge to blend into ticker -->
-  <div style="position:absolute;bottom:0;left:0;right:0;height:100px;z-index:3;pointer-events:none;
-    background:linear-gradient(to top,rgba(8,7,20,1),rgba(8,7,20,.0))"></div>
-
-  <!-- ⑥ CONTENT — vertically centered, left side only -->
-  <div style="position:absolute;inset:0;z-index:5;display:flex;align-items:center;padding:0 5vw;padding-top:60px">
-    <div style="max-width:min(580px,52vw)">
-      <div class="eyebrow" style="margin-bottom:20px">
-        <span class="dot"></span>
-        <span data-i18n="eyebrow">9,200+ players tracked · 120 leagues · live alerts</span>
-      </div>
-      <h1 style="font-size:clamp(30px,3.6vw,58px);font-weight:900;line-height:1.07;letter-spacing:-.04em;
-          text-shadow:0 2px 16px rgba(0,0,0,.35);margin-bottom:18px"
-          data-i18n-html="h1">While you're reading this,<br>another agent just got <em>the alert.</em></h1>
-      <p class="sub" style="margin-bottom:28px;text-shadow:0 1px 8px rgba(0,0,0,.4)"
-         data-i18n="sub">Transfer365 tells you the moment a player's contract is running out, an injury is confirmed, or a club has budget to spend — before anyone else picks up the phone.</p>
-      <div class="acts" style="margin-bottom:22px">
-        <button class="bhero" onclick="openAuth('signup')">
-          <i class="ti ti-sparkles" style="font-size:15px"></i>
-          <span data-i18n="cta1">Try free — 7 days</span>
-        </button>
-        <a href="#features" class="boutl">
-          <i class="ti ti-play" style="font-size:14px"></i>
-          <span data-i18n="cta2">See how it works</span>
-        </a>
-      </div>
-      <div class="trust">
-        <div class="tpill"><i class="ti ti-shield-check"></i><span data-i18n="trust1">FIFA licensed agents</span></div>
-        <div class="tpill"><i class="ti ti-credit-card-off"></i><span data-i18n="trust2">No credit card needed</span></div>
-        <div class="tpill"><i class="ti ti-x"></i><span data-i18n="trust3">Cancel anytime</span></div>
-      </div>
-    </div>
-  </div>
-
+<!-- Green gradient overlay to blend into dark bg at top/bottom -->
+<div style="position:absolute;inset:0;background:linear-gradient(to bottom,#080714 0%,rgba(8,7,20,.5) 20%,rgba(8,7,20,.2) 50%,rgba(8,7,20,.5) 80%,#080714 100%);z-index:2"></div>
 </div>
 
+  <div class="hleft" style="position:relative;z-index:3">
+    <div class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">186 agents active · 34 countries · live now</span></div>
+    <h1 data-i18n-html="h1">The Bosman you're about to miss is already <em>in the data.</em></h1>
+    <p class="sub" data-i18n="sub">Transfer365 monitors contracts, injuries, and club budgets across 120 leagues — alerting you the moment an opportunity opens.</p>
+    <div class="acts">
+      <button class="bhero" onclick="openAuth('signup')"><i class="ti ti-sparkles" style="font-size:15px"></i><span data-i18n="cta1">Start free — 7 days</span></button>
+      <a href="#features" class="boutl"><i class="ti ti-play" style="font-size:14px"></i><span data-i18n="cta2">See what it does</span></a>
+    </div>
+    <div class="trust">
+      <div class="tpill"><i class="ti ti-shield-check"></i><span data-i18n="trust1">FIFA agent compliant</span></div>
+      <div class="tpill"><i class="ti ti-credit-card-off"></i><span data-i18n="trust2">No card to start</span></div>
+      <div class="tpill"><i class="ti ti-x"></i><span data-i18n="trust3">Cancel anytime</span></div>
+    </div>
+  </div>
+  <div class="hright" style="position:relative;z-index:3">
+    <div class="term">
+      <div class="tbar">
+        <div class="tdots"><span style="background:#FF5F57"></span><span style="background:#FEBC2E"></span><span style="background:#28C840"></span></div>
+        <span class="ttit">Transfer365 Intelligence Feed</span>
+        <span class="tlive"><span class="dot" style="margin-right:4px"></span>LIVE</span>
+      </div>
+      <div class="tbod"><div class="tfeed" id="tfeed"></div><div class="tglow"></div></div>
+    </div>
+  </div>
+</div>
+</div>
 
 <div class="tickw"><div class="ticki" id="tickerEl"></div></div>
 
