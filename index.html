@@ -16,7 +16,7 @@ body{background:var(--bg);color:var(--white);font-family:-apple-system,BlinkMacS
 button{cursor:pointer;font-family:inherit}a{text-decoration:none;color:inherit}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,7,20,.95);border-bottom:1px solid var(--bd);padding:0 5vw;display:flex;align-items:center;height:60px;gap:24px}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,7,20,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);padding:0 5vw;display:flex;align-items:center;height:60px;gap:24px}
 .nlogo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px;letter-spacing:-.03em;flex-shrink:0}
 .nic{width:28px;height:28px;background:linear-gradient(135deg,var(--brand),var(--brandl));border-radius:7px;display:flex;align-items:center;justify-content:center}
 .nlinks{display:flex;gap:22px;flex:1;padding-left:12px}
@@ -342,114 +342,72 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 
 <div class="tickw"><div class="ticki" id="tickerEl"></div></div>
 
-<!-- FOOTBALL PITCH SECTION -->
-<section id="pitch-section" style="padding:60px 5vw;background:linear-gradient(180deg,var(--bg) 0%,#030f04 35%,#030f04 65%,var(--bg) 100%);overflow:hidden">
-  <div style="text-align:center;margin-bottom:28px">
+<section id="pitch-section" style="padding:56px 5vw;background:linear-gradient(180deg,var(--bg) 0%,#030f04 35%,#030f04 65%,var(--bg) 100%)">
+  <div style="text-align:center;margin-bottom:24px">
     <div class="slbl">Live Intelligence</div>
-    <h2 class="sh2">Your players. On the pitch.</h2>
-    <p class="ssub" style="margin:8px auto 0">Every alert tied to a real position — injury, contract, transfer.</p>
+    <h2 class="sh2" style="font-size:clamp(22px,2.2vw,36px)">Your players. On the pitch. In real time.</h2>
+    <p class="ssub" style="margin:8px auto 0">Every alert tied to a position — injury, contract, transfer.</p>
   </div>
-  <div style="max-width:820px;margin:0 auto">
-    <svg viewBox="0 0 820 514" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:12px;box-shadow:0 0 60px rgba(34,197,94,.12)">
-      <defs>
-        <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#0c3810"/>
-          <stop offset="50%" stop-color="#0e4212"/>
-          <stop offset="100%" stop-color="#0c3810"/>
-        </linearGradient>
-      </defs>
-      <rect width="820" height="514" fill="url(#g1)" rx="12"/>
-      <!-- Stripes -->
-      <rect x="0" y="0" width="820" height="514" fill="none" rx="12"/>
-      <rect x="0" y="0" width="103" height="514" fill="#0e4212" opacity=".4"/>
-      <rect x="206" y="0" width="103" height="514" fill="#0e4212" opacity=".4"/>
-      <rect x="412" y="0" width="103" height="514" fill="#0e4212" opacity=".4"/>
-      <rect x="618" y="0" width="103" height="514" fill="#0e4212" opacity=".4"/>
-      <!-- Pitch outline -->
-      <rect x="22" y="18" width="776" height="478" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2.5"/>
-      <!-- Halfway -->
-      <line x1="411" y1="18" x2="411" y2="496" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
-      <!-- Centre circle -->
-      <circle cx="411" cy="257" r="74" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
-      <circle cx="411" cy="257" r="3" fill="rgba(255,255,255,.7)"/>
-      <!-- Left penalty area -->
-      <rect x="22" y="140" width="136" height="234" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2"/>
-      <rect x="22" y="187" width="46" height="140" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
-      <rect x="6" y="220" width="16" height="74" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
-      <circle cx="115" cy="257" r="3" fill="rgba(255,255,255,.6)"/>
-      <path d="M158 200 A74 74 0 0 1 158 314" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
-      <!-- Right penalty area -->
-      <rect x="662" y="140" width="136" height="234" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2"/>
-      <rect x="752" y="187" width="46" height="140" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
-      <rect x="798" y="220" width="16" height="74" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
-      <circle cx="705" cy="257" r="3" fill="rgba(255,255,255,.6)"/>
-      <path d="M662 200 A74 74 0 0 0 662 314" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
-      <!-- Corner arcs -->
-      <path d="M22 36 A14 14 0 0 1 36 18" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
-      <path d="M786 18 A14 14 0 0 1 798 36" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
-      <path d="M22 478 A14 14 0 0 0 36 496" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
-      <path d="M786 496 A14 14 0 0 0 798 478" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
-
-      <!-- PLAYERS - Left team (blue/purple) -->
-      <circle cx="60"  cy="257" r="13" fill="#3C3489" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
-      <text x="60" y="261" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">GK</text>
-      <circle cx="170" cy="148" r="13" fill="#534AB7" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="170" y="152" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">RB</text>
-      <circle cx="170" cy="210" r="13" fill="#534AB7" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="170" y="214" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">CB</text>
-      <circle cx="170" cy="304" r="13" fill="#534AB7" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="170" y="308" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">CB</text>
-      <circle cx="170" cy="366" r="13" fill="#534AB7" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="170" y="370" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">LB</text>
-      <circle cx="300" cy="192" r="13" fill="#1D4ED8" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="300" y="196" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">CM</text>
-      <circle cx="285" cy="257" r="13" fill="#1D4ED8" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="285" y="261" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">DM</text>
-      <circle cx="300" cy="322" r="13" fill="#1D4ED8" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="300" y="326" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">CM</text>
-      <!-- Forwards (green - monitored) -->
-      <circle cx="440" cy="148" r="14" fill="#22C55E" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
-      <text x="440" y="153" text-anchor="middle" fill="#052E0A" font-size="8" font-weight="bold" font-family="sans-serif">RW</text>
-      <circle cx="430" cy="257" r="16" fill="#22C55E" stroke="rgba(255,255,255,.6)" stroke-width="2.5"/>
-      <text x="430" y="262" text-anchor="middle" fill="#052E0A" font-size="8" font-weight="bold" font-family="sans-serif">ST</text>
-      <circle cx="440" cy="366" r="14" fill="#22C55E" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
-      <text x="440" y="371" text-anchor="middle" fill="#052E0A" font-size="8" font-weight="bold" font-family="sans-serif">LW</text>
-
-      <!-- ALERT BADGES -->
-      <circle cx="447" cy="244" r="9" fill="#DC2626"/>
-      <text x="447" y="248" text-anchor="middle" fill="white" font-size="10" font-weight="bold" font-family="sans-serif">!</text>
-      <circle cx="317" cy="179" r="9" fill="#D97706"/>
-      <text x="317" y="183" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">C</text>
-      <circle cx="457" cy="135" r="9" fill="#1D4ED8"/>
-      <text x="457" y="139" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">T</text>
-
-      <!-- Animated pulse rings -->
-      <circle cx="430" cy="257" r="20" fill="none" stroke="#DC2626" stroke-width="1.5">
-        <animate attributeName="r" values="18;34;18" dur="2s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values=".7;0;.7" dur="2s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="300" cy="192" r="18" fill="none" stroke="#D97706" stroke-width="1.5">
-        <animate attributeName="r" values="15;28;15" dur="2.6s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values=".6;0;.6" dur="2.6s" repeatCount="indefinite"/>
-      </circle>
-      <!-- Transfer arrow -->
-      <path d="M454 148 Q560 96 690 130" fill="none" stroke="#22C55E" stroke-width="1.5" stroke-dasharray="6,4" opacity=".75">
-        <animate attributeName="stroke-dashoffset" values="0;-20" dur="1.4s" repeatCount="indefinite"/>
-      </path>
-      <circle cx="690" cy="130" r="8" fill="rgba(34,197,94,.25)" stroke="#22C55E" stroke-width="1.5">
-        <animate attributeName="opacity" values=".8;.2;.8" dur="1.4s" repeatCount="indefinite"/>
-      </circle>
+  <div style="max-width:800px;margin:0 auto">
+    <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:10px;box-shadow:0 0 50px rgba(34,197,94,.1)">
+      <rect width="800" height="500" fill="#0d3810" rx="10"/>
+      <rect x="0" y="0" width="100" height="500" fill="#0f4012" opacity=".4"/>
+      <rect x="200" y="0" width="100" height="500" fill="#0f4012" opacity=".4"/>
+      <rect x="400" y="0" width="100" height="500" fill="#0f4012" opacity=".4"/>
+      <rect x="600" y="0" width="100" height="500" fill="#0f4012" opacity=".4"/>
+      <rect x="22" y="18" width="756" height="464" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2.5"/>
+      <line x1="400" y1="18" x2="400" y2="482" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+      <circle cx="400" cy="250" r="72" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+      <circle cx="400" cy="250" r="3" fill="rgba(255,255,255,.7)"/>
+      <rect x="22" y="136" width="133" height="228" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2"/>
+      <rect x="22" y="182" width="44" height="136" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+      <rect x="6" y="213" width="16" height="74" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
+      <circle cx="112" cy="250" r="3" fill="rgba(255,255,255,.6)"/>
+      <rect x="645" y="136" width="133" height="228" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2"/>
+      <rect x="734" y="182" width="44" height="136" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+      <rect x="778" y="213" width="16" height="74" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
+      <circle cx="688" cy="250" r="3" fill="rgba(255,255,255,.6)"/>
+      <path d="M22 36 A12 12 0 0 1 34 18" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+      <path d="M766 18 A12 12 0 0 1 778 36" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+      <path d="M22 464 A12 12 0 0 0 34 482" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+      <path d="M766 482 A12 12 0 0 0 778 464" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+      <circle cx="58" cy="250" r="13" fill="#3C3489" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+      <text x="58" y="254" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">GK</text>
+      <circle cx="164" cy="145" r="13" fill="#534AB7" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+      <text x="164" y="149" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">RB</text>
+      <circle cx="164" cy="205" r="13" fill="#534AB7" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+      <text x="164" y="209" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">CB</text>
+      <circle cx="164" cy="295" r="13" fill="#534AB7" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+      <text x="164" y="299" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">CB</text>
+      <circle cx="164" cy="355" r="13" fill="#534AB7" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+      <text x="164" y="359" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">LB</text>
+      <circle cx="292" cy="188" r="13" fill="#1D4ED8" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+      <text x="292" y="192" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">CM</text>
+      <circle cx="278" cy="250" r="13" fill="#1D4ED8" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+      <text x="278" y="254" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">DM</text>
+      <circle cx="292" cy="312" r="13" fill="#1D4ED8" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+      <text x="292" y="316" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">CM</text>
+      <circle cx="428" cy="145" r="14" fill="#22C55E" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+      <text x="428" y="150" text-anchor="middle" fill="#052E0A" font-size="8" font-weight="bold" font-family="sans-serif">RW</text>
+      <circle cx="418" cy="250" r="16" fill="#22C55E" stroke="rgba(255,255,255,.6)" stroke-width="2.5"/>
+      <text x="418" y="255" text-anchor="middle" fill="#052E0A" font-size="9" font-weight="bold" font-family="sans-serif">ST</text>
+      <circle cx="428" cy="355" r="14" fill="#22C55E" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+      <text x="428" y="360" text-anchor="middle" fill="#052E0A" font-size="8" font-weight="bold" font-family="sans-serif">LW</text>
+      <circle cx="436" cy="238" r="9" fill="#DC2626"/><text x="436" y="242" text-anchor="middle" fill="white" font-size="10" font-weight="bold" font-family="sans-serif">!</text>
+      <circle cx="309" cy="176" r="9" fill="#D97706"/><text x="309" y="180" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">C</text>
+      <circle cx="443" cy="133" r="9" fill="#1D4ED8"/><text x="443" y="137" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">T</text>
+      <circle cx="418" cy="250" r="20" fill="none" stroke="#DC2626" stroke-width="1.5"><animate attributeName="r" values="18;32;18" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;0;.7" dur="2s" repeatCount="indefinite"/></circle>
+      <path d="M442 145 Q540 95 670 128" fill="none" stroke="#22C55E" stroke-width="1.5" stroke-dasharray="6,4" opacity=".75"><animate attributeName="stroke-dashoffset" values="0;-20" dur="1.4s" repeatCount="indefinite"/></path>
+      <circle cx="670" cy="128" r="7" fill="rgba(34,197,94,.25)" stroke="#22C55E" stroke-width="1.5"><animate attributeName="opacity" values=".8;.2;.8" dur="1.4s" repeatCount="indefinite"/></circle>
     </svg>
-    <!-- Legend -->
-    <div style="display:flex;gap:20px;justify-content:center;margin-top:18px;flex-wrap:wrap">
-      <span style="font-size:12px;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#DC2626;display:inline-block"></span>Injury</span>
-      <span style="font-size:12px;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#D97706;display:inline-block"></span>Contract expiring</span>
-      <span style="font-size:12px;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#1D4ED8;display:inline-block"></span>Transfer linked</span>
-      <span style="font-size:12px;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#22C55E;display:inline-block"></span>Monitored</span>
+    <div style="display:flex;gap:18px;justify-content:center;margin-top:16px;flex-wrap:wrap">
+      <span style="font-size:12px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#DC2626;display:inline-block"></span>Injury</span>
+      <span style="font-size:12px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#D97706;display:inline-block"></span>Contract expiring</span>
+      <span style="font-size:12px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#1D4ED8;display:inline-block"></span>Transfer linked</span>
+      <span style="font-size:12px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#22C55E;display:inline-block"></span>Monitored</span>
     </div>
   </div>
 </section>
-
 <div class="div"></div>
 
 
