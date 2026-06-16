@@ -2,31 +2,33 @@
   publish = "."
   functions = "netlify/functions"
 
-# Security headers for production
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
-# Cache static assets aggressively
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Never cache the HTML (always fresh)
+# Never cache HTML or app routes
 [[headers]]
   for = "/*.html"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
 
-# LemonSqueezy webhook — no auth redirect
 [[headers]]
-  for = "/.netlify/functions/*"
+  for = "/app"
   [headers.values]
-    Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Methods = "POST, OPTIONS"
-    Access-Control-Allow-Headers = "Content-Type, x-signature"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
