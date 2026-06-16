@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
 <title>Transfer365 — Find deals before the market does</title>
 <meta name="description" content="AI-powered transfer intelligence for football agents.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iIzBEMUYxNCIvPjxwYXRoIGQ9Ik0xMCAyM1YxMCIgc3Ryb2tlPSIjMjJDNTVFIiBzdHJva2Utd2lkdGg9IjIuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTYuNSAxMy41TDEwIDEwbDMuNSAzLjUiIHN0cm9rZT0iIzIyQzU1RSIgc3Ryb2tlLXdpZHRoPSIyLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0yMiA5djEzIiBzdHJva2U9IiMyMkM1NUUiIHN0cm9rZS13aWR0aD0iMi40IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMTguNSAxOC41TDIyIDIybDMuNS0zLjUiIHN0cm9rZT0iIzIyQzU1RSIgc3Ryb2tlLXdpZHRoPSIyLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==">
@@ -263,7 +261,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 </nav>
 
 <div style="padding-top:60px;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(13,31,20,.95) 0%,var(--bg) 70%)">
-<div id="hero" style="position:relative"><div id="pitch-wrap" style="position:absolute;inset:0;overflow:hidden;z-index:0">
+<div id="hero" style="position:relative"><div id="pitch-wrap" style="position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none">
 <svg id="pitch-svg" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:.18" viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice">
   <!-- Grass surface -->
   <rect width="1000" height="620" fill="#063a0a"/>
@@ -317,7 +315,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 
   <div class="hleft" style="position:relative;z-index:3">
     <div class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">186 agents active · 34 countries · live now</span></div>
-    <h1 id="hero-h1" data-i18n-html="h1">While you're reading this,<br>another agent just got <em>the alert.</em></h1>
+    <h1 data-i18n-html="h1">While you're reading this,<br>another agent just got <em>the alert.</em></h1>
     <p class="sub" data-i18n="sub">Transfer365 monitors contracts, injuries, and club budgets across 120 leagues — alerting you the moment an opportunity opens.</p>
     <div class="acts">
       <button class="bhero" onclick="openAuth('signup')"><i class="ti ti-sparkles" style="font-size:15px"></i><span data-i18n="cta1">Start free — 7 days</span></button>
@@ -343,75 +341,6 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 </div>
 
 <div class="tickw"><div class="ticki" id="tickerEl"></div></div>
-
-<section id="pitch-section" style="padding:56px 5vw;background:linear-gradient(180deg,var(--bg) 0%,#030f04 35%,#030f04 65%,var(--bg) 100%)">
-  <div style="text-align:center;margin-bottom:24px">
-    <div class="slbl">Live Intelligence</div>
-    <h2 class="sh2" style="font-size:clamp(22px,2.2vw,36px)">Your players. On the pitch. In real time.</h2>
-    <p class="ssub" style="margin:8px auto 0">Every alert tied to a position — injury, contract, transfer.</p>
-  </div>
-  <div style="max-width:800px;margin:0 auto">
-    <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:10px;box-shadow:0 0 50px rgba(34,197,94,.1)">
-      <rect width="800" height="500" fill="#0d3810" rx="10"/>
-      <rect x="0" y="0" width="100" height="500" fill="#0f4012" opacity=".4"/>
-      <rect x="200" y="0" width="100" height="500" fill="#0f4012" opacity=".4"/>
-      <rect x="400" y="0" width="100" height="500" fill="#0f4012" opacity=".4"/>
-      <rect x="600" y="0" width="100" height="500" fill="#0f4012" opacity=".4"/>
-      <rect x="22" y="18" width="756" height="464" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2.5"/>
-      <line x1="400" y1="18" x2="400" y2="482" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
-      <circle cx="400" cy="250" r="72" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
-      <circle cx="400" cy="250" r="3" fill="rgba(255,255,255,.7)"/>
-      <rect x="22" y="136" width="133" height="228" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2"/>
-      <rect x="22" y="182" width="44" height="136" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
-      <rect x="6" y="213" width="16" height="74" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
-      <circle cx="112" cy="250" r="3" fill="rgba(255,255,255,.6)"/>
-      <rect x="645" y="136" width="133" height="228" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2"/>
-      <rect x="734" y="182" width="44" height="136" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
-      <rect x="778" y="213" width="16" height="74" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
-      <circle cx="688" cy="250" r="3" fill="rgba(255,255,255,.6)"/>
-      <path d="M22 36 A12 12 0 0 1 34 18" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
-      <path d="M766 18 A12 12 0 0 1 778 36" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
-      <path d="M22 464 A12 12 0 0 0 34 482" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
-      <path d="M766 482 A12 12 0 0 0 778 464" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
-      <circle cx="58" cy="250" r="13" fill="#3C3489" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
-      <text x="58" y="254" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">GK</text>
-      <circle cx="164" cy="145" r="13" fill="#534AB7" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="164" y="149" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">RB</text>
-      <circle cx="164" cy="205" r="13" fill="#534AB7" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="164" y="209" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">CB</text>
-      <circle cx="164" cy="295" r="13" fill="#534AB7" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="164" y="299" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">CB</text>
-      <circle cx="164" cy="355" r="13" fill="#534AB7" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="164" y="359" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">LB</text>
-      <circle cx="292" cy="188" r="13" fill="#1D4ED8" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="292" y="192" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">CM</text>
-      <circle cx="278" cy="250" r="13" fill="#1D4ED8" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="278" y="254" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">DM</text>
-      <circle cx="292" cy="312" r="13" fill="#1D4ED8" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      <text x="292" y="316" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">CM</text>
-      <circle cx="428" cy="145" r="14" fill="#22C55E" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
-      <text x="428" y="150" text-anchor="middle" fill="#052E0A" font-size="8" font-weight="bold" font-family="sans-serif">RW</text>
-      <circle cx="418" cy="250" r="16" fill="#22C55E" stroke="rgba(255,255,255,.6)" stroke-width="2.5"/>
-      <text x="418" y="255" text-anchor="middle" fill="#052E0A" font-size="9" font-weight="bold" font-family="sans-serif">ST</text>
-      <circle cx="428" cy="355" r="14" fill="#22C55E" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
-      <text x="428" y="360" text-anchor="middle" fill="#052E0A" font-size="8" font-weight="bold" font-family="sans-serif">LW</text>
-      <circle cx="436" cy="238" r="9" fill="#DC2626"/><text x="436" y="242" text-anchor="middle" fill="white" font-size="10" font-weight="bold" font-family="sans-serif">!</text>
-      <circle cx="309" cy="176" r="9" fill="#D97706"/><text x="309" y="180" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">C</text>
-      <circle cx="443" cy="133" r="9" fill="#1D4ED8"/><text x="443" y="137" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">T</text>
-      <circle cx="418" cy="250" r="20" fill="none" stroke="#DC2626" stroke-width="1.5"><animate attributeName="r" values="18;32;18" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;0;.7" dur="2s" repeatCount="indefinite"/></circle>
-      <path d="M442 145 Q540 95 670 128" fill="none" stroke="#22C55E" stroke-width="1.5" stroke-dasharray="6,4" opacity=".75"><animate attributeName="stroke-dashoffset" values="0;-20" dur="1.4s" repeatCount="indefinite"/></path>
-      <circle cx="670" cy="128" r="7" fill="rgba(34,197,94,.25)" stroke="#22C55E" stroke-width="1.5"><animate attributeName="opacity" values=".8;.2;.8" dur="1.4s" repeatCount="indefinite"/></circle>
-    </svg>
-    <div style="display:flex;gap:18px;justify-content:center;margin-top:16px;flex-wrap:wrap">
-      <span style="font-size:12px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#DC2626;display:inline-block"></span>Injury</span>
-      <span style="font-size:12px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#D97706;display:inline-block"></span>Contract expiring</span>
-      <span style="font-size:12px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#1D4ED8;display:inline-block"></span>Transfer linked</span>
-      <span style="font-size:12px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#22C55E;display:inline-block"></span>Monitored</span>
-    </div>
-  </div>
-</section>
-<div class="div"></div>
-
 
 <section style="text-align:center">
   <div class="slbl" data-i18n="sec_problem">The reality</div>
@@ -734,13 +663,8 @@ function buildLangPicker(){
 }
 
 function toggleLangPicker(){
-  try{
-    var drop=document.getElementById('ldrop');
-    if(!drop)return;
-    var isOpen=drop.classList.contains('open');
-    drop.classList.toggle('open');
-    drop.style.display=isOpen?'none':'block';
-  }catch(e){console.error('lang picker error:',e);}
+  const drop = document.getElementById('ldrop');
+  drop.classList.toggle('open');
 }
 
 function closeLangPicker(){
@@ -750,7 +674,7 @@ function closeLangPicker(){
 
 document.addEventListener('click', function(e){
   if(!e.target.closest('.lpick')) closeLangPicker();
-}, false);
+}, true);
 
 /* ─── TERMINAL FEED ─────────────────────────────────────────────────── */
 const FEED = [
@@ -850,16 +774,7 @@ let sb=null;
 try{if(!DEMO)sb=supabase.createClient(SB_URL,SB_KEY);}catch(e){}
 
 let atab='login';
-function openAuth(t){
-  try{
-    atab=t||'login';
-    setTab(atab);
-    var aov=document.getElementById('aov');
-    if(aov){aov.classList.add('open');aov.style.display='flex';}
-    document.body.style.overflow='hidden';
-    setTimeout(function(){var el=document.getElementById('aemail');if(el)el.focus();},80);
-  }catch(e){console.error('openAuth error:',e);}
-}
+function openAuth(t){atab=t||'login';setTab(atab);document.getElementById('aov').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('aemail').focus(),80);}
 function closeAuth(){document.getElementById('aov').classList.remove('open');document.body.style.overflow='';['aerr','aok'].forEach(id=>document.getElementById(id).style.display='none');}
 function setTab(t){
   atab=t;const il=t==='login', lng=LANGS[curLang];
