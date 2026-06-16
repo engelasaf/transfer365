@@ -1,3 +1,4 @@
+// redeploy: 2026-06-16T21:34:27
 // netlify/functions/ls-setup.mjs
 // Creates Transfer365 plans in LemonSqueezy
 // Uses only built-in Node modules — no npm packages needed
