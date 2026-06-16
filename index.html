@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
 <title>Transfer365 — Find deals before the market does</title>
 <meta name="description" content="AI-powered transfer intelligence for football agents.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iIzBEMUYxNCIvPjxwYXRoIGQ9Ik0xMCAyM1YxMCIgc3Ryb2tlPSIjMjJDNTVFIiBzdHJva2Utd2lkdGg9IjIuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTYuNSAxMy41TDEwIDEwbDMuNSAzLjUiIHN0cm9rZT0iIzIyQzU1RSIgc3Ryb2tlLXdpZHRoPSIyLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0yMiA5djEzIiBzdHJva2U9IiMyMkM1NUUiIHN0cm9rZS13aWR0aD0iMi40IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMTguNSAxOC41TDIyIDIybDMuNS0zLjUiIHN0cm9rZT0iIzIyQzU1RSIgc3Ryb2tlLXdpZHRoPSIyLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==">
@@ -315,7 +317,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 
   <div class="hleft" style="position:relative;z-index:3">
     <div class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">186 agents active · 34 countries · live now</span></div>
-    <h1 data-i18n-html="h1">The free transfer you're about to miss is already <em>in the data.</em></h1>
+    <h1 id="hero-h1" data-i18n-html="h1">While you're reading this,<br>another agent just got <em>the alert.</em></h1>
     <p class="sub" data-i18n="sub">Transfer365 monitors contracts, injuries, and club budgets across 120 leagues — alerting you the moment an opportunity opens.</p>
     <div class="acts">
       <button class="bhero" onclick="openAuth('signup')"><i class="ti ti-sparkles" style="font-size:15px"></i><span data-i18n="cta1">Start free — 7 days</span></button>
@@ -732,8 +734,13 @@ function buildLangPicker(){
 }
 
 function toggleLangPicker(){
-  const drop = document.getElementById('ldrop');
-  drop.classList.toggle('open');
+  try{
+    var drop=document.getElementById('ldrop');
+    if(!drop)return;
+    var isOpen=drop.classList.contains('open');
+    drop.classList.toggle('open');
+    drop.style.display=isOpen?'none':'block';
+  }catch(e){console.error('lang picker error:',e);}
 }
 
 function closeLangPicker(){
@@ -843,7 +850,16 @@ let sb=null;
 try{if(!DEMO)sb=supabase.createClient(SB_URL,SB_KEY);}catch(e){}
 
 let atab='login';
-function openAuth(t){atab=t||'login';setTab(atab);document.getElementById('aov').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('aemail').focus(),80);}
+function openAuth(t){
+  try{
+    atab=t||'login';
+    setTab(atab);
+    var aov=document.getElementById('aov');
+    if(aov){aov.classList.add('open');aov.style.display='flex';}
+    document.body.style.overflow='hidden';
+    setTimeout(function(){var el=document.getElementById('aemail');if(el)el.focus();},80);
+  }catch(e){console.error('openAuth error:',e);}
+}
 function closeAuth(){document.getElementById('aov').classList.remove('open');document.body.style.overflow='';['aerr','aok'].forEach(id=>document.getElementById(id).style.display='none');}
 function setTab(t){
   atab=t;const il=t==='login', lng=LANGS[curLang];
