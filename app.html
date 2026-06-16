@@ -1912,9 +1912,20 @@ function Bar({
       }),
       /*#__PURE__*/React.createElement("button",{
         onClick:()=>{
-          if(phoneNum&&window._T365){window._T365.phone=phoneNum;
+          if(phoneNum&&window._T365){
+            window._T365.phone=phoneNum;
             localStorage.setItem("t365_session",JSON.stringify({...window._T365}));
-            alert("✅ WhatsApp number saved!");
+            // Open WhatsApp to verify the number
+            const clean=phoneNum.replace(/[^0-9+]/g,"");
+            if(clean.length>7){
+              if(window.confirm("✅ Number saved!\n\nOpen WhatsApp to verify? (sends a test message)")) {
+                window.open("https://wa.me/"+clean.replace(/^\+/,"")+"?text=Transfer365+alerts+activated+%E2%9A%BD","_blank");
+              }
+            } else {
+              alert("✅ Number saved!");
+            }
+          } else {
+            alert("Please enter a phone number first");
           }
         },
         style:{padding:"9px 14px",borderRadius:8,background:"#22C55E",color:"#052E0A",
@@ -1938,7 +1949,7 @@ function Bar({
         onClick:()=>{
           if(telegramUser&&window._T365){window._T365.telegram=telegramUser;
             localStorage.setItem("t365_session",JSON.stringify({...window._T365}));
-            alert("✅ Telegram username saved!");
+            const tgu=telegramUser.replace(/^@/,"");window._T365.telegram=telegramUser;localStorage.setItem("t365_session",JSON.stringify({...window._T365}));if(window.confirm("Saved! Open Telegram to verify?"))window.open("https://t.me/"+tgu,"_blank");else alert("✅ Saved!");
           }
         },
         style:{padding:"9px 14px",borderRadius:8,background:"#534AB7",color:"#fff",
@@ -2687,7 +2698,28 @@ function App() {
 
   useEffect(() => {
     const U="https://hivyothlbntxcbsilktp.supabase.co",K="sb_publishable_JSj4WcwoxYSrEC7Hi2Zxlg_0rboiHzE";
-    const load=async()=>{try{const r=await fetch(`${U}/rest/v1/alerts?order=created_at.desc&limit=40`,{headers:{"apikey":K,"Authorization":`Bearer ${K}`}});if(r.ok){const d=await r.json();if(Array.isArray(d)&&d.length)setLiveAlerts(d);}}catch(e){}};
+    const load=async()=>{
+    try{
+      const r=await fetch(`${U}/rest/v1/alerts?order=created_at.desc&limit=40`,
+        {headers:{"apikey":K,"Authorization":`Bearer ${K}`}});
+      if(r.ok){
+        const d=await r.json();
+        if(Array.isArray(d)&&d.length){
+          setLiveAlerts(prev=>{
+            // Show push notification for new alerts
+            if(prev.length>0 && d.length>prev.length){
+              const newest=d[0];
+              showBrowserNotif&&showBrowserNotif(
+                `${newest.icon||'⚽'} ${newest.player_name} — ${newest.trigger_type}`,
+                newest.headline||'',
+              );
+            }
+            return d;
+          });
+        }
+      }
+    }catch(e){}
+  };
     load();const t=setInterval(load,300000);return()=>clearInterval(t);
   }, []);
   /* ticker */
@@ -9019,7 +9051,7 @@ function App() {
       fontWeight: 600,
       color: "#fff"
     }
-  }, (window._T365 && window._T365.displayName) || "Agent"), /*#__PURE__*/React.createElement("div", {
+  }, (function(){const u=window._T365||{};if(u.displayName&&u.displayName!=="Agent")return u.displayName;if(u.email){const p=u.email.split("@")[0];return p.split(/[._-]/).map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(" ");}return "Agent";})()), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 9,
       color: "rgba(255,255,255,.4)",
@@ -9235,6 +9267,23 @@ function BottomNav({page, setPage, unread}){
     ))
   );
 }
+
+
+/* ── Browser Push Notifications ──────────────────────────────── */
+function requestPushPermission(){
+  if('Notification' in window && Notification.permission==='default'){
+    Notification.requestPermission().then(p=>{
+      if(p==='granted') showBrowserNotif('Transfer365','Push alerts activated! You\'ll be notified instantly.','/favicon.ico');
+    });
+  }
+}
+function showBrowserNotif(title,body,icon){
+  if('Notification' in window && Notification.permission==='granted'){
+    new Notification(title,{body,icon:icon||'/favicon.ico'});
+  }
+}
+// Request permission on first load
+setTimeout(requestPushPermission, 3000);
 
 ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(App, null));
 
