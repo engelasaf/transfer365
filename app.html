@@ -35,7 +35,8 @@ input,button{font-family:inherit;outline:none}
 <div id="root"></div>
 <script type="text/babel" data-presets="react">
 const {useState,useEffect}=React;
-const {BarChart,Bar,XAxis,YAxis,Tooltip,ResponsiveContainer,AreaChart,Area,LineChart,Line}=Recharts;
+const _R = window.Recharts || {};
+const {BarChart,Bar,XAxis,YAxis,Tooltip,ResponsiveContainer,AreaChart,Area,LineChart,Line} = _R;
 
 const B="#3C3489",BL="#534AB7",BB="#EEEDFE",PIT="#0D1A0D";
 
@@ -109,7 +110,7 @@ const Card=({children,style={}})=><div style={{background:"var(--bg1)",border:"0
 const CardH=({title,action,onAction})=><div style={{padding:"10px 14px",borderBottom:"0.5px solid var(--bd3)",display:"flex",alignItems:"center",justifyContent:"space-between"}}><span style={{fontSize:13,fontWeight:600,color:"var(--tx1)"}}>{title}</span>{action&&<span style={{fontSize:11,color:B,cursor:"pointer"}} onClick={onAction}>{action}</span>}</div>;
 const Stat=({l,v,s,bg,c})=><div style={{background:bg||"var(--bg2)",borderRadius:10,padding:"12px 14px"}}><div style={{fontSize:10,color:"var(--tx3)",marginBottom:4}}>{l}</div><div style={{fontSize:22,fontWeight:600,color:c||"var(--tx1)",fontVariantNumeric:"tabular-nums"}}>{v}</div>{s&&<div style={{fontSize:10,color:"var(--tx3)",marginTop:2}}>{s}</div>}</div>;
 
-export default function App(){
+function App(){
   const [pg,setPg]=useState("dash");
   const [ti,setTi]=useState(0);
   const [secs,setSecs]=useState(41*86400+7*3600+23*60);
@@ -609,7 +610,15 @@ export default function App(){
   </div>;
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+// Render app with error boundary
+const container = document.getElementById("root");
+if (container) {
+  try {
+    ReactDOM.createRoot(container).render(<App/>);
+  } catch(e) {
+    container.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#333"><h2>App Error</h2><pre>' + e.message + '</pre></div>';
+  }
+}
 </script>
 
 <style>
