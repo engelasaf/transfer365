@@ -33,7 +33,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,7,20,.85);
 .lopt{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;font-size:13px;color:var(--muted);cursor:pointer;transition:background .15s;white-space:nowrap}.lopt:hover{background:rgba(255,255,255,.07);color:var(--white)}.lopt.active{color:var(--green);font-weight:600}
 
 /* HERO */
-#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:110px 5vw 72px;max-width:1280px;margin:0 auto}
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:80px 5vw 60px;max-width:1280px;margin:0 auto}
 .hleft{display:flex;flex-direction:column;gap:22px}
 .eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:var(--green);padding:5px 13px;border-radius:100px;font-size:12px;font-weight:600;width:fit-content}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 2s ease infinite}
@@ -210,9 +210,9 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
   </div>
 </nav>
 
-<div style="padding-top:60px">
-<div id="hero">
-  <div class="hleft">
+<div style="padding-top:60px;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(13,31,20,.95) 0%,var(--bg) 70%)">
+<div id="hero" style="position:relative"><canvas id="netCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.85"></canvas>
+  <div class="hleft" style="position:relative;z-index:1">
     <div class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">186 agents active · 34 countries · live now</span></div>
     <h1 data-i18n-html="h1">The Bosman you're about to miss is already <em>in the data.</em></h1>
     <p class="sub" data-i18n="sub">Transfer365 monitors contracts, injuries, and club budgets across 120 leagues — alerting you the moment an opportunity opens.</p>
@@ -226,7 +226,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
       <div class="tpill"><i class="ti ti-x"></i><span data-i18n="trust3">Cancel anytime</span></div>
     </div>
   </div>
-  <div class="hright">
+  <div class="hright" style="position:relative;z-index:1">
     <div class="term">
       <div class="tbar">
         <div class="tdots"><span style="background:#FF5F57"></span><span style="background:#FEBC2E"></span><span style="background:#28C840"></span></div>
@@ -706,6 +706,173 @@ window.addEventListener('scroll',()=>{document.getElementById('mainnav').style.b
 /* ─── INIT ──────────────────────────────────────────────────────────── */
 buildFeed();buildTicker();updateCD();setInterval(updateCD,30000);buildLangPicker();
 const initLang=detectLang();setLang(initLang);
+
+/* ── Transfer Intelligence Network — Canvas Animation ─────────────── */
+(function(){
+  const cv = document.getElementById('netCanvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+
+  const G = '#22C55E', GO = 'rgba(34,197,94,', RO = 'rgba(220,38,38,', AO = 'rgba(234,179,8,', BO = 'rgba(59,130,246,';
+
+  let W, H, nodes = [], pulses = [];
+  const MAX_DIST = 180, NODE_COUNT = 60;
+
+  function resize(){
+    const r = window.devicePixelRatio||1;
+    const hero = cv.parentElement;
+    W = cv.width  = hero.offsetWidth  * r;
+    H = cv.height = hero.offsetHeight * r;
+    ctx.scale(r,r);
+    W /= r; H /= r;
+    initNodes();
+  }
+
+  function initNodes(){
+    nodes = [];
+    for(let i=0; i<NODE_COUNT; i++){
+      // Bias nodes toward upper area (the gap) and edges
+      const inGap = i < 20; // first 20 nodes fill the gap area
+      nodes.push({
+        x: Math.random() * W,
+        y: inGap ? Math.random() * (H*0.45) : Math.random() * H,
+        vx: (Math.random()-.5) * .18,
+        vy: (Math.random()-.5) * .18,
+        r: Math.random()*1.8+1.2,
+        alpha: Math.random()*.35+.12,
+        bright: false,
+        brightT: 0,
+        // Cluster around 3 "hub" zones for realism
+        hub: i < 8
+      });
+    }
+    // Create 3 visible hubs (larger, brighter)
+    for(let i=0;i<3;i++){
+      const hx = [W*.22, W*.5, W*.78][i];
+      const hy = [H*.22, H*.35, H*.18][i];
+      nodes.push({x:hx+((Math.random()-.5)*60),y:hy+((Math.random()-.5)*40),
+        vx:0,vy:0,r:3.5+Math.random(),alpha:.65,bright:false,brightT:0,hub:true});
+    }
+  }
+
+  function getConns(){
+    const c=[];
+    for(let i=0;i<nodes.length;i++)
+      for(let j=i+1;j<nodes.length;j++){
+        const d=Math.hypot(nodes[i].x-nodes[j].x,nodes[i].y-nodes[j].y);
+        if(d<MAX_DIST) c.push({i,j,d});
+      }
+    return c;
+  }
+
+  function spawnPulse(conns){
+    if(!conns.length) return;
+    const c = conns[Math.floor(Math.random()*conns.length)];
+    const types = [
+      {color:GO,  label:'TRANSFER', end:BO},
+      {color:RO,  label:'INJURY',   end:RO},
+      {color:AO,  label:'CONTRACT', end:AO},
+      {color:GO,  label:'SCOUT',    end:GO},
+    ];
+    const t = types[Math.floor(Math.random()*types.length)];
+    pulses.push({
+      from:c.i, to:c.j, t:0, dur:1.2+Math.random()*.8,
+      color:t.color, r:2.2+Math.random()*.8, trail:[]
+    });
+    // Light up source node briefly
+    nodes[c.i].bright=true;
+    nodes[c.i].brightT=0;
+  }
+
+  let conns=[], lastPulse=0, lastConnUpdate=0;
+  let animFrame;
+
+  function draw(ts){
+    animFrame = requestAnimationFrame(draw);
+    ctx.clearRect(0,0,W,H);
+
+    // Rebuild connections every 2s (nodes move)
+    if(ts-lastConnUpdate>2000){conns=getConns();lastConnUpdate=ts;}
+
+    // Spawn pulse every 600-1400ms
+    if(ts-lastPulse > 600+Math.random()*800){spawnPulse(conns);lastPulse=ts;}
+
+    // Draw connections
+    for(const c of conns){
+      const a=nodes[c.i], b=nodes[c.j];
+      const alpha = Math.max(0, .075*(1-c.d/MAX_DIST));
+      ctx.beginPath();
+      ctx.moveTo(a.x,a.y);
+      ctx.lineTo(b.x,b.y);
+      ctx.strokeStyle = GO+alpha+')';
+      ctx.lineWidth = .4;
+      ctx.stroke();
+    }
+
+    // Draw nodes
+    for(const n of nodes){
+      const a = n.bright ? Math.min(.9, n.alpha*3.5) : n.alpha;
+      if(n.bright){ n.brightT+=.016; if(n.brightT>1.5)n.bright=false; }
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r*(n.hub?1.6:1),0,Math.PI*2);
+      ctx.fillStyle = GO+a+')';
+      ctx.fill();
+      // Halo for hub nodes
+      if(n.hub&&n.alpha>.4){
+        ctx.beginPath();
+        ctx.arc(n.x,n.y,n.r*4,0,Math.PI*2);
+        ctx.fillStyle = GO+.04+')';
+        ctx.fill();
+      }
+    }
+
+    // Animate pulses
+    const dt = 1/60;
+    pulses = pulses.filter(p=>{
+      p.t += dt/p.dur;
+      if(p.t>=1) return false;
+      const a=nodes[p.from], b=nodes[p.to];
+      const x = a.x+(b.x-a.x)*p.t;
+      const y = a.y+(b.y-a.y)*p.t;
+      // Trail
+      p.trail.push({x,y});
+      if(p.trail.length>18) p.trail.shift();
+      // Draw trail
+      for(let i=0;i<p.trail.length;i++){
+        const tr=p.trail[i];
+        const ta = (i/p.trail.length)*.6;
+        ctx.beginPath();
+        ctx.arc(tr.x,tr.y,p.r*(i/p.trail.length)*.9,0,Math.PI*2);
+        ctx.fillStyle = p.color+ta+')';
+        ctx.fill();
+      }
+      // Draw head
+      ctx.beginPath();
+      ctx.arc(x,y,p.r,0,Math.PI*2);
+      ctx.fillStyle = p.color+'.95)';
+      ctx.fill();
+      // Glow
+      ctx.beginPath();
+      ctx.arc(x,y,p.r*2.8,0,Math.PI*2);
+      ctx.fillStyle = p.color+'.18)';
+      ctx.fill();
+      return true;
+    });
+
+    // Move nodes (very slow drift)
+    for(const n of nodes){
+      if(n.hub) continue;
+      n.x += n.vx; n.y += n.vy;
+      if(n.x<-20) n.x=W+20;
+      if(n.x>W+20) n.x=-20;
+      if(n.y<-20) n.y=H+20;
+      if(n.y>H+20) n.y=-20;
+    }
+  }
+
+  resize();
+  window.addEventListener('resize', ()=>{ ctx.resetTransform(); resize(); }, {passive:true});
+  requestAnimationFrame(draw);
+})();
+
 </script>
-</body>
-</html>
