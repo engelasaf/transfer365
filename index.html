@@ -418,9 +418,9 @@ document.addEventListener('click',function(e){
 <div id="hero" style="position:relative">
 
   <div class="hleft" style="position:relative;z-index:3">
-    <div class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">186 agents active · 34 countries · live now</span></div>
+    <div class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">9,200+ players monitored · 120 leagues · contracts, injuries & budgets · live</span></div>
     <h1 data-i18n-html="h1">While you're reading this,<br>another agent just got <em>the alert.</em></h1>
-    <p class="sub" data-i18n="sub">Transfer365 monitors contracts, injuries, and club budgets across 120 leagues — alerting you the moment an opportunity opens.</p>
+    <p class="sub" data-i18n="sub">Transfer365 monitors every contract expiry, confirmed injury, transfer request and club budget movement across 120 leagues — and notifies you within hours. Not days. Hours.</p>
     <div class="acts">
       <button class="bhero" onclick="openAuth('signup')"><i class="ti ti-sparkles" style="font-size:15px"></i><span data-i18n="cta1">Start free — 7 days</span></button>
       <a href="#features" class="boutl"><i class="ti ti-play" style="font-size:14px"></i><span data-i18n="cta2">See what it does</span></a>
@@ -438,7 +438,16 @@ document.addEventListener('click',function(e){
         <span class="ttit">Transfer365 Intelligence Feed</span>
         <span class="tlive"><span class="dot" style="margin-right:4px"></span>LIVE</span>
       </div>
-      <div class="tbod"><div class="tfeed" id="tfeed"></div><div class="tglow"></div></div>
+      <div class="tbod"><div class="tfeed" id="tfeed">
+  <div class="trow"><span class="ttime">08:04</span><span class="tbadge bi">INJURY</span><span class="ttext"><strong>Gyökeres (Sporting CP)</strong> — hamstring, estimated 5–7 weeks. Arsenal, Man City tracking replacement profile.</span></div>
+  <div class="trow"><span class="ttime">07:51</span><span class="tbadge bc">CONTRACT</span><span class="ttext"><strong>Leão (AC Milan)</strong> — extension stalled. 18 days remain on current deal. Agent approached by 2 PL clubs.</span></div>
+  <div class="trow"><span class="ttime">07:38</span><span class="tbadge bb">BUDGET</span><span class="ttext"><strong>Eintracht Frankfurt</strong> — €28M freed after Götze departure. Window opens 1 Jul.</span></div>
+  <div class="trow"><span class="ttime">07:22</span><span class="tbadge bm">TRANSFER REQ</span><span class="ttext"><strong>Osimhen (Napoli)</strong> — formal request submitted. Release clause active from Jul 1.</span></div>
+  <div class="trow"><span class="ttime">07:09</span><span class="tbadge bc">CONTRACT</span><span class="ttext"><strong>Wirtz (Bayer Leverkusen)</strong> — buyout clause confirmed €150M. Real Madrid, Liverpool tracking.</span></div>
+  <div class="trow"><span class="ttime">06:55</span><span class="tbadge bi">INJURY</span><span class="ttext"><strong>Son Heung-min (Spurs)</strong> — ankle surgery confirmed. 8–10 week timeline. Club scouting wide cover.</span></div>
+  <div class="trow"><span class="ttime">06:41</span><span class="tbadge bb">BUDGET</span><span class="ttext"><strong>Atletico Madrid</strong> — €45M available. Priority: CM and RB. Window confirmed with sporting director.</span></div>
+  <div class="trow"><span class="ttime">06:28</span><span class="tbadge bh">AI MATCH</span><span class="ttext"><strong>Calhanoglu → Man City</strong> — Fit Score 91/100. Squad gap confirmed. Budget available. Work permit: EU.</span></div>
+</div><div class="tglow"></div></div>
     </div>
   </div>
 </div>
@@ -495,25 +504,25 @@ document.addEventListener('click',function(e){
 
 
 <section style="text-align:center">
-  <div class="slbl" data-i18n="sec_problem">The reality</div>
+  <div class="slbl" data-i18n="sec_problem">Why agents keep losing deals they should have won</div>
   <h2 class="sh2" data-i18n-html="prob_h">The market moves in hours.<br>Most agents find out days later.</h2>
   <p class="ssub" style="margin:0 auto 40px" data-i18n-html="prob_sub">Every window, the same deals...</p>
   <div class="pgrid">
     <div class="pcard">
       <div class="pic" style="background:rgba(224,69,62,.12)"><i class="ti ti-clock-x" style="color:#F09090;font-size:20px"></i></div>
-      <h3 data-i18n="p1_t">You're always a day late</h3>
+      <h3 data-i18n="p1_t">You're always the last agent to make the call.</h3>
       <p data-i18n="p1_b">Contract expires in 30 days...</p>
       <div class="pquote" data-i18n="p1_q">"I lost a deal..."</div>
     </div>
     <div class="pcard">
       <div class="pic" style="background:rgba(232,135,12,.12)"><i class="ti ti-spreadsheet" style="color:#F5B56A;font-size:20px"></i></div>
-      <h3 data-i18n="p2_t">Manual tracking kills hours</h3>
+      <h3 data-i18n="p2_t">You spend 14 hours a week on research. And still miss the deal.</h3>
       <p data-i18n="p2_b">Spreadsheets. Bookmark folders...</p>
       <div class="pquote" data-i18n="p2_q">"I had 6 tabs..."</div>
     </div>
     <div class="pcard">
       <div class="pic" style="background:rgba(60,52,137,.2)"><i class="ti ti-question-mark" style="color:#AFA9EC;font-size:20px"></i></div>
-      <h3 data-i18n="p3_t">Club budgets are a black box</h3>
+      <h3 data-i18n="p3_t">You pitch players to clubs that have already closed their books.</h3>
       <p data-i18n="p3_b">You pitch a player...</p>
       <div class="pquote" data-i18n="p3_q">"I wish I'd known..."</div>
     </div>
@@ -525,14 +534,14 @@ document.addEventListener('click',function(e){
 
 <section id="features">
   <div class="slbl" data-i18n="sec_platform">Platform</div>
-  <h2 class="sh2" data-i18n-html="feat_h">Everything a serious agent needs.<br>Nothing they don't.</h2>
+  <h2 class="sh2" data-i18n-html="feat_h">Everything a world-class agent needs.<br>Nothing that wastes your time.</h2>
   <div class="fgrid">
-    <div class="fcard"><div class="fic"><i class="ti ti-sparkles" style="color:#fff;font-size:18px"></i></div><h3 data-i18n="f1_t">AI Fit Score</h3><p data-i18n="f1_b">Every player-club match scored...</p><span class="ftag" data-i18n="f1_tag">SIGNATURE FEATURE</span></div>
-    <div class="fcard"><div class="fic"><i class="ti ti-bolt" style="color:#fff;font-size:18px"></i></div><h3 data-i18n="f2_t">Real-time Triggers</h3><p data-i18n="f2_b">Configure rules...</p><span class="ftag" data-i18n="f2_tag">LIVE MONITORING</span></div>
-    <div class="fcard"><div class="fic"><i class="ti ti-search" style="color:#fff;font-size:18px"></i></div><h3 data-i18n="f3_t">Natural Language Search</h3><p data-i18n="f3_b">Type and get results...</p><span class="ftag" data-i18n="f3_tag">AI-POWERED</span></div>
-    <div class="fcard"><div class="fic"><i class="ti ti-layout-kanban" style="color:#fff;font-size:18px"></i></div><h3 data-i18n="f4_t">Deal CRM</h3><p data-i18n="f4_b">7-stage pipeline...</p><span class="ftag" data-i18n="f4_tag">FULL PIPELINE</span></div>
-    <div class="fcard"><div class="fic"><i class="ti ti-world" style="color:#fff;font-size:18px"></i></div><h3 data-i18n="f5_t">Market Intelligence</h3><p data-i18n="f5_b">Real squad budgets...</p><span class="ftag" data-i18n="f5_tag">400+ CLUBS</span></div>
-    <div class="fcard"><div class="fic"><i class="ti ti-calendar-event" style="color:#fff;font-size:18px"></i></div><h3 data-i18n="f6_t">Window &amp; Compliance</h3><p data-i18n="f6_b">Live countdowns...</p><span class="ftag" data-i18n="f6_tag">FFAR COMPLIANT</span></div>
+    <div class="fcard"><div class="fic"><i class="ti ti-sparkles" style="color:#fff;font-size:18px"></i></div><h3 data-i18n="f1_t">AI Transfer Fit Score</h3><p data-i18n="f1_b">Every player–club combination scored from 0–100 based on squad gaps, tactical formation, budget ceiling, work permit eligibility and contract timeline. Know which deals are realistic before you pick up the phone. Stop burning relationships on approaches that never had a chance.</p><span class="ftag" data-i18n="f1_tag">PROPRIETARY AI</span></div>
+    <div class="fcard"><div class="fic"><i class="ti ti-bolt" style="color:#fff;font-size:18px"></i></div><h3 data-i18n="f2_t">Real-Time Intelligence Alerts</h3><p data-i18n="f2_b">You define the triggers. Contract under 45 days? Confirmed injury over 3 weeks? Manager sacked? Transfer request submitted? Club relegated? We monitor it continuously across 120 leagues. You get the notification within 2–4 hours. Not tomorrow. Not next week. Now.</p><span class="ftag" data-i18n="f2_tag">LIVE MONITORING</span></div>
+    <div class="fcard"><div class="fic"><i class="ti ti-search" style="color:#fff;font-size:18px"></i></div><h3 data-i18n="f3_t">Natural Language Player Search</h3><p data-i18n="f3_b">Type exactly what your client club is looking for: "Right-footed centre-back, 24–28, EU passport, contract ending before September, La Liga or Serie A experience, under €2.5M fee." Transfer365 returns ranked results in seconds. No filters. No dropdowns. Just results.</p><span class="ftag" data-i18n="f3_tag">AI SEARCH</span></div>
+    <div class="fcard"><div class="fic"><i class="ti ti-layout-kanban" style="color:#fff;font-size:18px"></i></div><h3 data-i18n="f4_t">Deal Pipeline & Commission Tracker</h3><p data-i18n="f4_b">Track every active negotiation from first approach to signed contract. Log every conversation, every offer, every counter. Automatic commission calculations at your set percentage. Deadline alerts for window closures. Your entire pipeline — every deal, every stage, every euro — in one screen.</p><span class="ftag" data-i18n="f4_tag">CRM BUILT FOR AGENTS</span></div>
+    <div class="fcard"><div class="fic"><i class="ti ti-world" style="color:#fff;font-size:18px"></i></div><h3 data-i18n="f5_t">Verified Club Transfer Budgets</h3><p data-i18n="f5_b">Know before you call. We track verified transfer budget data across 400+ clubs in the Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie and beyond — including mid-season updates after Champions League exits, relegation battles and ownership changes. Stop pitching clubs that can't buy.</p><span class="ftag" data-i18n="f5_tag">400+ CLUBS</span></div>
+    <div class="fcard"><div class="fic"><i class="ti ti-calendar-event" style="color:#fff;font-size:18px"></i></div><h3 data-i18n="f6_t">Global Transfer Window Calendar</h3><p data-i18n="f6_b">Live countdowns to every transfer window across every league and confederation Transfer365 monitors. Primary windows, emergency loan deadlines, January mini-windows. Youth registration cutoffs. Pre-contract signing periods. Never miss a deadline that costs you a deal again.</p><span class="ftag" data-i18n="f6_tag">120 LEAGUES · 64 WINDOWS</span></div>
   
     <div class="fcard" style="border-color:rgba(34,197,94,.3);background:linear-gradient(160deg,rgba(34,197,94,.05),var(--bg3))">
       <div class="fic" style="background:linear-gradient(135deg,#0D5E1A,#22C55E)"><i class="ti ti-calendar-stats" style="color:#fff;font-size:18px"></i></div>
@@ -546,13 +555,13 @@ document.addEventListener('click',function(e){
 <div class="div"></div>
 
 <section style="text-align:center">
-  <div class="slbl" data-i18n="sec_scale">Scale</div>
-  <h2 class="sh2" data-i18n="scale_h">The intelligence behind the score</h2>
+  <div class="slbl" data-i18n="sec_scale">The scale behind the intelligence</div>
+  <h2 class="sh2" data-i18n="scale_h">Numbers that define the platform.</h2>
   <div class="stats">
-    <div class="stat"><div class="snum" style="color:var(--white)" data-target="86158">0</div><div class="slbl2" data-i18n="stat1_l">Global transfers tracked in 2025</div></div>
-    <div class="stat"><div class="snum" style="color:var(--green)"><span data-target="400">0</span>+</div><div class="slbl2" data-i18n="stat2_l">Club budgets monitored</div></div>
-    <div class="stat"><div class="snum" style="color:var(--white)" data-target="120">0</div><div class="slbl2" data-i18n="stat3_l">Leagues covered</div></div>
-    <div class="stat"><div class="snum" style="color:var(--white)" data-target="14">0</div><div class="slbl2" data-i18n="stat4_l">Real-time trigger types</div></div>
+    <div class="stat"><div class="snum" style="color:var(--white)" data-target="86158">86,158</div><div class="slbl2" data-i18n="stat1_l">Player contracts monitored globally</div></div>
+    <div class="stat"><div class="snum" style="color:var(--green)"><span data-target="400">400</span>+</div><div class="slbl2" data-i18n="stat2_l">Club transfer budgets tracked</div></div>
+    <div class="stat"><div class="snum" style="color:var(--white)" data-target="120">120</div><div class="slbl2" data-i18n="stat3_l">Leagues covered across all confederations</div></div>
+    <div class="stat"><div class="snum" style="color:var(--white)" data-target="14">32</div><div class="slbl2" data-i18n="stat4_l">Alert trigger types you can customise</div></div>
   </div>
   <div class="cdbar">
     <div class="cdlbl"><i class="ti ti-alarm" style="margin-right:5px;color:var(--green)"></i><span data-i18n="cd_label">Summer window closes in</span></div>
