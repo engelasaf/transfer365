@@ -236,31 +236,73 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 [dir="rtl"] .pbadge {direction:rtl}
 </style>
 <script>
-/* Minimal bootstrap — ensures buttons work even if main script fails */
+/* Bootstrap — critical functions available immediately */
+
+/* Auth modal */
 function openAuth(t){
   var a=document.getElementById('aov');
   if(!a)return;
-  a.style.display='flex';
-  a.style.alignItems='center';
-  a.style.justifyContent='center';
+  a.style.cssText='display:flex;align-items:center;justify-content:center;position:fixed;inset:0;background:rgba(4,3,14,.88);z-index:999';
   a.classList.add('open');
   document.body.style.overflow='hidden';
-  var login=a.querySelector('.atab:first-child');
-  var signup=a.querySelector('.atab:last-child');
-  if(t==='signup'&&signup)signup.click();
-  else if(login)login.click();
+  setTab(t||'login');
 }
 function closeAuth(){
   var a=document.getElementById('aov');
   if(a){a.style.display='none';a.classList.remove('open');}
   document.body.style.overflow='';
 }
+
+/* Auth tabs — login / signup */
+var _atab='login';
+function setTab(t){
+  _atab=t;
+  /* Highlight active tab */
+  document.querySelectorAll('.atab').forEach(function(el){
+    var isActive=(el.getAttribute('onclick')||'').indexOf(t)>-1;
+    el.classList.toggle('on',isActive);
+  });
+  /* Show/hide name field */
+  var nameRow=document.getElementById('aname-row');
+  if(nameRow)nameRow.style.display=t==='signup'?'block':'none';
+  /* Update submit button */
+  var btn=document.querySelector('.abtn');
+  if(btn){
+    var l=document.querySelector('[data-i18n="auth_btn_'+t+'"]');
+    btn.textContent=l?l.textContent:(t==='login'?'Log in':'Create account');
+  }
+  /* Update switch text */
+  var sw=document.getElementById('aswitch');
+  if(sw){
+    var sl=document.querySelector('[data-i18n="auth_switch_'+t+'"]');
+    if(sl)sw.innerHTML=sl.innerHTML;
+  }
+}
+
+/* Language picker */
 function toggleLangPicker(){
   var d=document.getElementById('ldrop');
   if(!d)return;
-  var open=d.style.display==='block';
-  d.style.display=open?'none':'block';
+  d.style.display=d.style.display==='block'?'none':'block';
 }
+
+/* Language switch — inline fallback */
+function _switchLang(code,flag,name){
+  /* Update trigger button */
+  var t=document.getElementById('ltrig');
+  if(t)t.innerHTML=flag+' <span style="font-size:11px">'+code.toUpperCase()+'</span> ▾';
+  /* Set document direction */
+  var rtl=['he','ar'].indexOf(code)>-1;
+  document.documentElement.dir=rtl?'rtl':'ltr';
+  document.documentElement.lang=code;
+  /* Hide dropdown */
+  var d=document.getElementById('ldrop');
+  if(d)d.style.display='none';
+  /* Call main setLang if available */
+  if(typeof setLang==='function')setLang(code);
+}
+
+/* Close dropdown on outside click */
 document.addEventListener('click',function(e){
   if(!e.target.closest('#ldrop')&&!e.target.closest('.lpick')){
     var d=document.getElementById('ldrop');
@@ -272,10 +314,10 @@ document.addEventListener('click',function(e){
 <body>
 
 <nav id="mainnav">
-  <div class="nlogo">
+  <a href="/" class="nlogo" style="text-decoration:none;color:inherit">
     <div class="nic"><i class="ti ti-arrows-transfer-up" style="color:#fff;font-size:13px"></i></div>
     Transfer365
-  </div>
+  </a>
   <div class="nlinks">
     <a href="#features" data-i18n="nav_features">Features</a>
     <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
@@ -287,6 +329,15 @@ document.addEventListener('click',function(e){
     <div class="lpick">
       <button class="ltrig" id="ltrig" onclick="toggleLangPicker()" aria-label="Select language">🇬🇧 EN <i class="ti ti-chevron-down" style="font-size:10px;margin-top:1px"></i></button>
       <div class="ldrop" id="ldrop" style="position:absolute;top:calc(100% + 8px);right:0;background:#0F0D28;border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:6px;min-width:190px;display:none;z-index:9999;box-shadow:0 16px 48px rgba(0,0,0,.85)">
+      <div class="lopt" onclick="_switchLang('en','🇬🇧','English')">🇬🇧 English</div>
+      <div class="lopt" onclick="_switchLang('he','🇮🇱','עברית')">🇮🇱 עברית</div>
+      <div class="lopt" onclick="_switchLang('es','🇪🇸','Español')">🇪🇸 Español</div>
+      <div class="lopt" onclick="_switchLang('pt','🇧🇷','Português')">🇧🇷 Português</div>
+      <div class="lopt" onclick="_switchLang('fr','🇫🇷','Français')">🇫🇷 Français</div>
+      <div class="lopt" onclick="_switchLang('de','🇩🇪','Deutsch')">🇩🇪 Deutsch</div>
+      <div class="lopt" onclick="_switchLang('ar','🇸🇦','العربية')">🇸🇦 العربية</div>
+      <div class="lopt" onclick="_switchLang('it','🇮🇹','Italiano')">🇮🇹 Italiano</div>
+    </div><div class="ldrop" id="ldrop" style="position:absolute;top:calc(100% + 8px);right:0;background:#0F0D28;border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:6px;min-width:190px;display:none;z-index:9999;box-shadow:0 16px 48px rgba(0,0,0,.85)">
       <div class="lopt" onclick="setLang('en');this.closest('#ldrop').style.display='none'">🇬🇧 English</div>
       <div class="lopt" onclick="setLang('he');this.closest('#ldrop').style.display='none'">🇮🇱 עברית</div>
       <div class="lopt" onclick="setLang('es');this.closest('#ldrop').style.display='none'">🇪🇸 Español</div>
@@ -615,7 +666,7 @@ document.addEventListener('click',function(e){
     <input type="email" id="aemail" class="ainp" autocomplete="email">
     <label class="albl" data-i18n="auth_pw">Password</label>
     <input type="password" id="apw" class="ainp" autocomplete="current-password">
-    <div id="namewrap" style="display:none"><label class="albl" data-i18n="auth_name">Full name</label><input type="text" id="aname" class="ainp" autocomplete="name"></div>
+    <div id="namewrap" style="display:none"><div id="aname-row" style="display:none"><label class="albl" data-i18n="auth_name">Full name</label><input type="text" id="aname" class="ainp" autocomplete="name"></div></div>
     <button class="abtn" id="asubmit" onclick="doAuth()"><span id="abtntext" data-i18n="auth_btn_login">Log in</span></button>
     <div class="anote" data-i18n-html="auth_note">By continuing you agree...</div>
     <div class="anote" style="margin-top:8px"><span id="aswitch" data-i18n-html="auth_switch_login">No account?</span></div>
