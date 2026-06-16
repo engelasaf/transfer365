@@ -252,7 +252,16 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
   <div class="nctas">
     <div class="lpick">
       <button class="ltrig" id="ltrig" onclick="toggleLangPicker()" aria-label="Select language">🇬🇧 EN <i class="ti ti-chevron-down" style="font-size:10px;margin-top:1px"></i></button>
-      <div class="ldrop" id="ldrop"></div>
+      <div class="ldrop" id="ldrop">
+      <div class="lopt" data-code="en" onclick="setLang('en');closeLangPicker()">🇬🇧 English</div>
+      <div class="lopt" data-code="he" onclick="setLang('he');closeLangPicker()">🇮🇱 עברית</div>
+      <div class="lopt" data-code="es" onclick="setLang('es');closeLangPicker()">🇪🇸 Español</div>
+      <div class="lopt" data-code="pt" onclick="setLang('pt');closeLangPicker()">🇧🇷 Português</div>
+      <div class="lopt" data-code="fr" onclick="setLang('fr');closeLangPicker()">🇫🇷 Français</div>
+      <div class="lopt" data-code="de" onclick="setLang('de');closeLangPicker()">🇩🇪 Deutsch</div>
+      <div class="lopt" data-code="ar" onclick="setLang('ar');closeLangPicker()">🇸🇦 العربية</div>
+      <div class="lopt" data-code="it" onclick="setLang('it');closeLangPicker()">🇮🇹 Italiano</div>
+    </div>
     </div>
     <button class="bghost" onclick="openAuth('login')" data-i18n="nav_login">Log in</button>
     <button class="bprim" onclick="openAuth('signup')" data-i18n="nav_start">Start free trial</button>
@@ -1017,3 +1026,5 @@ const initLang=detectLang();setLang(initLang);
 })();
 
 </script>
+</body>
+</html>
