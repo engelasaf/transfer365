@@ -286,6 +286,11 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 [dir="rtl"] #hero>div:last-child>div .acts{flex-direction:row-reverse}
 [dir="rtl"] #hero>div:last-child>div .trust{flex-direction:row-reverse}
 [dir="rtl"] #hero>div:last-child>div .eyebrow{flex-direction:row-reverse}
+
+/* Terminal overlay on hero */
+#hero-terminal{display:block}
+@media(max-width:1024px){#hero-terminal{display:none}}
+[dir="rtl"] #hero-terminal{right:auto;left:48px}
 </style>tures">Features</a>
     <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
     <a href="#testimonials" data-i18n="nav_stories">Stories</a>
@@ -348,6 +353,18 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
     </div>
   </div>
 
+
+  <!-- ⑥ LIVE TERMINAL — floating overlay bottom-right (desktop only) -->
+  <div id="hero-terminal" style="position:absolute;bottom:52px;right:48px;width:420px;z-index:5;display:block">
+    <div class="term">
+      <div class="tbar">
+        <div class="tdots"><span style="background:#FF5F57"></span><span style="background:#FEBC2E"></span><span style="background:#28C840"></span></div>
+        <span class="ttit">Transfer365 Intelligence Feed</span>
+        <span class="tlive"><span class="dot" style="margin-right:4px"></span>LIVE</span>
+      </div>
+      <div class="tbod" style="height:300px"><div class="tfeed" id="tfeed"></div><div class="tglow"></div></div>
+    </div>
+  </div>
 </div>
 
 <div class="tickw"><div class="ticki" id="tickerEl"></div></div>
