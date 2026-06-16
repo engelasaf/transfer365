@@ -389,7 +389,7 @@ document.addEventListener('click',function(e){
   <div class="nctas">
     <div class="lpick">
       <button class="ltrig" id="ltrig" onclick="toggleLangPicker()" aria-label="Select language">🇬🇧 EN <i class="ti ti-chevron-down" style="font-size:10px;margin-top:1px"></i></button>
-      <div class="ldrop" id="ldrop" style="position:absolute;top:calc(100% + 8px);right:0;background:#0F0D28;border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:6px;min-width:190px;display:none;z-index:9999;box-shadow:0 16px 48px rgba(0,0,0,.85)">
+      <div class="ldrop" id="ldrop" style="position:absolute;top:calc(100% + 8px);right:0;background:#0F0D28;border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:6px;min-width:190px;z-index:9999;box-shadow:0 16px 48px rgba(0,0,0,.85)">
       <div class="lopt" onclick="_switchLang('en','🇬🇧','English')">🇬🇧 English</div>
       <div class="lopt" onclick="_switchLang('he','🇮🇱','עברית')">🇮🇱 עברית</div>
       <div class="lopt" onclick="_switchLang('es','🇪🇸','Español')">🇪🇸 Español</div>
@@ -825,15 +825,9 @@ function buildLangPicker(){
   ).join('');
 }
 
-function toggleLangPicker(){
-  const drop = document.getElementById('ldrop');
-  drop.classList.toggle('open');
-}
+function toggleLangPicker(){var d=document.getElementById('ldrop');if(!d)return;d.style.display=d.style.display==='block'?'none':'block';}
 
-function closeLangPicker(){
-  const drop = document.getElementById('ldrop');
-  if(drop) drop.classList.remove('open');
-}
+function closeLangPicker(){var d=document.getElementById('ldrop');if(d)d.style.display='none';}
 
 document.addEventListener('click', function(e){
   if(!e.target.closest('.lpick')) closeLangPicker();
@@ -945,7 +939,7 @@ if(document.readyState==='loading'){
 }
 
 let atab='login';
-function openAuth(t){atab=t||'login';setTab(atab);document.getElementById('aov').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('aemail').focus(),80);}
+function openAuth(t){atab=t||'login';var a=document.getElementById('aov');if(!a)return;a.style.display='flex';a.style.alignItems='center';a.style.justifyContent='center';a.classList.add('open');setTab(atab);document.body.style.overflow='hidden';setTimeout(function(){var e=document.getElementById('aemail');if(e)e.focus();},80);}
 function closeAuth(){document.getElementById('aov').classList.remove('open');document.body.style.overflow='';['aerr','aok'].forEach(id=>document.getElementById(id).style.display='none');}
 function setTab(t){
   atab=t;const il=t==='login', lng=LANGS[curLang||'en']||LANGS.en||{};
