@@ -939,7 +939,7 @@ let atab='login';
 function openAuth(t){atab=t||'login';setTab(atab);document.getElementById('aov').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('aemail').focus(),80);}
 function closeAuth(){document.getElementById('aov').classList.remove('open');document.body.style.overflow='';['aerr','aok'].forEach(id=>document.getElementById(id).style.display='none');}
 function setTab(t){
-  atab=t;const il=t==='login', lng=LANGS[curLang];
+  atab=t;const il=t==='login', lng=LANGS[curLang||'en']||LANGS.en||{};
   document.getElementById('tabl').classList.toggle('on',il);
   document.getElementById('tabs').classList.toggle('on',!il);
   document.getElementById('namewrap').style.display=il?'none':'block';
@@ -947,12 +947,12 @@ function setTab(t){
   document.getElementById('aswitch').innerHTML=il?(lng.auth_switch_login||''):(lng.auth_switch_signup||'');
   ['aerr','aok'].forEach(id=>document.getElementById(id).style.display='none');
 }
-async function doAuth(){
+async async function doAuth(){
   const email=document.getElementById('aemail').value.trim();
   const pw=document.getElementById('apw').value;
   const btn=document.getElementById('asubmit');
   const err=document.getElementById('aerr'),ok=document.getElementById('aok');
-  const lng=LANGS[curLang];
+  const lng=LANGS[curLang||'en']||LANGS.en||{};
   err.style.display='none';ok.style.display='none';
   if(!email||!pw){err.textContent=lng.auth_err_fields||'Please fill in all fields.';err.style.display='block';return;}
   if(pw.length<8&&atab==='signup'){err.textContent=lng.auth_err_pw||'Password too short.';err.style.display='block';return;}
@@ -960,6 +960,7 @@ async function doAuth(){
   if(DEMO){await new Promise(r=>setTimeout(r,700));localStorage.setItem('t365_session',JSON.stringify({email,plan:'free'}));window.location.href='/app';return;}
   try{
     let res;
+    if(!sb)throw new Error('Auth service loading. Please try again in a moment.');
     if(atab==='login')res=await sb.auth.signInWithPassword({email,password:pw});
     else res=await sb.auth.signUp({email,password:pw,options:{data:{full_name:document.getElementById('aname')?.value}}});
     if(res.error)throw res.error;
