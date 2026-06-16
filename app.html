@@ -1513,9 +1513,9 @@ const NOTIF_CHANNELS = [{
   color: "#2AABEE",
   connected: false
 }, {
-  id: "slack",
-  l: "Slack",
-  icon: "ti-brand-slack",
+  id: "telegram",
+  l: "Telegram",
+  icon: "ti-brand-telegram",
   always: false,
   color: "#E01E5A",
   connected: false
@@ -1889,7 +1889,65 @@ function Bar({
       overflow: "hidden",
       flex: 1
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, 
+/* ─── WhatsApp + Telegram phone fields ─── */
+/*#__PURE__*/React.createElement("div", {
+  style:{background:"rgba(34,197,94,.06)",border:"1px solid rgba(34,197,94,.2)",
+    borderRadius:12,padding:"16px 18px",margin:"16px 0"}
+},
+  /*#__PURE__*/React.createElement("div",{style:{fontSize:13,fontWeight:700,color:"#22C55E",marginBottom:12}},
+    "📱 Mobile Alert Channels"
+  ),
+  /*#__PURE__*/React.createElement("div",{style:{marginBottom:12}},
+    /*#__PURE__*/React.createElement("label",{style:{fontSize:12,color:"rgba(255,255,255,.6)",display:"block",marginBottom:5}},
+      "WhatsApp number (international format, e.g. +972501234567)"
+    ),
+    /*#__PURE__*/React.createElement("div",{style:{display:"flex",gap:8}},
+      /*#__PURE__*/React.createElement("input",{
+        type:"tel",value:phoneNum,
+        onChange:e=>setPhoneNum(e.target.value),
+        placeholder:"+972 50 123 4567",
+        style:{flex:1,background:"rgba(255,255,255,.07)",border:"1px solid rgba(255,255,255,.15)",
+          borderRadius:8,padding:"9px 12px",color:"#fff",fontSize:13,fontFamily:"inherit",outline:"none"}
+      }),
+      /*#__PURE__*/React.createElement("button",{
+        onClick:()=>{
+          if(phoneNum&&window._T365){window._T365.phone=phoneNum;
+            localStorage.setItem("t365_session",JSON.stringify({...window._T365}));
+            alert("✅ WhatsApp number saved!");
+          }
+        },
+        style:{padding:"9px 14px",borderRadius:8,background:"#22C55E",color:"#052E0A",
+          border:"none",fontWeight:700,fontSize:13,cursor:"pointer"}
+      },"Save")
+    )
+  ),
+  /*#__PURE__*/React.createElement("div",null,
+    /*#__PURE__*/React.createElement("label",{style:{fontSize:12,color:"rgba(255,255,255,.6)",display:"block",marginBottom:5}},
+      "Telegram username (e.g. @myusername)"
+    ),
+    /*#__PURE__*/React.createElement("div",{style:{display:"flex",gap:8}},
+      /*#__PURE__*/React.createElement("input",{
+        type:"text",value:telegramUser,
+        onChange:e=>setTelegramUser(e.target.value),
+        placeholder:"@yourusername",
+        style:{flex:1,background:"rgba(255,255,255,.07)",border:"1px solid rgba(255,255,255,.15)",
+          borderRadius:8,padding:"9px 12px",color:"#fff",fontSize:13,fontFamily:"inherit",outline:"none"}
+      }),
+      /*#__PURE__*/React.createElement("button",{
+        onClick:()=>{
+          if(telegramUser&&window._T365){window._T365.telegram=telegramUser;
+            localStorage.setItem("t365_session",JSON.stringify({...window._T365}));
+            alert("✅ Telegram username saved!");
+          }
+        },
+        style:{padding:"9px 14px",borderRadius:8,background:"#534AB7",color:"#fff",
+          border:"none",fontWeight:700,fontSize:13,cursor:"pointer"}
+      },"Save")
+    )
+  )
+),
+/*#__PURE__*/React.createElement("div", {
     style: {
       height: "100%",
       width: `${pct}%`,
@@ -2490,6 +2548,12 @@ function App() {
 
   /* ── NOTIFICATION STATE ── */
   const [notifRules, setNotifRules] = useState(INIT_NOTIF_RULES);
+  const [phoneNum, setPhoneNum] = useState(
+    (window._T365 && window._T365.phone) || ""
+  );
+  const [telegramUser, setTelegramUser] = useState(
+    (window._T365 && window._T365.telegram) || ""
+  );
   const [channels, setChannels] = useState({
     inapp: true,
     email: true,
