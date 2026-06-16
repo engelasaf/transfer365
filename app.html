@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TransferPlan — פלטפורמת סוכני כדורגל</title>
+<title>Transfer365 — Agent Platform</title>
+<link rel="icon" href="/favicon.ico">
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
@@ -20,7 +21,7 @@ input,button{font-family:inherit;outline:none}
 @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(2.4)}100%{transform:scale(1)}}
 </style>
 </head>
-<body style="background:#f1f3f5">
+<body style="background:#f1f3f5;margin:0">
 <script>
 (function(){
   var s=localStorage.getItem('t365_session');
@@ -28,10 +29,32 @@ input,button{font-family:inherit;outline:none}
   try{window._T365=JSON.parse(s);}catch(e){window._T365={};}
 })();
 </script>
-<div id="root" style="min-height:100vh"></div>
-
+<div id="t365-loading" style="position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f1f3f5;z-index:1000;font-family:system-ui,sans-serif">
+  <div style="width:36px;height:36px;border:3px solid #e0e0e0;border-top-color:#534AB7;border-radius:50%;animation:spin 0.8s linear infinite"></div>
+  <div style="margin-top:14px;font-size:13px;color:#666">טוען...</div>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+<div id="root"></div>
 <script>
-/* ── Transfer365 App — pre-compiled React ── */
+(function() {
+  'use strict';
+
+  function showError(e) {
+    var el = document.getElementById('root');
+    var loading = document.getElementById('t365-loading');
+    if (loading) loading.style.display = 'none';
+    if (el) el.innerHTML = '<div style="padding:40px 24px;font-family:sans-serif;max-width:600px;margin:0 auto">'
+      + '<h2 style="color:#e24b4a;margin-bottom:12px">App Error</h2>'
+      + '<pre style="background:#f8f8f8;padding:16px;border-radius:8px;font-size:11px;overflow:auto;white-space:pre-wrap;color:#333">'
+      + (e && e.stack ? e.stack : String(e))
+      + '</pre><p style="color:#888;font-size:12px;margin-top:8px">Check browser console for more details.</p></div>';
+  }
+
+  // Check CDN loaded
+  if (typeof React === 'undefined') { showError(new Error('React CDN failed to load. Please refresh.')); return; }
+  if (typeof ReactDOM === 'undefined') { showError(new Error('ReactDOM CDN failed to load. Please refresh.')); return; }
+
+  try {
 const {
   useState,
   useEffect
@@ -3308,65 +3331,27 @@ function App() {
 /* render handled externally */
 
 
-/* ── Error Boundary (catches React render errors) ── */
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false, error: null, info: null };
-  }
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error };
-  }
-  componentDidCatch(error, info) {
-    console.error('[Transfer365] React render error:', error, info);
-    this.setState({ info });
-  }
-  render() {
-    if (this.state.hasError) {
-      var e = this.state.error;
-      return React.createElement('div', {
-        style: {padding:'48px 40px', fontFamily:'system-ui,sans-serif', maxWidth:'700px', margin:'0 auto'}
-      },
-        React.createElement('h2', {style:{color:'#e24b4a', marginBottom:'12px'}}, 'App Render Error'),
-        React.createElement('pre', {
-          style:{background:'#fef2f2', border:'1px solid #fca5a5', padding:'16px', borderRadius:'8px',
-                 fontSize:'12px', overflow:'auto', color:'#991b1b', lineHeight:'1.6'}
-        }, e ? (e.message + '\n\n' + e.stack) : 'Unknown error'),
-        React.createElement('p', {style:{color:'#666', marginTop:'12px', fontSize:'13px'}},
-          'Please share this error message to fix the issue.')
-      );
-    }
-    return this.props.children;
-  }
-}
+    // Mount
+    var el = document.getElementById('root');
+    var loading = document.getElementById('t365-loading');
+    ReactDOM.createRoot(el).render(React.createElement(App, null));
+    if (loading) loading.style.display = 'none';
 
-/* ── Diagnostic check ── */
-console.log('[T365] React:', typeof React, '| ReactDOM:', typeof ReactDOM, '| Recharts:', typeof Recharts, '| App:', typeof App);
-
-/* ── Mount ── */
-(function() {
-  var el = document.getElementById('root');
-  if (!el) { console.error('[T365] #root not found!'); return; }
-  ReactDOM.createRoot(el).render(
-    React.createElement(ErrorBoundary, null,
-      React.createElement(App, null)
-    )
-  );
-  console.log('[T365] ReactDOM.createRoot().render() called');
+  } catch(e) {
+    console.error('Transfer365 App Error:', e);
+    showError(e);
+  }
 })();
 </script>
-<style>
-#t365bar{position:fixed;top:0;right:0;z-index:9999;display:flex;align-items:center;gap:8px;
-padding:6px 14px;background:rgba(17,24,39,.95);border-bottom-left-radius:10px;font-family:system-ui,sans-serif;font-size:12px}
-#t365bar span{color:#fff;font-weight:600}
-#t365bar a{padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.65);
-cursor:pointer;font-size:11px;text-decoration:none}
-#t365bar a:hover{background:rgba(255,255,255,.1);color:#fff}
-</style>
-<div id="t365bar">
-  <span id="t365name">Agent</span>
-  <a href="/" onclick="localStorage.removeItem('t365_session')">Log out</a>
+<div id="t365bar" style="position:fixed;top:0;right:0;z-index:9999;display:flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(17,24,39,.95);border-bottom-left-radius:10px;font-family:system-ui,sans-serif;font-size:12px">
+  <span id="t365name" style="color:#fff;font-weight:600">Agent</span>
+  <a href="/" onclick="localStorage.removeItem('t365_session')" style="padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.65);cursor:pointer;font-size:11px;text-decoration:none">Log out</a>
 </div>
-<script>(function(){var u=window._T365||{};document.getElementById('t365name').textContent=(u.full_name||(u.email||'').split('@')[0]||'Agent');})();</script>
+<script>
+(function(){
+  var u=window._T365||{};
+  document.getElementById('t365name').textContent=(u.full_name||(u.email||'').split('@')[0]||'Agent');
+})();
+</script>
 </body>
 </html>
