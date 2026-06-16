@@ -221,7 +221,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 [dir="rtl"] .ainp {text-align:right;direction:rtl}
 [dir="rtl"] .anote {direction:rtl}
 [dir="rtl"] #mainnav {direction:rtl}
-[dir="rtl"] /* hright order removed */
+[dir="rtl"] 
 [dir="rtl"] .cdbo {direction:rtl;text-align:right}
 [dir="rtl"] .pbadge {direction:rtl}
 
@@ -274,9 +274,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 
 
 /* ── MOBILE — full bleed hero stacks cleanly ──────────────── */
-@media(max-width:768px){
-  #hero,#hero>div:first-child{height:92vw!important;min-height:380px!important}
-  #hero img{object-position:52% 12%!important}
+
   .nlinks{display:none!important}
   .nctas .bprim span{display:none}
   .nctas .bprim::after{content:"Free trial"}
@@ -287,10 +285,32 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 [dir="rtl"] #hero>div:last-child>div .trust{flex-direction:row-reverse}
 [dir="rtl"] #hero>div:last-child>div .eyebrow{flex-direction:row-reverse}
 
-/* Terminal overlay on hero */
-#hero-terminal{display:block}
-@media(max-width:1024px){#hero-terminal{display:none}}
-[dir="rtl"] #hero-terminal{right:auto;left:48px}
+
+
+/* ── Hero ────────────────────────────────────────────────── */
+.hleft{display:flex;flex-direction:column;gap:22px;max-width:560px}
+@media(max-width:900px){
+  #hero-section img{object-position:70% 18%!important}
+  #hero-section>div:last-child{padding:0 24px!important;padding-top:60px!important}
+  #hero-section>div:last-child>div{max-width:none!important}
+  #hero-section{min-height:96vw!important}
+  .nlinks{display:none!important}
+}
+@media(max-width:600px){
+  #hero-section img{object-position:60% 12%!important}
+  #hero-section{min-height:110vw!important}
+  #hero-section>div:last-child{align-items:flex-end!important;padding-bottom:48px!important}
+}
+[dir="rtl"] #hero-section>div:last-child{justify-content:flex-end}
+[dir="rtl"] #hero-section>div:last-child>div{text-align:right}
+[dir="rtl"] #hero-section>div:last-child>div .acts{flex-direction:row-reverse}
+[dir="rtl"] #hero-section>div:last-child>div .trust{flex-direction:row-reverse}
+[dir="rtl"] #hero-section>div:last-child>div .eyebrow{flex-direction:row-reverse}
+[dir="rtl"] #hero-section>div:nth-child(3){background:
+  linear-gradient(255deg,
+    rgba(4,10,6,.97) 0%,rgba(4,10,6,.94) 28%,rgba(4,10,6,.78) 42%,
+    rgba(4,10,6,.40) 58%,rgba(4,10,6,.10) 74%,transparent 88%
+  )!important}
 </style>tures">Features</a>
     <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
     <a href="#testimonials" data-i18n="nav_stories">Stories</a>
@@ -307,43 +327,59 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
   </div>
 </nav>
 
-<div style="position:relative;width:100%;height:100vh;min-height:580px;overflow:hidden">
+<div id="hero-section" style="position:relative;min-height:100vh;overflow:hidden;background:#040c06">
 
-  <!-- ① PHOTO — fills entire hero, no cropping, full stadium visible -->
+  <!-- ① Real photo: fills full hero, people visible right side -->
   <img
     src="/assets/hero.jpg"
-    alt="Football agents completing a transfer deal at the stadium"
-    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 18%;z-index:0"
+    alt="Football agents at the stadium"
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 18%;z-index:0"
     loading="eager" fetchpriority="high"
   >
 
-  <!-- ② CANVAS — subtle pitch animation on top of photo -->
-  <canvas id="pitchCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.22"></canvas>
+  <!-- ② Subtle pitch lines overlay (very faint) -->
+  <canvas id="pitchCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.15"></canvas>
 
-  <!-- ③ OVERLAY — only bottom half darkens for text; top stays clear -->
-  <div style="position:absolute;inset:0;z-index:2;background:
-    linear-gradient(
-      to top,
-      rgba(8,7,20,1.00) 0%,
-      rgba(8,7,20,0.93) 18%,
-      rgba(8,7,20,0.70) 35%,
-      rgba(8,7,20,0.25) 55%,
-      rgba(8,7,20,0.05) 72%,
-      transparent       100%
-    );pointer-events:none"></div>
+  <!-- ③ Gradient: LEFT dark for text, RIGHT transparent to reveal photo -->
+  <div style="position:absolute;inset:0;z-index:2;pointer-events:none;background:
+    linear-gradient(105deg,
+      rgba(4,10,6,.97)  0%,
+      rgba(4,10,6,.94)  28%,
+      rgba(4,10,6,.78)  42%,
+      rgba(4,10,6,.40)  58%,
+      rgba(4,10,6,.10)  74%,
+      transparent       88%
+    )"></div>
 
-  <!-- ④ TOP edge fade (behind nav bar) -->
-  <div style="position:absolute;top:0;left:0;right:0;height:90px;background:linear-gradient(to bottom,rgba(8,7,20,.65),transparent);z-index:3;pointer-events:none"></div>
+  <!-- ④ Top edge for nav readability -->
+  <div style="position:absolute;top:0;left:0;right:0;height:90px;z-index:3;pointer-events:none;
+    background:linear-gradient(to bottom,rgba(4,10,6,.75),transparent)"></div>
 
-  <!-- ⑤ CONTENT — sits above gradient, anchored at bottom -->
-  <div style="position:absolute;bottom:0;left:0;right:0;z-index:4;padding:0 5vw 52px">
-    <div style="max-width:680px">
-      <div class="eyebrow" style="margin-bottom:18px"><span class="dot"></span><span data-i18n="eyebrow">9,200+ players tracked · 120 leagues · live alerts</span></div>
-      <h1 style="font-size:clamp(28px,3.8vw,56px);font-weight:900;line-height:1.07;letter-spacing:-.04em;text-shadow:0 2px 24px rgba(0,0,0,.5);margin-bottom:14px" data-i18n-html="h1">While you're reading this,<br>another agent just got <em>the alert.</em></h1>
-      <p class="sub" style="margin-bottom:24px;max-width:520px;text-shadow:0 1px 12px rgba(0,0,0,.6)" data-i18n="sub">Transfer365 tells you the moment a player's contract is running out, an injury is confirmed, or a club has budget to spend — before anyone else picks up the phone.</p>
-      <div class="acts" style="margin-bottom:20px">
-        <button class="bhero" onclick="openAuth('signup')"><i class="ti ti-sparkles" style="font-size:15px"></i><span data-i18n="cta1">Try free — 7 days</span></button>
-        <a href="#features" class="boutl"><i class="ti ti-play" style="font-size:14px"></i><span data-i18n="cta2">See how it works</span></a>
+  <!-- ⑤ Bottom edge to blend into ticker -->
+  <div style="position:absolute;bottom:0;left:0;right:0;height:100px;z-index:3;pointer-events:none;
+    background:linear-gradient(to top,rgba(8,7,20,1),rgba(8,7,20,.0))"></div>
+
+  <!-- ⑥ CONTENT — vertically centered, left side only -->
+  <div style="position:absolute;inset:0;z-index:5;display:flex;align-items:center;padding:0 5vw;padding-top:60px">
+    <div style="max-width:min(580px,52vw)">
+      <div class="eyebrow" style="margin-bottom:20px">
+        <span class="dot"></span>
+        <span data-i18n="eyebrow">9,200+ players tracked · 120 leagues · live alerts</span>
+      </div>
+      <h1 style="font-size:clamp(30px,3.6vw,58px);font-weight:900;line-height:1.07;letter-spacing:-.04em;
+          text-shadow:0 2px 16px rgba(0,0,0,.35);margin-bottom:18px"
+          data-i18n-html="h1">While you're reading this,<br>another agent just got <em>the alert.</em></h1>
+      <p class="sub" style="margin-bottom:28px;text-shadow:0 1px 8px rgba(0,0,0,.4)"
+         data-i18n="sub">Transfer365 tells you the moment a player's contract is running out, an injury is confirmed, or a club has budget to spend — before anyone else picks up the phone.</p>
+      <div class="acts" style="margin-bottom:22px">
+        <button class="bhero" onclick="openAuth('signup')">
+          <i class="ti ti-sparkles" style="font-size:15px"></i>
+          <span data-i18n="cta1">Try free — 7 days</span>
+        </button>
+        <a href="#features" class="boutl">
+          <i class="ti ti-play" style="font-size:14px"></i>
+          <span data-i18n="cta2">See how it works</span>
+        </a>
       </div>
       <div class="trust">
         <div class="tpill"><i class="ti ti-shield-check"></i><span data-i18n="trust1">FIFA licensed agents</span></div>
@@ -353,19 +389,8 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
     </div>
   </div>
 
-
-  <!-- ⑥ LIVE TERMINAL — floating overlay bottom-right (desktop only) -->
-  <div id="hero-terminal" style="position:absolute;bottom:52px;right:48px;width:420px;z-index:5;display:block">
-    <div class="term">
-      <div class="tbar">
-        <div class="tdots"><span style="background:#FF5F57"></span><span style="background:#FEBC2E"></span><span style="background:#28C840"></span></div>
-        <span class="ttit">Transfer365 Intelligence Feed</span>
-        <span class="tlive"><span class="dot" style="margin-right:4px"></span>LIVE</span>
-      </div>
-      <div class="tbod" style="height:300px"><div class="tfeed" id="tfeed"></div><div class="tglow"></div></div>
-    </div>
-  </div>
 </div>
+
 
 <div class="tickw"><div class="ticki" id="tickerEl"></div></div>
 
