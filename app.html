@@ -2431,6 +2431,8 @@ function App() {
   const [tick, setTick] = useState(0);
   const [commPct, setCommPct] = useState(5);
   const [trigRead, setRead] = useState(new Set([5]));
+  const [liveAlerts, setLiveAlerts] = useState([]);
+  const [liveRead, setLiveRead] = useState(new Set());
 
   /* ── PLAN & BILLING STATE ── */
   const [currentPlan, setPlan] = useState("pro"); // free|starter|pro|agency
@@ -2618,6 +2620,12 @@ function App() {
     const iv = setInterval(() => setSecs(s => Math.max(0, s - 1)), 1000);
     return () => clearInterval(iv);
   }, []);
+
+  useEffect(() => {
+    const U="https://hivyothlbntxcbsilktp.supabase.co",K="sb_publishable_JSj4WcwoxYSrEC7Hi2Zxlg_0rboiHzE";
+    const load=async()=>{try{const r=await fetch(`${U}/rest/v1/alerts?order=created_at.desc&limit=40`,{headers:{"apikey":K,"Authorization":`Bearer ${K}`}});if(r.ok){const d=await r.json();if(Array.isArray(d)&&d.length)setLiveAlerts(d);}}catch(e){}};
+    load();const t=setInterval(load,300000);return()=>clearInterval(t);
+  }, []);
   /* ticker */
   useEffect(() => {
     const iv = setInterval(() => setTick(t => (t + 1) % TICKS.length), 4000);
@@ -2627,7 +2635,7 @@ function App() {
     wH = Math.floor(secs % 86400 / 3600),
     wM = Math.floor(secs % 3600 / 60),
     wS = secs % 60;
-  const unread = TRIGS.filter(tr => !trigRead.has(tr.id)).length;
+  const unread = TRIGS.filter(tr => !trigRead.has(tr.id)).length + liveAlerts.filter(a => !liveRead.has(a.id)).length;
   function moveDeal(id, dir2) {
     setDeals(ds => ds.map(d => d.id === id ? {
       ...d,
@@ -4288,7 +4296,21 @@ function App() {
         borderRadius: 14,
         overflow: "hidden"
       }
-    }, TRIGS.map(tr => /*#__PURE__*/React.createElement("div", {
+    }, liveAlerts.slice(0,15).map(a=>/*#__PURE__*/React.createElement("div",{
+  key:"la"+a.id,style:{display:"flex",alignItems:"flex-start",gap:10,padding:"10px 14px",background:!liveRead.has(a.id)?"rgba(34,197,94,.07)":"transparent",borderBottom:"1px solid rgba(255,255,255,.07)",cursor:"pointer"},
+  onClick:()=>setLiveRead(s=>{const n=new Set(s);n.add(a.id);return n;})},
+  /*#__PURE__*/React.createElement("div",{style:{width:28,height:28,borderRadius:"50%",background:"rgba(34,197,94,.15)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,flexShrink:0}},a.icon||"🔔"),
+  /*#__PURE__*/React.createElement("div",{style:{flex:1,minWidth:0}},
+    /*#__PURE__*/React.createElement("div",{style:{fontSize:12,fontWeight:600,color:"#F5F4FE",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}},a.headline),
+    /*#__PURE__*/React.createElement("div",{style:{fontSize:10,color:"rgba(255,255,255,.4)",marginTop:2,display:"flex",gap:7}},
+      /*#__PURE__*/React.createElement("span",{style:{background:"rgba(34,197,94,.2)",color:"#22C55E",padding:"1px 5px",borderRadius:3,fontWeight:700,fontSize:9}},(a.trigger_type||"").toUpperCase()),
+      /*#__PURE__*/React.createElement("span",null,a.player_name||""),
+      /*#__PURE__*/React.createElement("span",null,"· "+a.source),
+      a.url&&/*#__PURE__*/React.createElement("a",{href:a.url,target:"_blank",rel:"noopener",style:{color:"rgba(34,197,94,.6)",fontSize:9},onClick:e=>e.stopPropagation()},"↗")
+    )
+  ),
+  !liveRead.has(a.id)&&/*#__PURE__*/React.createElement("span",{style:{width:6,height:6,borderRadius:"50%",background:"#22C55E",flexShrink:0,marginTop:5}})
+)), ...TRIGS.map(tr => /*#__PURE__*/React.createElement("div", {
       key: tr.id,
       style: {
         display: "flex",
