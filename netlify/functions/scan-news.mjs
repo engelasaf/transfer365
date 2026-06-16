@@ -1,5 +1,5 @@
 // netlify/functions/scan-news.mjs
-// Scheduled: every 30 minutes — scans Google News RSS per player
+// Scheduled: every 30 minutes — env vars loaded — scans Google News RSS per player
 // Env vars needed: SUPABASE_URL, SUPABASE_KEY, RESEND_KEY
 
 const SB_URL = process.env.SUPABASE_URL || "https://hivyothlbntxcbsilktp.supabase.co";
