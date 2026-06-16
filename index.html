@@ -807,7 +807,7 @@ function setTab(t){
   document.getElementById('aswitch').innerHTML=il?(lng.auth_switch_login||''):(lng.auth_switch_signup||'');
   ['aerr','aok'].forEach(id=>document.getElementById(id).style.display='none');
 }
-async async function doAuth(){
+async async async function doAuth(){
   const email=document.getElementById('aemail').value.trim();
   const pw=document.getElementById('apw').value;
   const btn=document.getElementById('asubmit');
