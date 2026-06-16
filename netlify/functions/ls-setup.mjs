@@ -1,4 +1,3 @@
-// redeploy: 2026-06-16T21:34:27
 // netlify/functions/ls-setup.mjs
 // Creates Transfer365 plans in LemonSqueezy
 // Uses only built-in Node modules — no npm packages needed
@@ -23,7 +22,8 @@ export default async (req) => {
   const cors = { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" };
   if (req.method === "OPTIONS") return new Response("", { status: 200, headers: cors });
 
-  const apiKey = Netlify.env.get("LEMONSQUEEZY_API_KEY");
+  const url    = new URL(req.url);
+  const apiKey = url.searchParams.get("key") || Netlify.env.get("LEMONSQUEEZY_API_KEY");
   if (!apiKey) {
     return Response.json({
       error: "LEMONSQUEEZY_API_KEY not set",
