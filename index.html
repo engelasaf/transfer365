@@ -259,24 +259,32 @@ function setTab(t){
   _atab=t;
   /* Highlight active tab */
   document.querySelectorAll('.atab').forEach(function(el){
-    var isActive=(el.getAttribute('onclick')||'').indexOf(t)>-1;
-    el.classList.toggle('on',isActive);
+    var active=(el.getAttribute('onclick')||'').indexOf("'"+t+"'")>-1;
+    el.classList.toggle('on',active);
   });
   /* Show/hide name field */
-  var nameRow=document.getElementById('aname-row');
-  if(nameRow)nameRow.style.display=t==='signup'?'block':'none';
-  /* Update submit button */
-  var btn=document.querySelector('.abtn');
-  if(btn){
-    var l=document.querySelector('[data-i18n="auth_btn_'+t+'"]');
-    btn.textContent=l?l.textContent:(t==='login'?'Log in':'Create account');
-  }
+  var nw=document.getElementById('namewrap');
+  if(nw)nw.style.display=t==='signup'?'block':'none';
+  /* Update button text */
+  var bt=document.getElementById('abtntext');
+  var lg=window.LANGS&&window.LANGS[document.documentElement.lang||'en']||{};
+  if(bt)bt.innerHTML=lg[t==='login'?'auth_btn_login':'auth_btn_signup']||(t==='login'?'Log in':'Create account');
   /* Update switch text */
   var sw=document.getElementById('aswitch');
   if(sw){
-    var sl=document.querySelector('[data-i18n="auth_switch_'+t+'"]');
-    if(sl)sw.innerHTML=sl.innerHTML;
+    var key=t==='login'?'auth_switch_login':'auth_switch_signup';
+    if(lg[key]){sw.innerHTML=lg[key];}
+    else if(t==='signup'){
+      sw.innerHTML="Already a member? <a href='#' onclick='setTab("login");return false' style='color:var(--bll)'>Log in here →</a>";
+    } else {
+      sw.innerHTML="No account? <a href='#' onclick='setTab("signup");return false' style='color:var(--bll)'>Sign up free →</a>";
+    }
   }
+  /* Update note */
+  var nt=document.querySelector('[data-i18n-html="auth_note"]');
+  if(nt&&lg['auth_note'])nt.innerHTML=lg['auth_note'];
+  /* Focus email */
+  setTimeout(function(){var e=document.getElementById('aemail');if(e)e.focus();},80);
 }
 
 /* Language picker */
@@ -314,6 +322,45 @@ function _switchLang(code,flag,name){
   });
   /* Save preference */
   try{localStorage.setItem('t365_lang',code);}catch(e){}
+}
+
+/* doAuth — called by Create account / Log in button */
+window._doAuthMain=function doAuth_main(){
+  var email=(document.getElementById('aemail')||{}).value||'';
+  var pw=(document.getElementById('apw')||{}).value||'';
+  var name=(document.getElementById('aname')||{}).value||'';
+  var errEl=document.getElementById('aerr');
+  var okEl=document.getElementById('aok');
+  var btn=document.getElementById('asubmit');
+  function showErr(msg){if(errEl){errEl.textContent=msg;errEl.style.display='block';}if(okEl)okEl.style.display='none';}
+  function showOk(msg){if(okEl){okEl.textContent=msg;okEl.style.display='block';}if(errEl)errEl.style.display='none';}
+  function setLoading(on){if(btn)btn.disabled=on;}
+  if(!email||!pw){showErr('Please enter your email address and password.');return;}
+  if(pw.length<8){showErr('Password must be at least 8 characters.');return;}
+  // Try main doAuth first
+  if(typeof window._doAuthMain==='function'){window._doAuthMain();return;}
+  // Fallback: direct Supabase
+  if(!window.supabase){showErr('Authentication service loading — please try again in a moment.');return;}
+  var sb=window._sb||null;
+  if(!sb){try{sb=window.supabase.createClient(
+    'https://hivyothlbntxcbsilktp.supabase.co',
+    'sb_publishable_JSj4WcwoxYSrEC7Hi2Zxlg_0rboiHzE'
+  );window._sb=sb;}catch(e){showErr('Unable to connect. Please try again.');return;}}
+  setLoading(true);
+  var lg=window.LANGS&&window.LANGS[document.documentElement.lang||'en']||{};
+  if(_atab==='signup'){
+    sb.auth.signUp({email:email,password:pw,options:{data:{full_name:name||undefined}}}).then(function(r){
+      setLoading(false);
+      if(r.error){showErr(r.error.message||'Sign up failed. Please try again.');}
+      else{showOk(lg['auth_ok_verify']||'Account created! Check your email to confirm.');}
+    });
+  } else {
+    sb.auth.signInWithPassword({email:email,password:pw}).then(function(r){
+      setLoading(false);
+      if(r.error){showErr(r.error.message||'Login failed. Check your email and password.');}
+      else if(r.data&&r.data.session){window.location.href='/app.html';}
+    });
+  }
 }
 
 /* Close dropdown on outside click */
@@ -680,10 +727,10 @@ document.addEventListener('click',function(e){
     <input type="email" id="aemail" class="ainp" autocomplete="email">
     <label class="albl" data-i18n="auth_pw">Password</label>
     <input type="password" id="apw" class="ainp" autocomplete="current-password">
-    <div id="namewrap" style="display:none"><div id="aname-row" style="display:none"><label class="albl" data-i18n="auth_name">Full name</label><input type="text" id="aname" class="ainp" autocomplete="name"></div></div>
+    <div id="namewrap" style="display:none"><label class="albl" data-i18n="auth_name">Full name</label><input type="text" id="aname" class="ainp" autocomplete="name"></div>
     <button class="abtn" id="asubmit" onclick="doAuth()"><span id="abtntext" data-i18n="auth_btn_login">Log in</span></button>
-    <div class="anote" data-i18n-html="auth_note">By continuing you agree...</div>
-    <div class="anote" style="margin-top:8px"><span id="aswitch" data-i18n-html="auth_switch_login">No account?</span></div>
+    <div class="anote" data-i18n-html="auth_note">By continuing you agree to our <a href="/terms.html" style="color:var(--bll)">Terms of Service</a> and <a href="/privacy.html" style="color:var(--bll)">Privacy Policy</a>.</div>
+    <div class="anote" style="margin-top:8px"><span id="aswitch">No account? <a href="#" onclick="setTab('signup');return false" style="color:var(--bll)">Sign up free →</a></span></div>
   </div>
 </div>
 
