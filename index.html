@@ -34,12 +34,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,7,20,.85);
 .lopt{display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:8px;font-size:13px;color:rgba(255,255,255,.7);cursor:pointer;transition:all .15s;white-space:nowrap;font-weight:500}.lopt:hover{background:rgba(255,255,255,.08);color:var(--white)}.lopt.active{color:var(--green);font-weight:700;background:rgba(34,197,94,.08)}
 
 /* HERO */
-#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:80px 5vw 60px;max-width:1280px;margin:0 auto}
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:90px 5vw 80px;max-width:1280px;margin:0 auto}
 .hleft{display:flex;flex-direction:column;gap:22px}
 .eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:var(--green);padding:5px 13px;border-radius:100px;font-size:12px;font-weight:600;width:fit-content}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 2s ease infinite}
 @keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
-h1{font-size:clamp(32px,4vw,58px);font-weight:900;line-height:1.08;letter-spacing:-.04em}
+h1{font-size:clamp(32px,4vw,58px);font-weight:900;line-height:1.08;letter-spacing:-.04em;text-shadow:0 2px 20px rgba(0,0,0,.4)}
 h1 em{font-style:normal;color:var(--green)}
 .sub{font-size:clamp(14px,1.2vw,16px);color:var(--muted);line-height:1.7;max-width:480px}
 .acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
@@ -234,6 +234,11 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 [dir="rtl"] .hright {order:-1}
 [dir="rtl"] .cdbo {direction:rtl;text-align:right}
 [dir="rtl"] .pbadge {direction:rtl}
+
+@media(max-width:900px){
+  #pitch-wrap img{object-position:70% 20%}
+  #pitch-wrap{background:#0a0d1a}
+}
 </style>
 </head>
 <body>
@@ -261,8 +266,16 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 </nav>
 
 <div style="padding-top:60px;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(13,31,20,.95) 0%,var(--bg) 70%)">
-<div id="hero" style="position:relative"><div id="pitch-wrap" style="position:absolute;inset:0;overflow:hidden;z-index:0">
-<svg id="pitch-svg" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:.18" viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice">
+<div id="hero" style="position:relative"><div id="pitch-wrap" style="position:absolute;inset:0;overflow:hidden;z-index:0;background:#040b08">
+<!-- Real hero photo -->
+<img
+  src="/assets/hero.jpg"
+  alt="Football agents completing a transfer deal at stadium"
+  style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:.75;z-index:0"
+  loading="eager"
+  fetchpriority="high"
+>
+<svg id="pitch-svg" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:.06" viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice">
   <!-- Grass surface -->
   <rect width="1000" height="620" fill="#063a0a"/>
   <!-- Alternating grass bands -->
@@ -310,7 +323,20 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 <canvas id="pitchCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none"></canvas>
 
 <!-- Green gradient overlay to blend into dark bg at top/bottom -->
-<div style="position:absolute;inset:0;background:linear-gradient(to bottom,#080714 0%,rgba(8,7,20,.5) 20%,rgba(8,7,20,.2) 50%,rgba(8,7,20,.5) 80%,#080714 100%);z-index:2"></div>
+<div style="position:absolute;inset:0;z-index:2;background:
+  linear-gradient(to right,
+    rgba(8,7,20,.96) 0%,
+    rgba(8,7,20,.85) 35%,
+    rgba(8,7,20,.55) 60%,
+    rgba(8,7,20,.3)  80%,
+    rgba(8,7,20,.45) 100%
+  ),
+  linear-gradient(to bottom,
+    rgba(8,7,20,.7) 0%,
+    transparent 15%,
+    transparent 85%,
+    rgba(8,7,20,.8) 100%
+  )"></div>
 </div>
 
   <div class="hleft" style="position:relative;z-index:3">
