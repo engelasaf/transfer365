@@ -1229,23 +1229,24 @@ async function getLsConfig() {
 }
 
 async function openCheckout(plan, billing) {
-  billing = billing || (document.getElementById('bill-toggle')?.dataset?.billing || 'monthly');
-  const config = await getLsConfig();
+  billing = billing || _billing || 'monthly';
 
-  if (!config.configured && !config.plans) {
-    // Not set up yet — fall back to auth signup
-    openAuth('signup');
-    return;
+  // Try to get configured URLs from ls-config
+  let url = null;
+  try {
+    const r = await fetch('/api/ls-config');
+    const cfg = await r.json();
+    if (cfg.configured && cfg.plans && cfg.plans[plan]) {
+      url = cfg.plans[plan][billing] || cfg.plans[plan].monthly;
+    }
+  } catch(e) {}
+
+  // Fallback: open store page
+  if (!url) {
+    url = 'https://transfer365.lemonsqueezy.com';
   }
 
-  const plans = config.plans || {};
-  const planData = plans[plan] || plans.agent;
-  const url = planData?.[billing] || planData?.monthly;
-
-  if (!url) { openAuth('signup'); return; }
-
-  // Use LemonSqueezy overlay if available
-  if (window.LemonSqueezy) {
+  if (window.LemonSqueezy && url.includes('checkout/buy')) {
     window.LemonSqueezy.Url.Open(url);
   } else {
     window.open(url, '_blank');
