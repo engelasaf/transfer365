@@ -664,17 +664,6 @@ function setLang(code){
 
   // Re-apply live stats (numbers get wiped by textContent update)
   updateEyebrow();
-
-  // Sync lang picker trigger button text
-  const trig = document.getElementById('ltrig');
-  if(trig){
-    trig.innerHTML = `${lng.flag} <span style="font-size:11px;opacity:.7">${code.toUpperCase()}</span> <i class="ti ti-chevron-down" style="font-size:10px"></i>`;
-  }
-
-  // Update active class in dropdown
-  document.querySelectorAll('.lopt').forEach(o => {
-    o.classList.toggle('active', o.dataset.code === code);
-  });
 }
 
 function buildLangPicker(){
