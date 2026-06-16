@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Transfer365 — Agent Scraper</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#0a0d14;color:#e1e4e8;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:32px;max-width:600px;width:100%}
+h1{font-size:22px;font-weight:700;margin-bottom:6px}
+.sub{color:#8b949e;font-size:14px;margin-bottom:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:8px;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-green{background:#22c55e;color:#052E0A}
+.btn-green:hover{background:#16a34a}
+.btn-blue{background:#3b82f6;color:#fff}
+.btn-blue:hover{background:#2563eb}
+.btn-gray{background:#21262d;color:#e1e4e8;border:1px solid #30363d}
+.btn-gray:hover{background:#30363d}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:24px 0}
+.stat{background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:16px;text-align:center}
+.stat-n{font-size:28px;font-weight:700;color:#22c55e}
+.stat-l{font-size:12px;color:#8b949e;margin-top:4px}
+.log{background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:16px;height:200px;overflow-y:auto;font-family:monospace;font-size:12px;margin:20px 0}
+.log p{margin-bottom:4px;color:#8b949e}
+.log p.ok{color:#22c55e}
+.log p.err{color:#f85149}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.progress{height:6px;background:#21262d;border-radius:3px;margin:16px 0;overflow:hidden}
+.progress-bar{height:100%;background:#22c55e;border-radius:3px;transition:width .5s;width:0%}
+.badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600}
+.badge-green{background:rgba(34,197,94,.15);color:#22c55e}
+.badge-yellow{background:rgba(251,191,36,.15);color:#fbbf24}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>⚽ Agent Contact Scraper</h1>
+  <p class="sub">Scrapes Transfermarkt agent profiles → exports CSV for Facebook Custom Audiences</p>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n" id="total">0</div><div class="stat-l">Agents scraped</div></div>
+    <div class="stat"><div class="stat-n" id="contacts">0</div><div class="stat-l">With contact info</div></div>
+    <div class="stat"><div class="stat-n" id="page">-</div><div class="stat-l">Pages done</div></div>
+  </div>
+
+  <div class="progress"><div class="progress-bar" id="pbar"></div></div>
+
+  <div class="log" id="log"><p>Press "Start Scraping" to begin...</p></div>
+
+  <div class="actions">
+    <button class="btn btn-green" id="btnStart" onclick="startScrape()">▶ Start Scraping</button>
+    <button class="btn btn-gray"  id="btnStop"  onclick="stopScrape()" disabled>■ Stop</button>
+    <button class="btn btn-blue"  id="btnFB"    onclick="download('facebook')" disabled>⬇ Download for Facebook</button>
+    <button class="btn btn-gray"  id="btnAll"   onclick="download('all')" disabled>⬇ All Data CSV</button>
+  </div>
+  <p style="margin-top:16px;font-size:12px;color:#8b949e">
+    ℹ️ Each click scrapes one page (~20 agents). The process runs automatically page by page.
+    TM may slow down after ~200 agents — you can stop and resume later.
+  </p>
+</div>
+
+<script>
+let running = false;
+let currentPage = 1;
+let stopFlag = false;
+
+function log(msg, type="") {
+  const div = document.getElementById("log");
+  const p = document.createElement("p");
+  p.className = type;
+  p.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+  div.appendChild(p);
+  div.scrollTop = div.scrollHeight;
+}
+
+async function checkStatus() {
+  const r = await fetch("/api/scrape-status");
+  return r.json();
+}
+
+async function scrapeOnePage(page) {
+  log(`📋 Scraping page ${page}...`);
+  const r = await fetch("/api/scrape-agents-background", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ page })
+  });
+  // Background function returns 202 immediately
+  // Wait for it to finish (poll status)
+  await new Promise(res => setTimeout(res, 4000));
+  
+  for (let i = 0; i < 30; i++) {
+    await new Promise(res => setTimeout(res, 1000));
+    const s = await checkStatus();
+    document.getElementById("total").textContent    = s.count || 0;
+    document.getElementById("contacts").textContent = s.withContact || 0;
+    document.getElementById("page").textContent     = page;
+    
+    if (s.status?.page === page || s.status?.done) {
+      const pct = Math.min(95, page * 2);
+      document.getElementById("pbar").style.width = pct + "%";
+      return s.status;
+    }
+  }
+  return null;
+}
+
+async function startScrape() {
+  if (running) return;
+  running = true;
+  stopFlag = false;
+  
+  document.getElementById("btnStart").disabled = true;
+  document.getElementById("btnStop").disabled  = false;
+  
+  log("🚀 Starting scraper — this may take 20-40 minutes for all agents", "ok");
+  
+  // Check existing progress
+  const current = await checkStatus();
+  if (current.status?.page) {
+    currentPage = current.status.page + 1;
+    log(`▶ Resuming from page ${currentPage} (${current.count} agents already scraped)`);
+  } else {
+    currentPage = 1;
+  }
+  
+  for (let page = currentPage; page <= 200; page++) {
+    if (stopFlag) { log("⏹ Stopped by user"); break; }
+    
+    const status = await scrapeOnePage(page);
+    
+    if (!status) { log(`⚠️ Page ${page} timeout — retrying next time`); break; }
+    if (status.done) { log(`✅ Done! All agents scraped.`, "ok"); break; }
+    if (status.error) { log(`⚠️ Blocked on page ${page} — try again in a few minutes`, "err"); break; }
+    
+    log(`✓ Page ${page} done — total: ${status.total || 0} agents (${status.withContact || 0} with contact)`, "ok");
+    
+    // Random delay between pages (2-4 sec)
+    await new Promise(res => setTimeout(res, 2000 + Math.random() * 2000));
+  }
+  
+  running = false;
+  document.getElementById("btnStart").disabled = false;
+  document.getElementById("btnStop").disabled  = true;
+  document.getElementById("btnFB").disabled    = false;
+  document.getElementById("btnAll").disabled   = false;
+  document.getElementById("pbar").style.width  = "100%";
+  log("💾 Ready to download!", "ok");
+}
+
+function stopScrape() {
+  stopFlag = true;
+  log("⏸ Stopping after current page...");
+  document.getElementById("btnFB").disabled  = false;
+  document.getElementById("btnAll").disabled = false;
+}
+
+function download(mode) {
+  window.location.href = `/api/download-agents?mode=${mode}`;
+}
+
+// Load existing stats on page load
+checkStatus().then(s => {
+  if (s.count > 0) {
+    document.getElementById("total").textContent    = s.count;
+    document.getElementById("contacts").textContent = s.withContact;
+    document.getElementById("page").textContent     = s.status?.page || "?";
+    document.getElementById("btnFB").disabled  = false;
+    document.getElementById("btnAll").disabled = false;
+    log(`ℹ️ Found ${s.count} agents from previous session`, "ok");
+  }
+});
+</script>
+</body>
+</html>
