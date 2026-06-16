@@ -235,6 +235,39 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 [dir="rtl"] .cdbo {direction:rtl;text-align:right}
 [dir="rtl"] .pbadge {direction:rtl}
 </style>
+<script>
+/* Minimal bootstrap — ensures buttons work even if main script fails */
+function openAuth(t){
+  var a=document.getElementById('aov');
+  if(!a)return;
+  a.style.display='flex';
+  a.style.alignItems='center';
+  a.style.justifyContent='center';
+  a.classList.add('open');
+  document.body.style.overflow='hidden';
+  var login=a.querySelector('.atab:first-child');
+  var signup=a.querySelector('.atab:last-child');
+  if(t==='signup'&&signup)signup.click();
+  else if(login)login.click();
+}
+function closeAuth(){
+  var a=document.getElementById('aov');
+  if(a){a.style.display='none';a.classList.remove('open');}
+  document.body.style.overflow='';
+}
+function toggleLangPicker(){
+  var d=document.getElementById('ldrop');
+  if(!d)return;
+  var open=d.style.display==='block';
+  d.style.display=open?'none':'block';
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('#ldrop')&&!e.target.closest('.lpick')){
+    var d=document.getElementById('ldrop');
+    if(d)d.style.display='none';
+  }
+},false);
+</script>
 </head>
 <body>
 
@@ -253,7 +286,16 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
   <div class="nctas">
     <div class="lpick">
       <button class="ltrig" id="ltrig" onclick="toggleLangPicker()" aria-label="Select language">🇬🇧 EN <i class="ti ti-chevron-down" style="font-size:10px;margin-top:1px"></i></button>
-      <div class="ldrop" id="ldrop"></div>
+      <div class="ldrop" id="ldrop" style="position:absolute;top:calc(100% + 8px);right:0;background:#0F0D28;border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:6px;min-width:190px;display:none;z-index:9999;box-shadow:0 16px 48px rgba(0,0,0,.85)">
+      <div class="lopt" onclick="setLang('en');this.closest('#ldrop').style.display='none'">🇬🇧 English</div>
+      <div class="lopt" onclick="setLang('he');this.closest('#ldrop').style.display='none'">🇮🇱 עברית</div>
+      <div class="lopt" onclick="setLang('es');this.closest('#ldrop').style.display='none'">🇪🇸 Español</div>
+      <div class="lopt" onclick="setLang('pt');this.closest('#ldrop').style.display='none'">🇧🇷 Português</div>
+      <div class="lopt" onclick="setLang('fr');this.closest('#ldrop').style.display='none'">🇫🇷 Français</div>
+      <div class="lopt" onclick="setLang('de');this.closest('#ldrop').style.display='none'">🇩🇪 Deutsch</div>
+      <div class="lopt" onclick="setLang('ar');this.closest('#ldrop').style.display='none'">🇸🇦 العربية</div>
+      <div class="lopt" onclick="setLang('it');this.closest('#ldrop').style.display='none'">🇮🇹 Italiano</div>
+    </div>
     </div>
     <button class="bghost" onclick="openAuth('login')" data-i18n="nav_login">Log in</button>
     <button class="bprim" onclick="openAuth('signup')" data-i18n="nav_start">Start free trial</button>
@@ -846,3 +888,5 @@ const initLang=detectLang();setLang(initLang);
 
 
 </script>
+</body>
+</html>
