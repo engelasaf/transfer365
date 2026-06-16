@@ -3308,20 +3308,51 @@ function App() {
 /* render handled externally */
 
 
-/* ── Mount with error display ── */
+/* ── Error Boundary (catches React render errors) ── */
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null, info: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, info) {
+    console.error('[Transfer365] React render error:', error, info);
+    this.setState({ info });
+  }
+  render() {
+    if (this.state.hasError) {
+      var e = this.state.error;
+      return React.createElement('div', {
+        style: {padding:'48px 40px', fontFamily:'system-ui,sans-serif', maxWidth:'700px', margin:'0 auto'}
+      },
+        React.createElement('h2', {style:{color:'#e24b4a', marginBottom:'12px'}}, 'App Render Error'),
+        React.createElement('pre', {
+          style:{background:'#fef2f2', border:'1px solid #fca5a5', padding:'16px', borderRadius:'8px',
+                 fontSize:'12px', overflow:'auto', color:'#991b1b', lineHeight:'1.6'}
+        }, e ? (e.message + '\n\n' + e.stack) : 'Unknown error'),
+        React.createElement('p', {style:{color:'#666', marginTop:'12px', fontSize:'13px'}},
+          'Please share this error message to fix the issue.')
+      );
+    }
+    return this.props.children;
+  }
+}
+
+/* ── Diagnostic check ── */
+console.log('[T365] React:', typeof React, '| ReactDOM:', typeof ReactDOM, '| Recharts:', typeof Recharts, '| App:', typeof App);
+
+/* ── Mount ── */
 (function() {
   var el = document.getElementById('root');
-  if (!el) return;
-  try {
-    ReactDOM.createRoot(el).render(React.createElement(App, null));
-  } catch(e) {
-    console.error('App render error:', e);
-    el.innerHTML = '<div style="padding:60px 40px;font-family:sans-serif;color:#333;max-width:600px;margin:0 auto">'
-      + '<h2 style="color:#e24b4a">App Error</h2>'
-      + '<pre style="background:#f8f8f8;padding:16px;border-radius:8px;font-size:12px;overflow:auto;color:#333">'
-      + e.stack + '</pre>'
-      + '<p>Check browser console for details.</p></div>';
-  }
+  if (!el) { console.error('[T365] #root not found!'); return; }
+  ReactDOM.createRoot(el).render(
+    React.createElement(ErrorBoundary, null,
+      React.createElement(App, null)
+    )
+  );
+  console.log('[T365] ReactDOM.createRoot().render() called');
 })();
 </script>
 <style>
