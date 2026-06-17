@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<title>Transfer365</title>
+<title>Transfer365 App</title>
 <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css" rel="stylesheet">
 <style>
+
 
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,sans-serif;direction:rtl}
@@ -29,71 +30,137 @@ input,button{font-family:inherit;outline:none}
 #t365-err h2{color:#EF4444}
 #t365-err pre{background:rgba(255,255,255,.05);padding:16px;border-radius:8px;
   font-size:11px;white-space:pre-wrap;overflow:auto;margin-top:12px}
+
+body{margin:0}
+#t365bar{position:fixed;top:0;right:0;z-index:9999;display:flex;align-items:center;
+  gap:8px;padding:6px 14px;background:rgba(17,24,39,.95);border-bottom-left-radius:10px;
+  font-family:system-ui,sans-serif;font-size:12px}
+#t365bar span{color:#fff;font-weight:600}
+#t365bar a{padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.65);font-size:11px;text-decoration:none}
+#qa-err{position:fixed;inset:0;background:#1a1a2e;color:#fff;padding:32px;
+  font-family:monospace;font-size:13px;overflow:auto;z-index:99999;direction:ltr;
+  display:none}
+#qa-err h2{color:#f87171;margin-bottom:16px;font-size:18px}
+#qa-err pre{background:rgba(255,255,255,.06);padding:16px;border-radius:8px;
+  white-space:pre-wrap;word-break:break-all}
+#qa-steps{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.8);
+  padding:8px 16px;font-family:monospace;font-size:11px;color:#86efac;
+  z-index:99998;direction:ltr}
 </style>
 </head>
-<body style="margin:0">
+<body>
 
-<!-- Auth guard: runs before any heavy scripts -->
+<!-- Step 0: catch everything before any script runs -->
 <script>
+window._qa = [];
+function qaStep(msg){ window._qa.push(msg); var el=document.getElementById('qa-steps'); if(el) el.textContent=window._qa.join(' → '); }
+function qaErr(msg,detail){
+  var box=document.getElementById('qa-err');
+  var pre=document.getElementById('qa-err-pre');
+  if(box){ box.style.display='block'; }
+  if(pre){ pre.textContent = msg + (detail ? '\n\n' + detail : ''); }
+  var steps=document.getElementById('qa-steps');
+  if(steps){ steps.style.color='#fca5a5'; steps.textContent='ERROR at: '+window._qa.join(' → ')+' | '+msg; }
+  console.error('[qa-err]', msg, detail);
+}
+window.onerror = function(msg,src,line,col,err){
+  qaErr('window.onerror: '+msg+' at '+src+':'+line, err ? err.stack : '');
+  return false;
+};
+window.addEventListener('unhandledrejection', function(e){
+  qaErr('Unhandled Promise: '+(e.reason||'unknown'), e.reason && e.reason.stack);
+});
+qaStep('init');
+</script>
+
+<!-- Auth guard -->
+<script>
+qaStep('auth-check');
 (function(){
-  try {
-    var s = localStorage.getItem('t365_session');
-    if (!s) { window.location.replace('/'); return; }
-    window._T365 = JSON.parse(s);
-  } catch(e) {
-    window.location.replace('/');
-  }
+  var s = null;
+  try { s = localStorage.getItem('t365_session'); } catch(e){ qaErr('localStorage error',e.message); }
+  if(!s){ window.location.replace('/'); return; }
+  try { window._T365 = JSON.parse(s); } catch(e){ window._T365={}; }
+  qaStep('auth-ok('+((window._T365&&window._T365.email)||'?')+')');
 })();
 </script>
 
+<!-- Error display box (always in DOM) -->
+<div id="qa-err">
+  <h2>&#10060; App Error</h2>
+  <pre id="qa-err-pre">Loading...</pre>
+  <p style="margin-top:16px"><a href="/" style="color:#a5b4fc">&#8592; Back</a></p>
+</div>
+
 <!-- Logout bar -->
 <div id="t365bar">
-  <span id="t365name">Agent</span>
+  <span id="t365name">...</span>
   <a href="/" onclick="localStorage.removeItem('t365_session')">Log out</a>
 </div>
-
-<!-- Error display (shown if app crashes) -->
-<div id="t365-err">
-  <h2>&#10060; App Error</h2>
-  <pre id="t365-err-msg"></pre>
-  <p><a href="/" style="color:#AFA9EC">&#8592; Back to home</a></p>
-</div>
-
-<!-- Root element -->
-<div id="root"></div>
-
-<!-- Load libraries as external files (avoids </script> parsing issues) -->
-<script src="/assets/react.min.js"></script>
-<script src="/assets/reactdom.min.js"></script>
-<script src="/assets/recharts.min.js"></script>
-<script src="/assets/app.js"></script>
-
-<!-- Mount: tiny inline script, no risk of parsing issues -->
 <script>
+(function(){var u=window._T365||{};document.getElementById('t365name').textContent=(u.full_name||(u.email||'').split('@')[0]||'Agent');})();
+</script>
+
+<!-- Debug steps overlay -->
+<div id="qa-steps">loading...</div>
+
+<!-- Root -->
+<div id="root" style="min-height:100vh"></div>
+
+<!-- Load React -->
+<script>qaStep('loading-React');</script>
+<script src="/assets/react.min.js"></script>
+<script>
+qaStep('react='+(typeof React));
+if(typeof React==='undefined') qaErr('React failed to load','Check /assets/react.min.js');
+</script>
+
+<!-- Load ReactDOM -->
+<script>qaStep('loading-ReactDOM');</script>
+<script src="/assets/reactdom.min.js"></script>
+<script>
+qaStep('reactdom='+(typeof ReactDOM));
+if(typeof ReactDOM==='undefined') qaErr('ReactDOM failed to load','Check /assets/reactdom.min.js');
+</script>
+
+<!-- Load Recharts -->
+<script>qaStep('loading-Recharts');</script>
+<script src="/assets/recharts.min.js"></script>
+<script>
+qaStep('recharts='+(typeof Recharts));
+</script>
+
+<!-- Load App -->
+<script>qaStep('loading-App');</script>
+<script src="/assets/app.js"></script>
+<script>
+qaStep('App='+(typeof App));
+if(typeof App==='undefined') qaErr('App function not defined after loading app.js','The file loaded but App was not exported to global scope');
+</script>
+
+<!-- Mount -->
+<script>
+qaStep('mounting');
 (function(){
-  // Set username
-  var u = window._T365 || {};
-  var el = document.getElementById('t365name');
-  if (el) el.textContent = u.full_name || (u.email||'').split('@')[0] || 'Agent';
-
-  var root = document.getElementById('root');
-  var errBox = document.getElementById('t365-err');
-  var errMsg = document.getElementById('t365-err-msg');
-
-  function showErr(e) {
-    if (errBox) errBox.style.display = 'block';
-    if (errMsg) errMsg.textContent = (e && e.stack) ? e.stack : String(e);
-    if (root) root.style.display = 'none';
+  if(typeof React==='undefined'||typeof ReactDOM==='undefined'||typeof App==='undefined'){
+    qaErr('Cannot mount: missing dependency','React='+typeof React+' ReactDOM='+typeof ReactDOM+' App='+typeof App);
+    return;
   }
-
-  if (typeof React === 'undefined') { showErr(new Error('React failed to load from /assets/react.min.js')); return; }
-  if (typeof ReactDOM === 'undefined') { showErr(new Error('ReactDOM failed to load')); return; }
-  if (typeof App === 'undefined') { showErr(new Error('App component not defined — /assets/app.js failed to load')); return; }
-
+  var root = document.getElementById('root');
   try {
-    ReactDOM.createRoot(root).render(React.createElement(App, null));
+    qaStep('createRoot');
+    var r = ReactDOM.createRoot(root);
+    qaStep('render');
+    r.render(React.createElement(App, null));
+    qaStep('render-called');
+    // Remove debug overlay after 3s if render succeeded
+    setTimeout(function(){
+      var s=document.getElementById('qa-steps');
+      if(s && s.style.color !== '#fca5a5') s.style.display='none';
+    }, 3000);
   } catch(e) {
-    showErr(e);
+    qaErr('React render threw: '+e.message, e.stack);
   }
 })();
 </script>
