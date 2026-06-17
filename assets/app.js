@@ -2905,7 +2905,7 @@ function App() {
     const [channels, setChannels] = useState({
       email: {
         on: true,
-        val: "engelasaf@gmail.com"
+        val: window._T365 && window._T365.email || ""
       },
       whatsapp: {
         on: false,
