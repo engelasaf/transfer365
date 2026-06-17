@@ -2,19 +2,6 @@ const {
   useState,
   useEffect
 } = React;
-const _RC = typeof Recharts !== 'undefined' ? Recharts : {};
-const {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-  LineChart,
-  Line
-} = _RC;
 const B = "#3C3489",
   BL = "#534AB7",
   BB = "#EEEDFE",
@@ -1329,46 +1316,52 @@ function App() {
       style: {
         padding: "12px 14px"
       }
-    }, /*#__PURE__*/React.createElement(ResponsiveContainer, {
-      width: "100%",
-      height: 110
-    }, /*#__PURE__*/React.createElement(BarChart, {
-      data: BUDG.slice(0, 6),
-      layout: "vertical",
-      margin: {
-        right: 50,
-        left: 0
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "4px 0"
       }
-    }, /*#__PURE__*/React.createElement(XAxis, {
-      type: "number",
-      hide: true
-    }), /*#__PURE__*/React.createElement(YAxis, {
-      type: "category",
-      dataKey: "t",
-      width: 72,
-      tick: {
-        fontSize: 10,
-        fill: "var(--tx3)"
-      }
-    }), /*#__PURE__*/React.createElement(Tooltip, {
-      formatter: v => "€" + v + "K",
-      contentStyle: {
-        fontSize: 11,
-        borderRadius: 8,
-        border: "0.5px solid var(--bd2)",
-        background: "var(--bg1)"
-      }
-    }), /*#__PURE__*/React.createElement(Bar, {
-      dataKey: "b",
-      fill: "#E1F5EE",
-      name: "תקציב",
-      radius: [0, 3, 3, 0]
-    }), /*#__PURE__*/React.createElement(Bar, {
-      dataKey: "u",
-      fill: B,
-      name: "בשימוש",
-      radius: [0, 3, 3, 0]
-    }))))));
+    }, BUDG.slice(0, 6).map((t, i) => {
+      const pct = Math.round(t.u / t.b * 100);
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: {
+          marginBottom: 8
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: 10,
+          color: "var(--tx3)",
+          marginBottom: 3
+        }
+      }, /*#__PURE__*/React.createElement("span", null, t.t), /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontVariantNumeric: "tabular-nums"
+        }
+      }, "€", t.u, "K / €", t.b, "K")), /*#__PURE__*/React.createElement("div", {
+        style: {
+          height: 14,
+          background: "var(--bg3)",
+          borderRadius: 3,
+          overflow: "hidden",
+          display: "flex"
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          width: pct + "%",
+          background: "#E1F5EE",
+          borderRadius: 3
+        }
+      }), /*#__PURE__*/React.createElement("div", {
+        style: {
+          width: Math.round(t.u / t.b * 100 * 0.7) + "%",
+          background: B,
+          borderRadius: 3,
+          marginLeft: 2
+        }
+      })));
+    })))));
   }
   function Portfolio() {
     const tabs = [{
@@ -2388,51 +2381,53 @@ function App() {
       style: {
         padding: "12px 14px"
       }
-    }, /*#__PURE__*/React.createElement(ResponsiveContainer, {
-      width: "100%",
-      height: 200
-    }, /*#__PURE__*/React.createElement(BarChart, {
-      data: BUDG,
-      margin: {
-        top: 0,
-        right: 0,
-        left: 0,
-        bottom: 44
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "8px 0"
       }
-    }, /*#__PURE__*/React.createElement(XAxis, {
-      dataKey: "t",
-      tick: {
-        fontSize: 9,
-        fill: "var(--tx3)"
-      },
-      angle: -35,
-      textAnchor: "end",
-      interval: 0
-    }), /*#__PURE__*/React.createElement(YAxis, {
-      tick: {
-        fontSize: 10,
-        fill: "var(--tx3)"
-      },
-      tickFormatter: v => "€" + v + "K"
-    }), /*#__PURE__*/React.createElement(Tooltip, {
-      formatter: v => ["€" + v + "K"],
-      contentStyle: {
-        fontSize: 11,
-        borderRadius: 8,
-        border: "0.5px solid var(--bd2)",
-        background: "var(--bg1)"
-      }
-    }), /*#__PURE__*/React.createElement(Bar, {
-      dataKey: "b",
-      name: "תקציב",
-      fill: "#E1F5EE",
-      radius: [3, 3, 0, 0]
-    }), /*#__PURE__*/React.createElement(Bar, {
-      dataKey: "u",
-      name: "בשימוש",
-      fill: B,
-      radius: [3, 3, 0, 0]
-    }))))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(CardH, {
+    }, BUDG.map((t, i) => {
+      const pct = Math.round(t.u / t.b * 100);
+      const bc = pct > 85 ? "#E24B4A" : pct > 65 ? "#EF9F27" : "#1D9E75";
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: {
+          marginBottom: 10
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: 11,
+          marginBottom: 4
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontWeight: 600,
+          color: "var(--tx1)"
+        }
+      }, t.t), /*#__PURE__*/React.createElement("span", {
+        style: {
+          color: "var(--tx3)",
+          fontVariantNumeric: "tabular-nums"
+        }
+      }, "€", t.u, "K / €", t.b, "K")), /*#__PURE__*/React.createElement("div", {
+        style: {
+          height: 16,
+          background: "var(--bg3)",
+          borderRadius: 4,
+          overflow: "hidden",
+          position: "relative"
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          width: pct + "%",
+          height: "100%",
+          background: bc,
+          borderRadius: 4,
+          transition: "width .4s"
+        }
+      })));
+    })))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(CardH, {
       title: "אחוז ניצול"
     }), BUDG.map((t, i) => {
       const p = Math.round(t.u / t.b * 100),
@@ -2661,38 +2656,63 @@ function App() {
       style: {
         padding: "12px 14px"
       }
-    }, /*#__PURE__*/React.createElement(ResponsiveContainer, {
-      width: "100%",
-      height: 160
-    }, /*#__PURE__*/React.createElement(AreaChart, {
-      data: COMM_H
-    }, /*#__PURE__*/React.createElement(XAxis, {
-      dataKey: "m",
-      tick: {
-        fontSize: 10,
-        fill: "var(--tx3)"
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "8px 0 0"
       }
-    }), /*#__PURE__*/React.createElement(YAxis, {
-      tick: {
-        fontSize: 10,
-        fill: "var(--tx3)"
-      },
-      tickFormatter: v => "€" + v / 1000 + "K"
-    }), /*#__PURE__*/React.createElement(Tooltip, {
-      formatter: v => ["€" + Number(v).toLocaleString(), "עמלה"],
-      contentStyle: {
-        fontSize: 11,
-        borderRadius: 8,
-        border: "0.5px solid var(--bd2)",
-        background: "var(--bg1)"
-      }
-    }), /*#__PURE__*/React.createElement(Area, {
-      type: "monotone",
-      dataKey: "c",
-      stroke: B,
-      fill: BB,
-      strokeWidth: 2
-    }))))), /*#__PURE__*/React.createElement("div", {
+    }, COMM_H.map((m, i) => {
+      const max = Math.max(...COMM_H.map(x => x.c));
+      const pct = max > 0 ? Math.round(m.c / max * 100) : 0;
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          marginBottom: 6
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          width: 24,
+          fontSize: 10,
+          color: "var(--tx3)"
+        }
+      }, m.m), /*#__PURE__*/React.createElement("div", {
+        style: {
+          flex: 1,
+          height: 18,
+          background: "var(--bg3)",
+          borderRadius: 3,
+          overflow: "hidden"
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          width: pct + "%",
+          height: "100%",
+          background: BB,
+          borderRadius: 3,
+          position: "relative"
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          position: "absolute",
+          right: 0,
+          top: 0,
+          width: "3px",
+          height: "100%",
+          background: B,
+          borderRadius: "0 3px 3px 0"
+        }
+      }))), /*#__PURE__*/React.createElement("span", {
+        style: {
+          width: 56,
+          fontSize: 10,
+          color: "var(--tx3)",
+          textAlign: "right",
+          fontVariantNumeric: "tabular-nums"
+        }
+      }, "€", m.c.toLocaleString()));
+    })))), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
@@ -2768,40 +2788,56 @@ function App() {
         fontWeight: 700,
         marginBottom: 10
       }
-    }, "מגמת שוק"), /*#__PURE__*/React.createElement(ResponsiveContainer, {
-      width: "100%",
-      height: 140
-    }, /*#__PURE__*/React.createElement(LineChart, {
-      data: TREND
-    }, /*#__PURE__*/React.createElement(XAxis, {
-      dataKey: "m",
-      tick: {
-        fontSize: 10,
-        fill: "var(--tx3)"
+    }, "מגמת שוק"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "8px 0 0",
+        position: "relative",
+        height: 140
       }
-    }), /*#__PURE__*/React.createElement(YAxis, {
-      tick: {
-        fontSize: 10,
-        fill: "var(--tx3)"
-      },
-      tickFormatter: v => "€" + v + "K"
-    }), /*#__PURE__*/React.createElement(Tooltip, {
-      formatter: v => ["€" + v + "K", "ממוצע"],
-      contentStyle: {
-        fontSize: 11,
-        borderRadius: 8,
-        border: "0.5px solid var(--bd2)",
-        background: "var(--bg1)"
+    }, /*#__PURE__*/React.createElement("svg", {
+      viewBox: "0 0 280 120",
+      style: {
+        width: "100%",
+        height: "100%",
+        overflow: "visible"
       }
-    }), /*#__PURE__*/React.createElement(Line, {
-      type: "monotone",
-      dataKey: "v",
+    }, /*#__PURE__*/React.createElement("polyline", {
+      points: TREND.map((d, i) => {
+        const max = Math.max(...TREND.map(x => x.v));
+        const min = Math.min(...TREND.map(x => x.v));
+        const x = i * (280 / (TREND.length - 1));
+        const y = 100 - (d.v - min) / (max - min || 1) * 90;
+        return x + "," + y;
+      }).join(" "),
+      fill: "none",
       stroke: B,
-      strokeWidth: 2,
-      dot: {
-        r: 3,
+      strokeWidth: "2",
+      strokeLinejoin: "round"
+    }), TREND.map((d, i) => {
+      const max = Math.max(...TREND.map(x => x.v));
+      const min = Math.min(...TREND.map(x => x.v));
+      const x = i * (280 / (TREND.length - 1));
+      const y = 100 - (d.v - min) / (max - min || 1) * 90;
+      return /*#__PURE__*/React.createElement("g", {
+        key: i
+      }, /*#__PURE__*/React.createElement("circle", {
+        cx: x,
+        cy: y,
+        r: "4",
         fill: B
-      }
+      }), /*#__PURE__*/React.createElement("text", {
+        x: x,
+        y: 120,
+        textAnchor: "middle",
+        fontSize: "9",
+        fill: "var(--tx3)"
+      }, d.m), /*#__PURE__*/React.createElement("text", {
+        x: x,
+        y: y - 8,
+        textAnchor: "middle",
+        fontSize: "8",
+        fill: B
+      }, "€", d.v, "K"));
     }))))));
   }
   function Network() {
