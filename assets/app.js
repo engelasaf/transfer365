@@ -6,7 +6,7 @@ const B = "#3C3489",
   BL = "#534AB7",
   BB = "#EEEDFE",
   PIT = "#0D1A0D";
-const TICKER = ["🔴 T09 · Jordan LaRose — hamstring injury, 6 weeks · Maccabi TLV seeking cover", "🟡 T02 · Dian Civita — contract expires in 22 days · Maccabi Haifa", "🚨 T28 · Marius Houri filed formal transfer request · Beitar Jerusalem", "📈 T14 · Goncalo Figueiredo 14 assists · EU midfielder 41 days left", "📉 T20 · Hapoel K.S relegated · 5 players with release clauses", "🔓 T24 · Summer window opens 1.7.26 · 14 days"];
+const TICKER = ["🔴 T09 · Jordan LaRose injury 6 weeks · Maccabi TLV seeking replacement", "🟡 T02 · Dian Civita — contract expires 22 days · Maccabi Haifa", "🚨 T28 · Marius Houri submitted formal transfer request · Beitar Jerusalem", "📈 T14 · Goncalo Figueiredo 14 assists · EU midfielder 41 days", "📉 T20 · Hapoel KS relegated · 5 players with exit clauses", "🔓 T24 · Summer window opens 1.7.26 · 14 days"];
 const OWN = [{
   id: 1,
   n: "Jordan LaRose",
@@ -48,7 +48,7 @@ const OWN = [{
   n: "Nadav Ben Haim",
   i2: "N.B",
   pos: "FWD",
-  tm: "Hapoel B.S",
+  tm: "Hapoel BS",
   age: 26,
   days: 16,
   sal: 9.5,
@@ -120,7 +120,7 @@ const OWN = [{
   n: "Amad Boukar",
   i2: "A.B",
   pos: "MID",
-  tm: "Maccabi Petah",
+  tm: "Maccabi PT",
   age: 26,
   days: 167,
   sal: 8.5,
@@ -154,7 +154,7 @@ const OWN = [{
 }];
 const MKT = [{
   id: 11,
-  n: "Boris Metabo",
+  n: "Boris Matabu",
   i2: "B.M",
   pos: "FWD",
   tm: "Ironi TLV",
@@ -169,7 +169,7 @@ const MKT = [{
   src: "Transfer365 AI"
 }, {
   id: 12,
-  n: "Nicolas Francisi",
+  n: "Nicolas Fransici",
   i2: "N.F",
   pos: "MID",
   tm: "Free Agent",
@@ -184,10 +184,10 @@ const MKT = [{
   src: "Transfer365 AI"
 }, {
   id: 13,
-  n: "Yaniv Canaan",
-  i2: "Y.C",
+  n: "Yaniv Knaan",
+  i2: "Y.K",
   pos: "CB",
-  tm: "MNS",
+  tm: "MNS FC",
   days: 14,
   sal: 6.5,
   val: 310,
@@ -221,7 +221,7 @@ const MATCHES = [{
   sc: 91,
   urg: "high",
   why: "Team injury + Beitar seeking EU CB",
-  pros: ["High-demand position", "EU passport"],
+  pros: ["High demand position", "Passport EU"],
   cons: ["Salary €5.5K"],
   fee: 200,
   bg: "#FCEBEB",
@@ -234,8 +234,8 @@ const MATCHES = [{
   tm: "Maccabi TLV",
   sc: 88,
   urg: "high",
-  why: "EU midfielder + Maccabi TLV has budget",
-  pros: ["EU", "12 assists"],
+  why: "EU midfielder + Maccabi TLV with free budget",
+  pros: ["EU", "12 Assists"],
   cons: ["Salary €7.5K"],
   fee: 350,
   bg: "#FAEEDA",
@@ -248,8 +248,8 @@ const MATCHES = [{
   tm: "Maccabi Haifa",
   sc: 88,
   urg: "high",
-  why: "Filed formal transfer request",
-  pros: ["EU", "18 goals"],
+  why: "submitted formal transfer request",
+  pros: ["EU", "18 Goals"],
   cons: ["Salary €9K"],
   fee: 500,
   bg: "#FAECE7",
@@ -259,11 +259,11 @@ const MATCHES = [{
   pid: 3,
   p: "Nadav Ben Haim",
   pos: "FWD",
-  tm: "MPS",
+  tm: "MPS FC",
   sc: 84,
   urg: "high",
-  why: "contract expires in 19 days",
-  pros: ["Israeli", "8.1 rating"],
+  why: "contract expiring 19 days",
+  pros: ["Israeli", "8.1 Rating"],
   cons: ["6 competitors"],
   fee: 250,
   bg: "#E1F5EE",
@@ -276,9 +276,9 @@ const MATCHES = [{
   tm: "Hapoel TLV",
   sc: 81,
   urg: "medium",
-  why: "22 days left, Hapoel TLV needs CB",
+  why: "23 days to contract, Hapoel TLV without CB",
   pros: ["EU", "Experience"],
-  cons: ["Competitors"],
+  cons: ["Competition"],
   fee: 180,
   bg: BB,
   tc: B,
@@ -288,7 +288,7 @@ const DEALS0 = [{
   id: 1,
   p: "Jordan LaRose",
   fr: "Maccabi TLV",
-  to: "Beitar Jlem",
+  to: "Beitar",
   fee: 200,
   st: 1,
   din: 5,
@@ -298,7 +298,7 @@ const DEALS0 = [{
 }, {
   id: 2,
   p: "Goncalo Figueiredo",
-  fr: "MPS",
+  fr: "MPS FC",
   to: "Maccabi TLV",
   fee: 350,
   st: 1,
@@ -310,7 +310,7 @@ const DEALS0 = [{
   id: 3,
   p: "Nadav Ben Haim",
   fr: "Hapoel TLV",
-  to: "MPS",
+  to: "MPS FC",
   fee: 250,
   st: 2,
   din: 8,
@@ -320,7 +320,7 @@ const DEALS0 = [{
 }, {
   id: 4,
   p: "Marius Houri",
-  fr: "Beitar Jlem",
+  fr: "Beitar",
   to: "Maccabi Haifa",
   fee: 500,
   st: 2,
@@ -330,9 +330,9 @@ const DEALS0 = [{
   tc: "#712B13"
 }, {
   id: 5,
-  p: "Noam Shapira",
+  p: "Amit Shahar",
   fr: "Market",
-  to: "Hapoel B.S",
+  to: "Hapoel BS",
   fee: 60,
   st: 3,
   din: 1,
@@ -341,9 +341,9 @@ const DEALS0 = [{
   tc: B
 }, {
   id: 6,
-  p: "Francisi",
+  p: "Fransici",
   fr: "Market",
-  to: "Ironi K.S",
+  to: "Ironi KS",
   fee: 80,
   st: 4,
   din: 0,
@@ -356,7 +356,7 @@ const BUDG = [{
   b: 2400,
   u: 1800
 }, {
-  t: "Beitar Jlem",
+  t: "Beitar",
   b: 1800,
   u: 1200
 }, {
@@ -368,11 +368,11 @@ const BUDG = [{
   b: 1500,
   u: 900
 }, {
-  t: "Hapoel B.S",
+  t: "Hapoel BS",
   b: 1200,
   u: 800
 }, {
-  t: "MPS",
+  t: "MPS FC",
   b: 900,
   u: 700
 }, {
@@ -389,7 +389,7 @@ const ALTS0 = [{
   ic: "ti-first-aid-kit",
   bg: "#FCEBEB",
   tc: "#A32D2D",
-  tx: "Jordan LaRose injured — 6 weeks. 3 clubs enquired.",
+  tx: "Jordan LaRose injured — 6 weeks. 3 clubs inquired.",
   tm: "08:02",
   r: false,
   tg: "T09"
@@ -398,7 +398,7 @@ const ALTS0 = [{
   ic: "ti-clock",
   bg: "#FAEEDA",
   tc: "#633806",
-  tx: "Dian Civita — contract expires in 22 days.",
+  tx: "Dian Civita — contract ends in 22 days.",
   tm: "08:02",
   r: false,
   tg: "T02"
@@ -449,19 +449,19 @@ const TCAT = [{
     on: true
   }, {
     id: "T03",
-    n: "Player became free agent",
+    n: "Player became free",
     ic: "ti-user-check",
     w: 1,
     on: true
   }, {
     id: "T05",
-    n: "Release clause — % minutes",
+    n: "Exit clause — % minutes",
     ic: "ti-percentage",
     w: 2,
     on: true
   }, {
     id: "T04",
-    n: "Relegation clause",
+    n: "Clause — relegation",
     ic: "ti-chevrons-down",
     w: 1,
     on: true
@@ -473,10 +473,10 @@ const TCAT = [{
     on: false
   }]
 }, {
-  lb: "injuries",
+  lb: "Injuries",
   its: [{
     id: "T09",
-    n: "Long injury (4+ wks)",
+    n: "Long injury (4+ weeks)",
     ic: "ti-first-aid-kit",
     w: 4,
     on: true
@@ -503,13 +503,13 @@ const TCAT = [{
   lb: "Performance",
   its: [{
     id: "T14",
-    n: "Hot form",
+    n: "Hot player",
     ic: "ti-flame",
     w: 1,
     on: true
   }, {
     id: "T12",
-    n: "No playing time",
+    n: "Not getting minutes",
     ic: "ti-player-pause",
     w: 1,
     on: true
@@ -536,13 +536,13 @@ const TCAT = [{
     on: true
   }, {
     id: "T20",
-    n: "Relegation",
+    n: "Team relegated",
     ic: "ti-trending-down",
     w: 2,
     on: true
   }, {
     id: "T22",
-    n: "Manager sacked",
+    n: "Coach sacked",
     ic: "ti-user-minus",
     w: 1,
     on: true
@@ -554,7 +554,7 @@ const TCAT = [{
     on: true
   }, {
     id: "T28",
-    n: "Transfer Req",
+    n: "Transfer request",
     ic: "ti-arrows-exchange",
     w: 1,
     on: true
@@ -639,7 +639,7 @@ const NAV = [{
   ic: "ti-bell",
   l: "Alerts"
 }];
-const STAGES = ["Discovery", "Outreach", "Negotiation", "Signing", "Closed"];
+const STAGES = ["Discovery", "Contact", "Negotiation", "Signing", "Close"];
 const SBG = ["#F1EFE8", BB, "#FAEEDA", "#E6F1FB", "#EAF3DE"];
 const STC = ["#5F5E5A", B, "#633806", "#0C447C", "#27500A"];
 const dC = d => d === 0 ? {
@@ -662,7 +662,7 @@ const dC = d => d === 0 ? {
 const sC = s => s >= 85 ? "#1D9E75" : s >= 70 ? "#EF9F27" : "#E24B4A";
 const stL = s => ({
   injury: {
-    l: "Injured",
+    l: "Injury",
     bg: "#FCEBEB",
     tc: "#A32D2D"
   },
@@ -682,7 +682,7 @@ const stL = s => ({
     tc: "#712B13"
   },
   transfer_req: {
-    l: "Transfer Req",
+    l: "Transfer request",
     bg: BB,
     tc: B
   },
@@ -1141,7 +1141,7 @@ function App() {
         textTransform: "uppercase",
         letterSpacing: ".06em"
       }
-    }, "Morning Brief · Claude AI"), /*#__PURE__*/React.createElement("div", {
+    }, "Morning Brief · AI"), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 12,
         color: "rgba(255,255,255,.82)",
@@ -1156,7 +1156,7 @@ function App() {
       style: {
         color: "#86EFAC"
       }
-    }, "Summer window in ", wD, " days.")))), /*#__PURE__*/React.createElement("div", {
+    }, "Transfer window in ", wD, " days.")))), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "grid",
         gridTemplateColumns: "repeat(4,minmax(0,1fr))",
@@ -1165,7 +1165,7 @@ function App() {
     }, /*#__PURE__*/React.createElement(Stat, {
       l: "Players",
       v: ownPl.length,
-      s: "in Portfolio"
+      s: "in portfolio"
     }), /*#__PURE__*/React.createElement(Stat, {
       l: "Urgent",
       v: urg,
@@ -1173,9 +1173,9 @@ function App() {
       bg: "#FCEBEB",
       c: "#A32D2D"
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "AI Matches",
+      l: "Matches",
       v: nm,
-      s: "AI Today",
+      s: "AI today",
       bg: BB,
       c: B
     }), /*#__PURE__*/React.createElement(Stat, {
@@ -1258,7 +1258,7 @@ function App() {
       }
     })))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(CardH, {
       title: "Top Opportunities",
-      action: "All Matches ←",
+      action: "All matches →",
       onAction: () => setPg("mch")
     }), MATCHES.slice(0, 4).map((m, i) => /*#__PURE__*/React.createElement("div", {
       key: i,
@@ -1309,8 +1309,8 @@ function App() {
     }, m.pos, " · ", m.src)), /*#__PURE__*/React.createElement(W, {
       id: "m" + i
     }))))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(CardH, {
-      title: "Club Budgets",
-      action: "Details ←",
+      title: "Team Budgets",
+      action: "Details →",
       onAction: () => setPg("budg")
     }), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -1370,7 +1370,7 @@ function App() {
       n: ownPl.length
     }, {
       id: "injury",
-      l: "Injured",
+      l: "Injury",
       n: ownPl.filter(p => p.st === "injury").length
     }, {
       id: "expiring",
@@ -1382,7 +1382,7 @@ function App() {
       n: ownPl.filter(p => p.st === "free").length
     }, {
       id: "transfer_req",
-      l: "Transfer Req",
+      l: "Transfer request",
       n: ownPl.filter(p => p.st === "transfer_req").length
     }];
     let fp = ownPl;
@@ -1543,7 +1543,7 @@ function App() {
     }, /*#__PURE__*/React.createElement("input", {
       value: mktS,
       onChange: e => setMktS(e.target.value),
-      placeholder: "Search market — position, nationality, club...",
+      placeholder: "Search — position, nationality, club...",
       style: {
         padding: "7px 12px",
         borderRadius: 8,
@@ -1687,7 +1687,7 @@ function App() {
             setMktPl(m => m.filter(x => x.id !== p.id));
           }
         }
-      }, claimed ? "✓ In Portfolio" : "+ Add to Portfolio")));
+      }, claimed ? "✓ in portfolio" : "+ Add to Portfolio")));
     })));
   }
   function Matches() {
@@ -1981,7 +1981,7 @@ function App() {
           color: "var(--tx2)",
           marginBottom: 6
         }
-      }, "Fee Calculator"), /*#__PURE__*/React.createElement("div", {
+      }, "Commission Calc"), /*#__PURE__*/React.createElement("div", {
         style: {
           display: "flex",
           gap: 6,
@@ -1993,7 +1993,7 @@ function App() {
           fontSize: 11,
           color: "var(--tx3)"
         }
-      }, "Transfer Fee: ", /*#__PURE__*/React.createElement("b", {
+      }, "Transfer fee: ", /*#__PURE__*/React.createElement("b", {
         style: {
           color: "var(--tx1)",
           fontVariantNumeric: "tabular-nums"
@@ -2023,7 +2023,7 @@ function App() {
           color: "#27500A",
           fontVariantNumeric: "tabular-nums"
         }
-      }, fmt(co), " pre-tax"))), /*#__PURE__*/React.createElement("div", {
+      }, fmt(co), " before tax"))), /*#__PURE__*/React.createElement("div", {
         style: {
           display: "flex",
           alignItems: "center",
@@ -2047,7 +2047,7 @@ function App() {
           cursor: "pointer"
         },
         onClick: () => setCalcO(calcO === idx ? null : idx)
-      }, "🧮 Fee"), /*#__PURE__*/React.createElement("button", {
+      }, "🧮 Commission"), /*#__PURE__*/React.createElement("button", {
         style: {
           fontSize: 11,
           padding: "4px 10px",
@@ -2085,7 +2085,7 @@ function App() {
             bg: m.bg,
             tc: m.tc
           }]);
-          alert("Added to CRM! Commission: " + fmt(co));
+          alert("Moved to CRM! Commission: " + fmt(co));
         }
       }, "→ CRM"))));
     })));
@@ -2114,13 +2114,13 @@ function App() {
       bg: BB,
       c: B
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "At Signing Stage",
+      l: "At Signing",
       v: deals.filter(d => d.st === 3).length,
       s: "Deals",
       bg: "#EAF3DE",
       c: "#27500A"
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "Avg Time",
+      l: "Avg. Time",
       v: "14d",
       s: "to close"
     })), /*#__PURE__*/React.createElement("div", {
@@ -2280,7 +2280,7 @@ function App() {
         fontSize: 11,
         color: "var(--tx3)"
       }
-    }, "No deals yet"))))));
+    }, "No deals"))))));
   }
   function Budget() {
     const tot = BUDG.reduce((s, t) => s + t.b, 0),
@@ -2503,7 +2503,7 @@ function App() {
       tc: "#27500A"
     }, {
       d: "19.06.25",
-      l: "Nadav Ben Haim + Shahar",
+      l: "Jordan LaRose + Ben Levi",
       bg: "#FCEBEB",
       tc: "#A32D2D"
     }, {
@@ -2571,7 +2571,7 @@ function App() {
       v: "7",
       s: "2024/25"
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "Total Commissions",
+      l: "Total Commission",
       v: fmt(totC2),
       s: "",
       bg: BB,
@@ -2589,7 +2589,7 @@ function App() {
       bg: "#FAEEDA",
       c: "#633806"
     })), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(CardH, {
-      title: "Monthly Commissions — 2025"
+      title: "Monthly Commission — 2025"
     }), /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "12px 14px"
@@ -2675,7 +2675,7 @@ function App() {
       n: ownPl.filter(p => p.days <= 30 && p.st !== "free").length,
       c: "#633806"
     }, {
-      l: "Injured",
+      l: "Injury",
       n: ownPl.filter(p => p.st === "injury").length,
       c: "#A32D2D"
     }, {
@@ -2683,7 +2683,7 @@ function App() {
       n: ownPl.filter(p => p.st === "free").length,
       c: "#27500A"
     }, {
-      l: "Transfer Req",
+      l: "Transfer request",
       n: ownPl.filter(p => p.st === "transfer_req").length,
       c: B
     }].map((s, i) => /*#__PURE__*/React.createElement("div", {
@@ -2780,14 +2780,14 @@ function App() {
   }
   function Network() {
     const ag = [{
-      n: "Yossi Cohen",
-      s: "Premier League · Defenders",
+      n: "Joseph Cohen",
+      s: "Premier League · CBs",
       m: 3,
-      av: "Y.C",
+      av: "Y.K",
       bg: BB,
       tc: B
     }, {
-      n: "Margalit Levi",
+      n: "Margaret Levi",
       s: "League A · Forwards",
       m: 1,
       av: "M.L",
@@ -2808,7 +2808,7 @@ function App() {
       bg: "#FAEEDA",
       tc: "#633806"
     }, {
-      n: "Amir Gabai",
+      n: "Amir Gabay",
       s: "Goalkeepers",
       m: 4,
       av: "A.G",
@@ -2956,7 +2956,7 @@ function App() {
         })
       });
       const data = await res.json();
-      alert(data.success ? '✅ Test message sent!' : '❌ Error: ' + (data.error || 'Unknown'));
+      alert(data.success ? '✅ Test notification sent!' : '❌ Error: ' + (data.error || 'Unknown'));
     }
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -3017,7 +3017,7 @@ function App() {
         display: "flex",
         justifyContent: "space-between"
       }
-    }, "Delivery Channels", /*#__PURE__*/React.createElement("span", {
+    }, "Notification Channels", /*#__PURE__*/React.createElement("span", {
       style: {
         color: B
       }
@@ -3065,7 +3065,7 @@ function App() {
         fontSize: 11,
         color: "var(--tx3)"
       }
-    }, "Receive alerts by email")), /*#__PURE__*/React.createElement("div", {
+    }, "Receive alerts directly by email")), /*#__PURE__*/React.createElement("div", {
       onClick: () => setChannels(c => ({
         ...c,
         email: {
@@ -3159,7 +3159,7 @@ function App() {
         fontSize: 11,
         color: "var(--tx3)"
       }
-    }, "WhatsApp alerts to your phone")), /*#__PURE__*/React.createElement("div", {
+    }, "WhatsApp messages to your phone")), /*#__PURE__*/React.createElement("div", {
       onClick: () => setChannels(c => ({
         ...c,
         whatsapp: {
@@ -3235,7 +3235,7 @@ function App() {
         color: "#25D366",
         cursor: "pointer"
       }
-    }, "💬 Send WhatsApp test"))), /*#__PURE__*/React.createElement("div", {
+    }, "💬 Send Test WhatsApp"))), /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "12px 14px",
         borderBottom: "0.5px solid var(--bd3)"
@@ -3359,7 +3359,7 @@ function App() {
         color: "#229ED9",
         cursor: "pointer"
       }
-    }, "✈️ Send Telegram test"))), /*#__PURE__*/React.createElement("div", {
+    }, "✈️ Send Test Telegram"))), /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "12px 14px"
       }
@@ -3401,7 +3401,7 @@ function App() {
         fontSize: 11,
         color: "var(--tx3)"
       }
-    }, "Push alerts to browser")), /*#__PURE__*/React.createElement("div", {
+    }, "Browser push notifications")), /*#__PURE__*/React.createElement("div", {
       onClick: () => setChannels(c => ({
         ...c,
         push: {
@@ -3449,7 +3449,7 @@ function App() {
       }
     }, "Send Timing"), [{
       l: "Immediate",
-      s: "When event occurs",
+      s: "As soon as the event occurs",
       ic: "ti-bolt",
       active: true
     }, {
@@ -3582,7 +3582,7 @@ function App() {
         color: "var(--tx3)",
         marginTop: 1
       }
-    }, "~", it.w, " /wk · ", it.id)), /*#__PURE__*/React.createElement("div", {
+    }, "~", it.w, " /week · ", it.id)), /*#__PURE__*/React.createElement("div", {
       style: {
         width: 36,
         height: 20,
@@ -3774,7 +3774,7 @@ function App() {
       color: "rgba(255,255,255,.3)",
       marginBottom: 3
     }
-  }, "Window"), /*#__PURE__*/React.createElement("div", {
+  }, "Window closes"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 13,
       fontWeight: 700,
@@ -3820,19 +3820,19 @@ function App() {
   }, (NAV.find(n => n.id === pg) || {
     l: ""
   }).l), pg === "port" && /*#__PURE__*/React.createElement(Pill, {
-    l: ownPl.length + " players",
+    l: ownPl.length + " Players",
     bg: BB,
     tc: B
   }), pg === "mch" && /*#__PURE__*/React.createElement(Pill, {
-    l: MATCHES.length + " matches",
+    l: MATCHES.length + " Matches",
     bg: "#EAF3DE",
     tc: "#27500A"
   }), pg === "pipe" && /*#__PURE__*/React.createElement(Pill, {
-    l: fmt(totC) + " pipeline",
+    l: fmt(totC) + " in pipeline",
     bg: "#EAF3DE",
     tc: "#27500A"
   }), pg === "set" && /*#__PURE__*/React.createElement(Pill, {
-    l: wkly + " /wk",
+    l: wkly + " /week",
     bg: BB,
     tc: B
   })), PAGES[pg] || PAGES.dash)));
