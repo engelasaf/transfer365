@@ -2902,12 +2902,35 @@ function App() {
     }, "התחבר"))))));
   }
   function Settings() {
+    const [channels, setChannels] = useState({
+      email: {
+        on: true,
+        val: "engelasaf@gmail.com"
+      },
+      whatsapp: {
+        on: false,
+        val: ""
+      },
+      telegram: {
+        on: false,
+        val: ""
+      },
+      push: {
+        on: false,
+        val: ""
+      }
+    });
+    const [saved, setSavedCh] = useState(false);
+    function saveChannels() {
+      setSavedCh(true);
+      setTimeout(() => setSavedCh(false), 2500);
+    }
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        marginBottom: 12
+        marginBottom: 16
       }
     }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -2928,17 +2951,518 @@ function App() {
         fontVariantNumeric: "tabular-nums"
       }
     }, wkly), " התראות בשבוע")), /*#__PURE__*/React.createElement("button", {
+      onClick: saveChannels,
       style: {
         fontSize: 11,
         padding: "7px 16px",
         borderRadius: 8,
         border: "none",
-        background: B,
+        background: saved ? "#1D9E75" : B,
         color: "#EEEDFE",
         cursor: "pointer",
-        fontWeight: 700
+        fontWeight: 700,
+        transition: "background .3s"
       }
-    }, "שמור הגדרות")), trigs.map((cat, ci) => /*#__PURE__*/React.createElement(Card, {
+    }, saved ? "✓ נשמר!" : "שמור הגדרות")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "var(--bg1)",
+        border: "0.5px solid var(--bd3)",
+        borderRadius: 12,
+        overflow: "hidden",
+        marginBottom: 14
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "8px 14px",
+        background: "var(--bg2)",
+        borderBottom: "0.5px solid var(--bd3)",
+        fontSize: 10,
+        fontWeight: 700,
+        color: "var(--tx3)",
+        textTransform: "uppercase",
+        letterSpacing: ".07em",
+        display: "flex",
+        justifyContent: "space-between"
+      }
+    }, "ערוצי שליחה", /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: B
+      }
+    }, Object.values(channels).filter(c => c.on).length, "/", Object.keys(channels).length, " פעיל")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "12px 14px",
+        borderBottom: "0.5px solid var(--bd3)"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        marginBottom: channels.email.on ? 10 : 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 34,
+        height: 34,
+        borderRadius: 8,
+        background: "#E1F5EE",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "ti ti-mail",
+      style: {
+        fontSize: 16,
+        color: "#085041"
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 700,
+        color: "var(--tx1)"
+      }
+    }, "אימייל"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "var(--tx3)"
+      }
+    }, "קבל התראות ישירות למייל")), /*#__PURE__*/React.createElement("div", {
+      onClick: () => setChannels(c => ({
+        ...c,
+        email: {
+          ...c.email,
+          on: !c.email.on
+        }
+      })),
+      style: {
+        width: 36,
+        height: 20,
+        borderRadius: 10,
+        background: channels.email.on ? "#534AB7" : "var(--bd2)",
+        position: "relative",
+        transition: "background .2s",
+        cursor: "pointer",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        top: 2,
+        left: channels.email.on ? 18 : 2,
+        width: 16,
+        height: 16,
+        borderRadius: "50%",
+        background: "#fff",
+        transition: "left .2s"
+      }
+    }))), channels.email.on && /*#__PURE__*/React.createElement("input", {
+      value: channels.email.val,
+      onChange: e => setChannels(c => ({
+        ...c,
+        email: {
+          ...c.email,
+          val: e.target.value
+        }
+      })),
+      placeholder: "כתובת אימייל...",
+      style: {
+        width: "100%",
+        padding: "7px 10px",
+        borderRadius: 7,
+        border: "0.5px solid var(--bd2)",
+        background: "var(--bg2)",
+        color: "var(--tx1)",
+        fontSize: 12,
+        direction: "ltr",
+        boxSizing: "border-box"
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "12px 14px",
+        borderBottom: "0.5px solid var(--bd3)"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        marginBottom: channels.whatsapp.on ? 10 : 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 34,
+        height: 34,
+        borderRadius: 8,
+        background: "#E1F5EE",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "ti ti-brand-whatsapp",
+      style: {
+        fontSize: 16,
+        color: "#25D366"
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 700,
+        color: "var(--tx1)"
+      }
+    }, "WhatsApp"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "var(--tx3)"
+      }
+    }, "הודעות WhatsApp לנייד שלך")), /*#__PURE__*/React.createElement("div", {
+      onClick: () => setChannels(c => ({
+        ...c,
+        whatsapp: {
+          ...c.whatsapp,
+          on: !c.whatsapp.on
+        }
+      })),
+      style: {
+        width: 36,
+        height: 20,
+        borderRadius: 10,
+        background: channels.whatsapp.on ? "#25D366" : "var(--bd2)",
+        position: "relative",
+        transition: "background .2s",
+        cursor: "pointer",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        top: 2,
+        left: channels.whatsapp.on ? 18 : 2,
+        width: 16,
+        height: 16,
+        borderRadius: "50%",
+        background: "#fff",
+        transition: "left .2s"
+      }
+    }))), channels.whatsapp.on && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
+      value: channels.whatsapp.val,
+      onChange: e => setChannels(c => ({
+        ...c,
+        whatsapp: {
+          ...c.whatsapp,
+          val: e.target.value
+        }
+      })),
+      placeholder: "+972501234567",
+      style: {
+        width: "100%",
+        padding: "7px 10px",
+        borderRadius: 7,
+        border: "0.5px solid var(--bd2)",
+        background: "var(--bg2)",
+        color: "var(--tx1)",
+        fontSize: 12,
+        direction: "ltr",
+        boxSizing: "border-box",
+        marginBottom: 6
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "var(--tx3)",
+        display: "flex",
+        alignItems: "center",
+        gap: 4
+      }
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "ti ti-info-circle",
+      style: {
+        fontSize: 12
+      }
+    }), " ישלח דרך WhatsApp Business API"))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "12px 14px",
+        borderBottom: "0.5px solid var(--bd3)"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        marginBottom: channels.telegram.on ? 10 : 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 34,
+        height: 34,
+        borderRadius: 8,
+        background: "#E6F1FB",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "ti ti-brand-telegram",
+      style: {
+        fontSize: 16,
+        color: "#229ED9"
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 700,
+        color: "var(--tx1)"
+      }
+    }, "Telegram"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "var(--tx3)"
+      }
+    }, "התראות דרך Telegram Bot")), /*#__PURE__*/React.createElement("div", {
+      onClick: () => setChannels(c => ({
+        ...c,
+        telegram: {
+          ...c.telegram,
+          on: !c.telegram.on
+        }
+      })),
+      style: {
+        width: 36,
+        height: 20,
+        borderRadius: 10,
+        background: channels.telegram.on ? "#229ED9" : "var(--bd2)",
+        position: "relative",
+        transition: "background .2s",
+        cursor: "pointer",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        top: 2,
+        left: channels.telegram.on ? 18 : 2,
+        width: 16,
+        height: 16,
+        borderRadius: "50%",
+        background: "#fff",
+        transition: "left .2s"
+      }
+    }))), channels.telegram.on && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
+      value: channels.telegram.val,
+      onChange: e => setChannels(c => ({
+        ...c,
+        telegram: {
+          ...c.telegram,
+          val: e.target.value
+        }
+      })),
+      placeholder: "Telegram Chat ID או @username",
+      style: {
+        width: "100%",
+        padding: "7px 10px",
+        borderRadius: 7,
+        border: "0.5px solid var(--bd2)",
+        background: "var(--bg2)",
+        color: "var(--tx1)",
+        fontSize: 12,
+        direction: "ltr",
+        boxSizing: "border-box",
+        marginBottom: 6
+      }
+    }), /*#__PURE__*/React.createElement("a", {
+      href: "https://t.me/Transfer365Bot",
+      target: "_blank",
+      rel: "noreferrer",
+      style: {
+        fontSize: 11,
+        color: B,
+        textDecoration: "none",
+        display: "flex",
+        alignItems: "center",
+        gap: 4
+      }
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "ti ti-external-link",
+      style: {
+        fontSize: 12
+      }
+    }), " פתח Transfer365Bot בטלגרם לקבלת ה-Chat ID שלך"))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "12px 14px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 34,
+        height: 34,
+        borderRadius: 8,
+        background: "#FAEEDA",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "ti ti-bell-ringing",
+      style: {
+        fontSize: 16,
+        color: "#633806"
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 700,
+        color: "var(--tx1)"
+      }
+    }, "Push — דפדפן"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "var(--tx3)"
+      }
+    }, "התראות Push ישירות לדפדפן")), /*#__PURE__*/React.createElement("div", {
+      onClick: () => setChannels(c => ({
+        ...c,
+        push: {
+          ...c.push,
+          on: !c.push.on
+        }
+      })),
+      style: {
+        width: 36,
+        height: 20,
+        borderRadius: 10,
+        background: channels.push.on ? "#EF9F27" : "var(--bd2)",
+        position: "relative",
+        transition: "background .2s",
+        cursor: "pointer",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        top: 2,
+        left: channels.push.on ? 18 : 2,
+        width: 16,
+        height: 16,
+        borderRadius: "50%",
+        background: "#fff",
+        transition: "left .2s"
+      }
+    }))))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "var(--bg1)",
+        border: "0.5px solid var(--bd3)",
+        borderRadius: 12,
+        padding: "10px 14px",
+        marginBottom: 14
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        fontWeight: 700,
+        color: "var(--tx3)",
+        textTransform: "uppercase",
+        letterSpacing: ".07em",
+        marginBottom: 10
+      }
+    }, "עיתוי שליחה"), [{
+      l: "מיידי",
+      s: "ברגע שהאירוע קורה",
+      ic: "ti-bolt",
+      active: true
+    }, {
+      l: "סיכום בוקר",
+      s: "07:30 כל יום",
+      ic: "ti-sunrise",
+      active: false
+    }, {
+      l: "סיכום שבועי",
+      s: "ראשון 09:00",
+      ic: "ti-calendar-week",
+      active: false
+    }].map((t, i) => /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "7px 0",
+        borderTop: i > 0 ? "0.5px solid var(--bd3)" : "none"
+      }
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "ti " + t.ic,
+      style: {
+        fontSize: 15,
+        color: t.active ? B : "var(--tx3)",
+        flexShrink: 0
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        fontWeight: 700,
+        color: "var(--tx1)"
+      }
+    }, t.l), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "var(--tx3)"
+      }
+    }, t.s)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 36,
+        height: 20,
+        borderRadius: 10,
+        background: t.active ? B : "var(--bd2)",
+        position: "relative",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        top: 2,
+        left: t.active ? 18 : 2,
+        width: 16,
+        height: 16,
+        borderRadius: "50%",
+        background: "#fff"
+      }
+    }))))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 700,
+        color: "var(--tx1)",
+        marginBottom: 10
+      }
+    }, "סוגי התראות"), trigs.map((cat, ci) => /*#__PURE__*/React.createElement(Card, {
       key: ci,
       style: {
         overflow: "hidden",
