@@ -2921,9 +2921,42 @@ function App() {
       }
     });
     const [saved, setSavedCh] = useState(false);
-    function saveChannels() {
-      setSavedCh(true);
+    async function saveChannels() {
+      setSavedCh('saving');
+      try {
+        const u = window._T365 || {};
+        await fetch('/api/save-settings', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: u.email || 'anonymous',
+            email: u.email || '',
+            channels,
+            timing: 'immediate'
+          })
+        });
+        setSavedCh('saved');
+      } catch (e) {
+        setSavedCh('error');
+      }
       setTimeout(() => setSavedCh(false), 2500);
+    }
+    async function testChannel(ch) {
+      const u = window._T365 || {};
+      const res = await fetch('/api/test-notification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: u.email || 'anonymous',
+          channel: ch
+        })
+      });
+      const data = await res.json();
+      alert(data.success ? '✅ הודעת בדיקה נשלחה!' : '❌ שגיאה: ' + (data.error || 'לא ידוע'));
     }
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -2957,13 +2990,13 @@ function App() {
         padding: "7px 16px",
         borderRadius: 8,
         border: "none",
-        background: saved ? "#1D9E75" : B,
+        background: saved === 'saved' ? '#1D9E75' : saved === 'error' ? '#E24B4A' : B,
         color: "#EEEDFE",
         cursor: "pointer",
         fontWeight: 700,
         transition: "background .3s"
       }
-    }, saved ? "✓ נשמר!" : "שמור הגדרות")), /*#__PURE__*/React.createElement("div", {
+    }, saved === 'saving' ? 'שומר...' : saved === 'saved' ? '✓ נשמר!' : saved === 'error' ? '❌ שגיאה' : 'שמור הגדרות')), /*#__PURE__*/React.createElement("div", {
       style: {
         background: "var(--bg1)",
         border: "0.5px solid var(--bd3)",
@@ -3190,7 +3223,19 @@ function App() {
       style: {
         fontSize: 12
       }
-    }), " ישלח דרך WhatsApp Business API"))), /*#__PURE__*/React.createElement("div", {
+    }), " ישלח דרך WhatsApp Business API"), /*#__PURE__*/React.createElement("button", {
+      onClick: () => testChannel('whatsapp'),
+      style: {
+        marginTop: 6,
+        fontSize: 11,
+        padding: "4px 12px",
+        borderRadius: 7,
+        border: "0.5px solid #25D366",
+        background: "rgba(37,211,102,.1)",
+        color: "#25D366",
+        cursor: "pointer"
+      }
+    }, "💬 שלח WhatsApp בדיקה"))), /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "12px 14px",
         borderBottom: "0.5px solid var(--bd3)"
@@ -3302,7 +3347,19 @@ function App() {
       style: {
         fontSize: 12
       }
-    }), " פתח Transfer365Bot בטלגרם לקבלת ה-Chat ID שלך"))), /*#__PURE__*/React.createElement("div", {
+    }), " פתח Transfer365Bot בטלגרם לקבלת ה-Chat ID שלך"), /*#__PURE__*/React.createElement("button", {
+      onClick: () => testChannel('telegram'),
+      style: {
+        marginTop: 6,
+        fontSize: 11,
+        padding: "4px 12px",
+        borderRadius: 7,
+        border: "0.5px solid #229ED9",
+        background: "rgba(34,158,217,.1)",
+        color: "#229ED9",
+        cursor: "pointer"
+      }
+    }, "✈️ שלח Telegram בדיקה"))), /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "12px 14px"
       }
