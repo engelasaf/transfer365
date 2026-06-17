@@ -105,14 +105,14 @@ qaStep('auth-check');
 <div id="root" style="min-height:100vh"></div>
 
 <!-- Load React -->
-<script src="/assets/react.min.js"></script>
+<script src="/assets/react.min.js?v=202606171220"></script>
 <script>
 qaStep('react='+(typeof React));
 if(typeof React==='undefined') qaErr('React failed to load','Check /assets/react.min.js');
 </script>
 
 <!-- Load ReactDOM -->
-<script src="/assets/reactdom.min.js"></script>
+<script src="/assets/reactdom.min.js?v=202606171220"></script>
 <script>
 qaStep('reactdom='+(typeof ReactDOM));
 if(typeof ReactDOM==='undefined') qaErr('ReactDOM failed to load','Check /assets/reactdom.min.js');
@@ -123,7 +123,7 @@ if(typeof ReactDOM==='undefined') qaErr('ReactDOM failed to load','Check /assets
 </script>
 
 <!-- Load App -->
-<script src="/assets/app.js"></script>
+<script src="/assets/app.js?v=202606171220"></script>
 <script>
 qaStep('App='+(typeof App));
 if(typeof App==='undefined') qaErr('App function not defined after loading app.js','The file loaded but App was not exported to global scope');
