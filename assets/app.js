@@ -2,8 +2,18 @@ const {
   useState,
   useEffect
 } = React;
-const _RC = (typeof Recharts !== 'undefined' ? Recharts : {});
-const { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area, LineChart, Line } = _RC;
+const {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  LineChart,
+  Line
+} = Recharts;
 const B = "#3C3489",
   BL = "#534AB7",
   BB = "#EEEDFE",
@@ -3271,4 +3281,4 @@ function App() {
     tc: B
   })), PAGES[pg] || PAGES.dash)));
 }
-/* render handled externally */
+ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(App, null));
