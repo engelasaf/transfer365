@@ -44,9 +44,6 @@ body{margin:0}
 #qa-err h2{color:#f87171;margin-bottom:16px;font-size:18px}
 #qa-err pre{background:rgba(255,255,255,.06);padding:16px;border-radius:8px;
   white-space:pre-wrap;word-break:break-all}
-#qa-steps{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.8);
-  padding:8px 16px;font-family:monospace;font-size:11px;color:#86efac;
-  z-index:99998;direction:ltr}
 </style>
 </head>
 <body>
@@ -54,7 +51,7 @@ body{margin:0}
 <!-- Step 0: catch everything before any script runs -->
 <script>
 window._qa = [];
-function qaStep(msg){ window._qa.push(msg); var el=document.getElementById('qa-steps'); if(el) el.textContent=window._qa.join(' → '); }
+function qaStep(m){ console.log("[qa]",m); }
 function qaErr(msg,detail){
   var box=document.getElementById('qa-err');
   var pre=document.getElementById('qa-err-pre');
@@ -103,13 +100,11 @@ qaStep('auth-check');
 </script>
 
 <!-- Debug steps overlay -->
-<div id="qa-steps">loading...</div>
 
 <!-- Root -->
 <div id="root" style="min-height:100vh"></div>
 
 <!-- Load React -->
-<script>qaStep('loading-React');</script>
 <script src="/assets/react.min.js"></script>
 <script>
 qaStep('react='+(typeof React));
@@ -117,7 +112,6 @@ if(typeof React==='undefined') qaErr('React failed to load','Check /assets/react
 </script>
 
 <!-- Load ReactDOM -->
-<script>qaStep('loading-ReactDOM');</script>
 <script src="/assets/reactdom.min.js"></script>
 <script>
 qaStep('reactdom='+(typeof ReactDOM));
@@ -125,14 +119,12 @@ if(typeof ReactDOM==='undefined') qaErr('ReactDOM failed to load','Check /assets
 </script>
 
 <!-- Load Recharts -->
-<script>qaStep('loading-Recharts');</script>
 <script src="/assets/recharts.min.js"></script>
 <script>
 qaStep('recharts='+(typeof Recharts));
 </script>
 
 <!-- Load App -->
-<script>qaStep('loading-App');</script>
 <script src="/assets/app.js"></script>
 <script>
 qaStep('App='+(typeof App));
