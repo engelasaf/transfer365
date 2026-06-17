@@ -2,6 +2,7 @@ const {
   useState,
   useEffect
 } = React;
+const _RC = typeof Recharts !== 'undefined' ? Recharts : {};
 const {
   BarChart,
   Bar,
@@ -13,7 +14,7 @@ const {
   Area,
   LineChart,
   Line
-} = Recharts;
+} = _RC;
 const B = "#3C3489",
   BL = "#534AB7",
   BB = "#EEEDFE",
