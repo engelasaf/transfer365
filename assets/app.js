@@ -3709,13 +3709,13 @@ function App() {
       fontSize: 15,
       color: BL
     }
-  }), "TransferPlan"), /*#__PURE__*/React.createElement("div", {
+  }), "Transfer365"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 9,
       color: "rgba(255,255,255,.3)",
       marginTop: 3
     }
-  }, "אדם כהן · פרימיום")), /*#__PURE__*/React.createElement("nav", {
+  }, window._T365 && (window._T365.full_name || (window._T365.email || '').split('@')[0]) || 'Agent', " · ", window._T365 && window._T365.plan || 'פרימיום')), /*#__PURE__*/React.createElement("nav", {
     style: {
       flex: 1,
       padding: "5px 0",
