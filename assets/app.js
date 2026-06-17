@@ -6,216 +6,216 @@ const B = "#3C3489",
   BL = "#534AB7",
   BB = "#EEEDFE",
   PIT = "#0D1A0D";
-const TICKER = ["🔴 T09 · דני כהן פציעה 8 שבועות · מכבי ת״א מחפשת תחליף", "🟡 T02 · מרקוס סילבה — חוזה פוקע 23 יום · עירוני ק.ש", "🚨 T28 · קרלוס מנדס ביקש העברה רשמית · בית״ר ירושלים", "📈 T14 · לוקאס פריירה 12 בישולים · EU קשר 45 יום", "📉 T20 · הפועל כ.ס ירדה ליגה · 6 שחקנים עם סעיפי יציאה", "🔓 T24 · חלון הקיץ נפתח ב-1.7.25 · 41 יום"];
+const TICKER = ["🔴 T09 · ג׳ורדן לרוס פציעה 6 שבועות · מכבי ת״א מחפשת תחליף", "🟡 T02 · דיאן צ׳יביטה — חוזה פוקע 22 יום · מכבי חיפה", "🚨 T28 · מאריוס הורי ביקש העברה רשמית · בית״ר ירושלים", "📈 T14 · גונסאלו פיגוירדו 14 בישולים · EU קשר 41 יום", "📉 T20 · הפועל כ.ס ירדה ליגה · 5 שחקנים עם סעיפי יציאה", "🔓 T24 · חלון הקיץ נפתח ב-1.7.26 · 14 יום"];
 const OWN = [{
   id: 1,
-  n: "דני כהן",
-  i2: "ד.כ",
-  pos: "בלם",
+  n: "ג׳ורדן לרוס",
+  i2: "ג.ל",
+  pos: "חלוץ",
   tm: "מכבי ת״א",
-  age: 25,
-  days: 19,
-  sal: 5.5,
-  val: 280,
+  age: 28,
+  days: 18,
+  sal: 14.0,
+  val: 1200,
   st: "injury",
-  pp: "IL/PT",
-  g: 2,
-  a: 8,
-  rat: 6.8,
+  pp: "FR/EU",
+  g: 9,
+  a: 4,
+  rat: 7.6,
   sc: 91,
   bg: "#FCEBEB",
   tc: "#A32D2D"
 }, {
   id: 2,
-  n: "מרקוס סילבה",
-  i2: "מ.ס",
-  pos: "בלם",
-  tm: "עירוני ק.ש",
-  age: 26,
-  days: 23,
-  sal: 5.5,
-  val: 280,
+  n: "דיאן צ׳יביטה",
+  i2: "ד.צ",
+  pos: "קשר",
+  tm: "מכבי חיפה",
+  age: 27,
+  days: 22,
+  sal: 11.5,
+  val: 950,
   st: "expiring",
-  pp: "PT",
-  g: 1,
-  a: 5,
-  rat: 7.2,
-  sc: 87,
+  pp: "BE/EU",
+  g: 5,
+  a: 11,
+  rat: 7.9,
+  sc: 88,
   bg: BB,
   tc: B
 }, {
   id: 3,
-  n: "עמיר כץ",
-  i2: "ע.כ",
+  n: "נדב בן חיים",
+  i2: "נ.ב",
   pos: "חלוץ",
-  tm: "הפועל ת״א",
-  age: 24,
-  days: 19,
-  sal: 4.8,
-  val: 320,
+  tm: "הפועל באר שבע",
+  age: 26,
+  days: 16,
+  sal: 9.5,
+  val: 780,
   st: "expiring",
   pp: "IL",
-  g: 12,
-  a: 4,
-  rat: 8.1,
-  sc: 84,
+  g: 14,
+  a: 3,
+  rat: 8.0,
+  sc: 86,
   bg: "#E1F5EE",
   tc: "#085041"
 }, {
   id: 4,
-  n: "קרלוס מנדס",
-  i2: "ק.מ",
-  pos: "חלוץ",
+  n: "מאריוס הורי",
+  i2: "מ.ה",
+  pos: "בלם",
   tm: "בית״ר ירושלים",
-  age: 29,
-  days: 203,
-  sal: 9.0,
-  val: 450,
+  age: 30,
+  days: 198,
+  sal: 12.0,
+  val: 600,
   st: "transfer_req",
-  pp: "BR/EU",
-  g: 18,
-  a: 6,
-  rat: 7.9,
-  sc: 92,
+  pp: "RO/EU",
+  g: 1,
+  a: 3,
+  rat: 7.4,
+  sc: 89,
   bg: "#FAECE7",
   tc: "#712B13"
 }, {
   id: 5,
-  n: "לוקאס פריירה",
-  i2: "ל.פ",
+  n: "גונסאלו פיגוירדו",
+  i2: "ג.פ",
   pos: "קשר",
-  tm: "מ.פ.ס",
+  tm: "הפועל ת״א",
   age: 25,
-  days: 45,
-  sal: 7.5,
-  val: 340,
+  days: 41,
+  sal: 10.0,
+  val: 820,
   st: "expiring",
-  pp: "BR/EU",
+  pp: "PT/EU",
   g: 6,
-  a: 12,
-  rat: 7.8,
-  sc: 88,
+  a: 14,
+  rat: 8.2,
+  sc: 90,
   bg: "#FAEEDA",
   tc: "#633806"
 }, {
   id: 6,
-  n: "נועם שפירא",
-  i2: "נ.ש",
-  pos: "בלם",
+  n: "עמית שחר",
+  i2: "ע.ש",
+  pos: "מגן",
   tm: "שוק חופשי",
-  age: 23,
+  age: 24,
   days: 0,
-  sal: 3.0,
-  val: 95,
+  sal: 6.5,
+  val: 320,
   st: "free",
   pp: "IL",
   g: 0,
-  a: 1,
-  rat: 6.2,
-  sc: 78,
+  a: 2,
+  rat: 6.9,
+  sc: 79,
   bg: BB,
   tc: B
 }, {
   id: 7,
-  n: "טוני רומרו",
-  i2: "ט.ר",
-  pos: "מגן",
-  tm: "מ.פ.ס",
-  age: 27,
-  days: 156,
-  sal: 6.2,
-  val: 210,
+  n: "עמאד בוקאר",
+  i2: "ע.ב",
+  pos: "קשר",
+  tm: "מכבי פ.ת",
+  age: 26,
+  days: 167,
+  sal: 8.5,
+  val: 580,
   st: "active",
-  pp: "ES/EU",
-  g: 1,
-  a: 9,
-  rat: 7.6,
-  sc: 83,
+  pp: "FR/EU",
+  g: 3,
+  a: 8,
+  rat: 7.7,
+  sc: 84,
   bg: "#E1F5EE",
   tc: "#085041"
 }, {
   id: 8,
-  n: "יובל שפיר",
+  n: "ירדן שלום",
   i2: "י.ש",
-  pos: "קשר",
+  pos: "בלם",
   tm: "הפועל חיפה",
-  age: 30,
-  days: 89,
-  sal: 5.0,
-  val: 165,
-  st: "suspended",
+  age: 29,
+  days: 74,
+  sal: 7.8,
+  val: 420,
+  st: "active",
   pp: "IL",
-  g: 4,
-  a: 11,
-  rat: 7.1,
-  sc: 69,
-  bg: "#FCEBEB",
-  tc: "#A32D2D"
+  g: 2,
+  a: 1,
+  rat: 7.2,
+  sc: 77,
+  bg: BB,
+  tc: B
 }];
 const MKT = [{
   id: 11,
-  n: "ג׳ון אוביקה",
-  i2: "ג.א",
+  n: "בוריס מטאבו",
+  i2: "ב.מ",
   pos: "חלוץ",
-  tm: "הפועל ת״א",
-  days: 28,
-  sal: 3.5,
-  val: 190,
+  tm: "עירוני ת״א",
+  days: 25,
+  sal: 7.2,
+  val: 480,
   st: "expiring",
-  pp: "NG/EU",
-  sc: 86,
+  pp: "FR/EU",
+  sc: 88,
   bg: "#E1F5EE",
   tc: "#085041",
-  src: "Transfermarkt"
+  src: "Transfer365 AI"
 }, {
   id: 12,
-  n: "רונאלדו ולנציה",
-  i2: "ר.ו",
-  pos: "חלוץ",
-  tm: "מכבי נתניה",
+  n: "ניקולס פרנסיסי",
+  i2: "נ.פ",
+  pos: "קשר",
+  tm: "שוק חופשי",
   days: 0,
-  sal: 4.5,
-  val: 220,
+  sal: 8.0,
+  val: 390,
   st: "free",
-  pp: "EC/EU",
-  sc: 89,
+  pp: "AR/EU",
+  sc: 85,
   bg: "#FAEEDA",
   tc: "#633806",
-  src: "Wyscout"
+  src: "Transfer365 AI"
 }, {
   id: 13,
-  n: "עדי כהן",
-  i2: "ע.כ",
+  n: "יניב כנען",
+  i2: "י.כ",
   pos: "בלם",
-  tm: "בני יהודה",
-  days: 12,
-  sal: 3.8,
-  val: 145,
+  tm: "מ.נ.ס",
+  days: 14,
+  sal: 6.5,
+  val: 310,
   st: "expiring",
   pp: "IL",
-  sc: 74,
+  sc: 76,
   bg: BB,
   tc: B,
-  src: "API-Football"
+  src: "Transfer365 AI"
 }, {
   id: 14,
-  n: "ראיאן שאמס",
-  i2: "ר.ש",
+  n: "קוסטה ניקוליץ׳",
+  i2: "ק.נ",
   pos: "מגן",
-  tm: "הפועל כ.ס",
+  tm: "שוק חופשי",
   days: 0,
-  sal: 3.2,
-  val: 110,
+  sal: 7.0,
+  val: 280,
   st: "free",
-  pp: "IL/FR",
-  sc: 72,
+  pp: "RS/EU",
+  sc: 80,
   bg: "#E1F5EE",
   tc: "#085041",
-  src: "Transfermarkt"
+  src: "Transfer365 AI"
 }];
 const MATCHES = [{
   pid: 1,
-  p: "דני כהן",
+  p: "ג׳ורדן לרוס",
   pos: "בלם",
   tm: "בית״ר ירושלים",
   sc: 91,
@@ -226,10 +226,10 @@ const MATCHES = [{
   fee: 200,
   bg: "#FCEBEB",
   tc: "#A32D2D",
-  src: "Transfermarkt"
+  src: "Transfer365 AI"
 }, {
   pid: 5,
-  p: "לוקאס פריירה",
+  p: "גונסאלו פיגוירדו",
   pos: "קשר",
   tm: "מכבי ת״א",
   sc: 88,
@@ -240,10 +240,10 @@ const MATCHES = [{
   fee: 350,
   bg: "#FAEEDA",
   tc: "#633806",
-  src: "SciSports"
+  src: "Transfer365 AI"
 }, {
   pid: 4,
-  p: "קרלוס מנדס",
+  p: "מאריוס הורי",
   pos: "חלוץ",
   tm: "מכבי חיפה",
   sc: 88,
@@ -254,10 +254,10 @@ const MATCHES = [{
   fee: 500,
   bg: "#FAECE7",
   tc: "#712B13",
-  src: "Wyscout"
+  src: "Transfer365 AI"
 }, {
   pid: 3,
-  p: "עמיר כץ",
+  p: "נדב בן חיים",
   pos: "חלוץ",
   tm: "מ.פ.ס",
   sc: 84,
@@ -268,10 +268,10 @@ const MATCHES = [{
   fee: 250,
   bg: "#E1F5EE",
   tc: "#085041",
-  src: "API-Football"
+  src: "Transfer365 AI"
 }, {
   pid: 2,
-  p: "מרקוס סילבה",
+  p: "דיאן צ׳יביטה",
   pos: "בלם",
   tm: "הפועל ת״א",
   sc: 81,
@@ -282,11 +282,11 @@ const MATCHES = [{
   fee: 180,
   bg: BB,
   tc: B,
-  src: "Transfermarkt"
+  src: "Transfer365 AI"
 }];
 const DEALS0 = [{
   id: 1,
-  p: "דני כהן",
+  p: "ג׳ורדן לרוס",
   fr: "מכבי ת״א",
   to: "בית״ר",
   fee: 200,
@@ -297,7 +297,7 @@ const DEALS0 = [{
   tc: "#A32D2D"
 }, {
   id: 2,
-  p: "לוקאס פריירה",
+  p: "גונסאלו פיגוירדו",
   fr: "מ.פ.ס",
   to: "מכבי ת״א",
   fee: 350,
@@ -308,7 +308,7 @@ const DEALS0 = [{
   tc: "#633806"
 }, {
   id: 3,
-  p: "עמיר כץ",
+  p: "נדב בן חיים",
   fr: "הפועל ת״א",
   to: "מ.פ.ס",
   fee: 250,
@@ -319,7 +319,7 @@ const DEALS0 = [{
   tc: "#085041"
 }, {
   id: 4,
-  p: "קרלוס מנדס",
+  p: "מאריוס הורי",
   fr: "בית״ר",
   to: "מכבי חיפה",
   fee: 500,
@@ -341,7 +341,7 @@ const DEALS0 = [{
   tc: B
 }, {
   id: 6,
-  p: "ולנציה",
+  p: "פרנסיסי",
   fr: "שוק",
   to: "עירוני ק.ש",
   fee: 80,
@@ -389,7 +389,7 @@ const ALTS0 = [{
   ic: "ti-first-aid-kit",
   bg: "#FCEBEB",
   tc: "#A32D2D",
-  tx: "דני כהן נפצע — 8 שבועות. 3 קבוצות פנו.",
+  tx: "ג׳ורדן לרוס נפצע — 6 שבועות. 3 קבוצות פנו.",
   tm: "08:02",
   r: false,
   tg: "T09"
@@ -398,7 +398,7 @@ const ALTS0 = [{
   ic: "ti-clock",
   bg: "#FAEEDA",
   tc: "#633806",
-  tx: "מרקוס סילבה — חוזה מסתיים בעוד 23 יום.",
+  tx: "דיאן צ׳יביטה — חוזה מסתיים בעוד 22 יום.",
   tm: "08:02",
   r: false,
   tg: "T02"
@@ -407,7 +407,7 @@ const ALTS0 = [{
   ic: "ti-arrows-exchange",
   bg: BB,
   tc: B,
-  tx: "קרלוס מנדס ביקש העברה רשמית מבית״ר.",
+  tx: "מאריוס הורי ביקש העברה רשמית מבית״ר.",
   tm: "07:45",
   r: false,
   tg: "T28"
@@ -416,7 +416,7 @@ const ALTS0 = [{
   ic: "ti-trending-up",
   bg: "#E1F5EE",
   tc: "#085041",
-  tx: "עמיר כץ — 4 גולים ב-5 משחקים.",
+  tx: "נדב בן חיים — 5 גולים ב-4 משחקים.",
   tm: "07:30",
   r: true,
   tg: "T14"
@@ -425,7 +425,7 @@ const ALTS0 = [{
   ic: "ti-rectangle",
   bg: "#FAECE7",
   tc: "#712B13",
-  tx: "יובל שפיר — כרטיס אדום. מחוץ 3 משחקים.",
+  tx: "ירדן שלום — כרטיס אדום. מחוץ 3 משחקים.",
   tm: "22:10",
   r: true,
   tg: "T16"
@@ -434,7 +434,7 @@ const ALTS0 = [{
   ic: "ti-user-check",
   bg: "#EAF3DE",
   tc: "#27500A",
-  tx: "נועם שפירא הפך לשחקן חופשי.",
+  tx: "עמית שחר הפך לשחקן חופשי.",
   tm: "אתמול",
   r: true,
   tg: "T03"
@@ -1410,26 +1410,7 @@ function App() {
         color: "var(--tx1)",
         fontSize: 12
       }
-    }), /*#__PURE__*/React.createElement("button", {
-      style: {
-        padding: "7px 12px",
-        borderRadius: 8,
-        border: "0.5px dashed var(--bd2)",
-        background: "var(--bg2)",
-        color: "var(--tx2)",
-        fontSize: 11,
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        gap: 5
-      },
-      onClick: () => alert("הדבק קישור Transfermarkt → ייבוא אוטומטי")
-    }, /*#__PURE__*/React.createElement("i", {
-      className: "ti ti-download",
-      style: {
-        fontSize: 13
-      }
-    }), "ייבא מ-TM")), /*#__PURE__*/React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         gap: 5,
@@ -1559,50 +1540,7 @@ function App() {
         flexDirection: "column",
         gap: 10
       }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        background: "linear-gradient(135deg," + BB + ",#E1F5EE)",
-        borderRadius: 10,
-        padding: "12px 14px",
-        display: "flex",
-        alignItems: "center",
-        gap: 10
-      }
-    }, /*#__PURE__*/React.createElement("i", {
-      className: "ti ti-brand-transferwise",
-      style: {
-        fontSize: 22,
-        color: B
-      }
-    }), /*#__PURE__*/React.createElement("div", {
-      style: {
-        flex: 1
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 13,
-        fontWeight: 700,
-        color: B
-      }
-    }, "גילוי שחקנים מ-Transfermarkt"), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 11,
-        color: "var(--tx2)",
-        marginTop: 1
-      }
-    }, "הדבק קישור שחקן → הוסף לפורטפוליו אוטומטית")), /*#__PURE__*/React.createElement("button", {
-      style: {
-        padding: "7px 14px",
-        borderRadius: 8,
-        border: "none",
-        background: B,
-        color: "#EEEDFE",
-        fontSize: 11,
-        cursor: "pointer",
-        fontWeight: 700
-      },
-      onClick: () => alert("הדבק URL של שחקן מ-Transfermarkt")
-    }, "הדבק URL")), /*#__PURE__*/React.createElement("input", {
+    }, /*#__PURE__*/React.createElement("input", {
       value: mktS,
       onChange: e => setMktS(e.target.value),
       placeholder: "חפש בשוק — עמדה, לאומיות, קבוצה...",
@@ -2570,7 +2508,7 @@ function App() {
       tc: "#A32D2D"
     }, {
       d: "23.06.25",
-      l: "מרקוס סילבה",
+      l: "דיאן צ׳יביטה",
       bg: "#FCEBEB",
       tc: "#A32D2D"
     }, {
@@ -2580,7 +2518,7 @@ function App() {
       tc: "#085041"
     }, {
       d: "15.08.25",
-      l: "לוקאס פריירה",
+      l: "גונסאלו פיגוירדו",
       bg: "#FAEEDA",
       tc: "#633806"
     }, {
