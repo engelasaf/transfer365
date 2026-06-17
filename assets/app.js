@@ -6,13 +6,13 @@ const B = "#3C3489",
   BL = "#534AB7",
   BB = "#EEEDFE",
   PIT = "#0D1A0D";
-const TICKER = ["🔴 T09 · ג׳ורדן לרוס פציעה 6 שבועות · מכבי ת״א מחפשת תחליף", "🟡 T02 · דיאן צ׳יביטה — חוזה פוקע 22 יום · מכבי חיפה", "🚨 T28 · מאריוס הורי ביקש העברה רשמית · בית״ר ירושלים", "📈 T14 · גונסאלו פיגוירדו 14 בישולים · EU קשר 41 יום", "📉 T20 · הפועל כ.ס ירדה ליגה · 5 שחקנים עם סעיפי יציאה", "🔓 T24 · חלון הקיץ נפתח ב-1.7.26 · 14 יום"];
+const TICKER = ["🔴 T09 · Jordan LaRose — hamstring injury, 6 weeks · Maccabi TLV seeking cover", "🟡 T02 · Dian Civita — contract expires in 22 days · Maccabi Haifa", "🚨 T28 · Marius Houri filed formal transfer request · Beitar Jerusalem", "📈 T14 · Goncalo Figueiredo 14 assists · EU midfielder 41 days left", "📉 T20 · Hapoel K.S relegated · 5 players with release clauses", "🔓 T24 · Summer window opens 1.7.26 · 14 days"];
 const OWN = [{
   id: 1,
-  n: "ג׳ורדן לרוס",
-  i2: "ג.ל",
-  pos: "חלוץ",
-  tm: "מכבי ת״א",
+  n: "Jordan LaRose",
+  i2: "J.L",
+  pos: "FWD",
+  tm: "Maccabi TLV",
   age: 28,
   days: 18,
   sal: 14.0,
@@ -27,10 +27,10 @@ const OWN = [{
   tc: "#A32D2D"
 }, {
   id: 2,
-  n: "דיאן צ׳יביטה",
-  i2: "ד.צ",
-  pos: "קשר",
-  tm: "מכבי חיפה",
+  n: "Dian Civita",
+  i2: "D.C",
+  pos: "MID",
+  tm: "Maccabi Haifa",
   age: 27,
   days: 22,
   sal: 11.5,
@@ -45,10 +45,10 @@ const OWN = [{
   tc: B
 }, {
   id: 3,
-  n: "נדב בן חיים",
-  i2: "נ.ב",
-  pos: "חלוץ",
-  tm: "הפועל באר שבע",
+  n: "Nadav Ben Haim",
+  i2: "N.B",
+  pos: "FWD",
+  tm: "Hapoel B.S",
   age: 26,
   days: 16,
   sal: 9.5,
@@ -63,10 +63,10 @@ const OWN = [{
   tc: "#085041"
 }, {
   id: 4,
-  n: "מאריוס הורי",
-  i2: "מ.ה",
-  pos: "בלם",
-  tm: "בית״ר ירושלים",
+  n: "Marius Houri",
+  i2: "M.H",
+  pos: "CB",
+  tm: "Beitar Jerusalem",
   age: 30,
   days: 198,
   sal: 12.0,
@@ -81,10 +81,10 @@ const OWN = [{
   tc: "#712B13"
 }, {
   id: 5,
-  n: "גונסאלו פיגוירדו",
-  i2: "ג.פ",
-  pos: "קשר",
-  tm: "הפועל ת״א",
+  n: "Goncalo Figueiredo",
+  i2: "G.F",
+  pos: "MID",
+  tm: "Hapoel TLV",
   age: 25,
   days: 41,
   sal: 10.0,
@@ -99,10 +99,10 @@ const OWN = [{
   tc: "#633806"
 }, {
   id: 6,
-  n: "עמית שחר",
-  i2: "ע.ש",
-  pos: "מגן",
-  tm: "שוק חופשי",
+  n: "Amit Shahar",
+  i2: "A.S",
+  pos: "DEF",
+  tm: "Free Agent",
   age: 24,
   days: 0,
   sal: 6.5,
@@ -117,10 +117,10 @@ const OWN = [{
   tc: B
 }, {
   id: 7,
-  n: "עמאד בוקאר",
-  i2: "ע.ב",
-  pos: "קשר",
-  tm: "מכבי פ.ת",
+  n: "Amad Boukar",
+  i2: "A.B",
+  pos: "MID",
+  tm: "Maccabi Petah",
   age: 26,
   days: 167,
   sal: 8.5,
@@ -135,10 +135,10 @@ const OWN = [{
   tc: "#085041"
 }, {
   id: 8,
-  n: "ירדן שלום",
-  i2: "י.ש",
-  pos: "בלם",
-  tm: "הפועל חיפה",
+  n: "Yarden Shalom",
+  i2: "Y.S",
+  pos: "CB",
+  tm: "Hapoel Haifa",
   age: 29,
   days: 74,
   sal: 7.8,
@@ -154,10 +154,10 @@ const OWN = [{
 }];
 const MKT = [{
   id: 11,
-  n: "בוריס מטאבו",
-  i2: "ב.מ",
-  pos: "חלוץ",
-  tm: "עירוני ת״א",
+  n: "Boris Metabo",
+  i2: "B.M",
+  pos: "FWD",
+  tm: "Ironi TLV",
   days: 25,
   sal: 7.2,
   val: 480,
@@ -169,10 +169,10 @@ const MKT = [{
   src: "Transfer365 AI"
 }, {
   id: 12,
-  n: "ניקולס פרנסיסי",
-  i2: "נ.פ",
-  pos: "קשר",
-  tm: "שוק חופשי",
+  n: "Nicolas Francisi",
+  i2: "N.F",
+  pos: "MID",
+  tm: "Free Agent",
   days: 0,
   sal: 8.0,
   val: 390,
@@ -184,10 +184,10 @@ const MKT = [{
   src: "Transfer365 AI"
 }, {
   id: 13,
-  n: "יניב כנען",
-  i2: "י.כ",
-  pos: "בלם",
-  tm: "מ.נ.ס",
+  n: "Yaniv Canaan",
+  i2: "Y.C",
+  pos: "CB",
+  tm: "MNS",
   days: 14,
   sal: 6.5,
   val: 310,
@@ -199,10 +199,10 @@ const MKT = [{
   src: "Transfer365 AI"
 }, {
   id: 14,
-  n: "קוסטה ניקוליץ׳",
-  i2: "ק.נ",
-  pos: "מגן",
-  tm: "שוק חופשי",
+  n: "Kosta Nikolic",
+  i2: "K.N",
+  pos: "DEF",
+  tm: "Free Agent",
   days: 0,
   sal: 7.0,
   val: 280,
@@ -215,70 +215,70 @@ const MKT = [{
 }];
 const MATCHES = [{
   pid: 1,
-  p: "ג׳ורדן לרוס",
-  pos: "בלם",
-  tm: "בית״ר ירושלים",
+  p: "Jordan LaRose",
+  pos: "CB",
+  tm: "Beitar Jerusalem",
   sc: 91,
   urg: "high",
-  why: "פציעה בקבוצה + בית״ר מחפשת בלם EU",
-  pros: ["עמדה מבוקשת", "דרכון EU"],
-  cons: ["שכר €5.5K"],
+  why: "Team injury + Beitar seeking EU CB",
+  pros: ["High-demand position", "EU passport"],
+  cons: ["Salary €5.5K"],
   fee: 200,
   bg: "#FCEBEB",
   tc: "#A32D2D",
   src: "Transfer365 AI"
 }, {
   pid: 5,
-  p: "גונסאלו פיגוירדו",
-  pos: "קשר",
-  tm: "מכבי ת״א",
+  p: "Goncalo Figueiredo",
+  pos: "MID",
+  tm: "Maccabi TLV",
   sc: 88,
   urg: "high",
-  why: "EU קשר + מכבי ת״א עם תקציב פנוי",
-  pros: ["EU", "12 בישולים"],
-  cons: ["שכר €7.5K"],
+  why: "EU midfielder + Maccabi TLV has budget",
+  pros: ["EU", "12 assists"],
+  cons: ["Salary €7.5K"],
   fee: 350,
   bg: "#FAEEDA",
   tc: "#633806",
   src: "Transfer365 AI"
 }, {
   pid: 4,
-  p: "מאריוס הורי",
-  pos: "חלוץ",
-  tm: "מכבי חיפה",
+  p: "Marius Houri",
+  pos: "FWD",
+  tm: "Maccabi Haifa",
   sc: 88,
   urg: "high",
-  why: "ביקש העברה רשמית",
-  pros: ["EU", "18 גולים"],
-  cons: ["שכר €9K"],
+  why: "Filed formal transfer request",
+  pros: ["EU", "18 goals"],
+  cons: ["Salary €9K"],
   fee: 500,
   bg: "#FAECE7",
   tc: "#712B13",
   src: "Transfer365 AI"
 }, {
   pid: 3,
-  p: "נדב בן חיים",
-  pos: "חלוץ",
-  tm: "מ.פ.ס",
+  p: "Nadav Ben Haim",
+  pos: "FWD",
+  tm: "MPS",
   sc: 84,
   urg: "high",
-  why: "חוזה פוקע 19 יום",
-  pros: ["ישראלי", "8.1 ציון"],
-  cons: ["6 מתחרות"],
+  why: "contract expires in 19 days",
+  pros: ["Israeli", "8.1 rating"],
+  cons: ["6 competitors"],
   fee: 250,
   bg: "#E1F5EE",
   tc: "#085041",
   src: "Transfer365 AI"
 }, {
   pid: 2,
-  p: "דיאן צ׳יביטה",
-  pos: "בלם",
-  tm: "הפועל ת״א",
+  p: "Dian Civita",
+  pos: "CB",
+  tm: "Hapoel TLV",
   sc: 81,
   urg: "medium",
-  why: "23 יום לחוזה, הפועל ת״א ללא בלם",
-  pros: ["EU", "ניסיון"],
-  cons: ["מתחרים"],
+  why: "22 days left, Hapoel TLV needs CB",
+  pros: ["EU", "Experience"],
+  cons: ["Competitors"],
   fee: 180,
   bg: BB,
   tc: B,
@@ -286,9 +286,9 @@ const MATCHES = [{
 }];
 const DEALS0 = [{
   id: 1,
-  p: "ג׳ורדן לרוס",
-  fr: "מכבי ת״א",
-  to: "בית״ר",
+  p: "Jordan LaRose",
+  fr: "Maccabi TLV",
+  to: "Beitar Jlem",
   fee: 200,
   st: 1,
   din: 5,
@@ -297,9 +297,9 @@ const DEALS0 = [{
   tc: "#A32D2D"
 }, {
   id: 2,
-  p: "גונסאלו פיגוירדו",
-  fr: "מ.פ.ס",
-  to: "מכבי ת״א",
+  p: "Goncalo Figueiredo",
+  fr: "MPS",
+  to: "Maccabi TLV",
   fee: 350,
   st: 1,
   din: 3,
@@ -308,9 +308,9 @@ const DEALS0 = [{
   tc: "#633806"
 }, {
   id: 3,
-  p: "נדב בן חיים",
-  fr: "הפועל ת״א",
-  to: "מ.פ.ס",
+  p: "Nadav Ben Haim",
+  fr: "Hapoel TLV",
+  to: "MPS",
   fee: 250,
   st: 2,
   din: 8,
@@ -319,9 +319,9 @@ const DEALS0 = [{
   tc: "#085041"
 }, {
   id: 4,
-  p: "מאריוס הורי",
-  fr: "בית״ר",
-  to: "מכבי חיפה",
+  p: "Marius Houri",
+  fr: "Beitar Jlem",
+  to: "Maccabi Haifa",
   fee: 500,
   st: 2,
   din: 12,
@@ -330,9 +330,9 @@ const DEALS0 = [{
   tc: "#712B13"
 }, {
   id: 5,
-  p: "נועם שפירא",
-  fr: "שוק",
-  to: "הפועל ב.ש",
+  p: "Noam Shapira",
+  fr: "Market",
+  to: "Hapoel B.S",
   fee: 60,
   st: 3,
   din: 1,
@@ -341,9 +341,9 @@ const DEALS0 = [{
   tc: B
 }, {
   id: 6,
-  p: "פרנסיסי",
-  fr: "שוק",
-  to: "עירוני ק.ש",
+  p: "Francisi",
+  fr: "Market",
+  to: "Ironi K.S",
   fee: 80,
   st: 4,
   din: 0,
@@ -352,35 +352,35 @@ const DEALS0 = [{
   tc: "#633806"
 }];
 const BUDG = [{
-  t: "מכבי ת״א",
+  t: "Maccabi TLV",
   b: 2400,
   u: 1800
 }, {
-  t: "בית״ר",
+  t: "Beitar Jlem",
   b: 1800,
   u: 1200
 }, {
-  t: "הפועל ת״א",
+  t: "Hapoel TLV",
   b: 1600,
   u: 1400
 }, {
-  t: "מכבי חיפה",
+  t: "Maccabi Haifa",
   b: 1500,
   u: 900
 }, {
-  t: "הפועל ב.ש",
+  t: "Hapoel B.S",
   b: 1200,
   u: 800
 }, {
-  t: "מ.פ.ס",
+  t: "MPS",
   b: 900,
   u: 700
 }, {
-  t: "בני יהודה",
+  t: "Bnei Yehuda",
   b: 800,
   u: 650
 }, {
-  t: "מכבי נתניה",
+  t: "Maccabi Netanya",
   b: 700,
   u: 400
 }];
@@ -389,7 +389,7 @@ const ALTS0 = [{
   ic: "ti-first-aid-kit",
   bg: "#FCEBEB",
   tc: "#A32D2D",
-  tx: "ג׳ורדן לרוס נפצע — 6 שבועות. 3 קבוצות פנו.",
+  tx: "Jordan LaRose injured — 6 weeks. 3 clubs enquired.",
   tm: "08:02",
   r: false,
   tg: "T09"
@@ -398,7 +398,7 @@ const ALTS0 = [{
   ic: "ti-clock",
   bg: "#FAEEDA",
   tc: "#633806",
-  tx: "דיאן צ׳יביטה — חוזה מסתיים בעוד 22 יום.",
+  tx: "Dian Civita — contract expires in 22 days.",
   tm: "08:02",
   r: false,
   tg: "T02"
@@ -407,7 +407,7 @@ const ALTS0 = [{
   ic: "ti-arrows-exchange",
   bg: BB,
   tc: B,
-  tx: "מאריוס הורי ביקש העברה רשמית מבית״ר.",
+  tx: "Marius Houri submitted formal transfer request from Beitar.",
   tm: "07:45",
   r: false,
   tg: "T28"
@@ -416,7 +416,7 @@ const ALTS0 = [{
   ic: "ti-trending-up",
   bg: "#E1F5EE",
   tc: "#085041",
-  tx: "נדב בן חיים — 5 גולים ב-4 משחקים.",
+  tx: "Nadav Ben Haim — 5 goals in 4 games.",
   tm: "07:30",
   r: true,
   tg: "T14"
@@ -425,7 +425,7 @@ const ALTS0 = [{
   ic: "ti-rectangle",
   bg: "#FAECE7",
   tc: "#712B13",
-  tx: "ירדן שלום — כרטיס אדום. מחוץ 3 משחקים.",
+  tx: "Yarden Shalom — red card. Out 3 games.",
   tm: "22:10",
   r: true,
   tg: "T16"
@@ -434,265 +434,265 @@ const ALTS0 = [{
   ic: "ti-user-check",
   bg: "#EAF3DE",
   tc: "#27500A",
-  tx: "עמית שחר הפך לשחקן חופשי.",
-  tm: "אתמול",
+  tx: "Amit Shahar became a free agent.",
+  tm: "Yesterday",
   r: true,
   tg: "T03"
 }];
 const TCAT = [{
-  lb: "חוזים",
+  lb: "Contracts",
   its: [{
     id: "T02",
-    n: "חוזה מסתיים — 30 יום",
+    n: "Contract ending — 30 days",
     ic: "ti-clock",
     w: 3,
     on: true
   }, {
     id: "T03",
-    n: "שחקן הפך לחופשי",
+    n: "Player became free agent",
     ic: "ti-user-check",
     w: 1,
     on: true
   }, {
     id: "T05",
-    n: "סעיף יציאה — % דקות",
+    n: "Release clause — % minutes",
     ic: "ti-percentage",
     w: 2,
     on: true
   }, {
     id: "T04",
-    n: "סעיף — ירידה ליגה",
+    n: "Relegation clause",
     ic: "ti-chevrons-down",
     w: 1,
     on: true
   }, {
     id: "T01",
-    n: "חוזה — 90 יום",
+    n: "Contract — 90 days",
     ic: "ti-calendar-time",
     w: 1,
     on: false
   }]
 }, {
-  lb: "פציעות",
+  lb: "injuries",
   its: [{
     id: "T09",
-    n: "פציעה ארוכה (4+ שב׳)",
+    n: "Long injury (4+ wks)",
     ic: "ti-first-aid-kit",
     w: 4,
     on: true
   }, {
     id: "T08",
-    n: "פציעה קצרה",
+    n: "Short injury",
     ic: "ti-bandage",
     w: 2,
     on: false
   }, {
     id: "T10",
-    n: "חזרה מפציעה",
+    n: "Return from injury",
     ic: "ti-run",
     w: 1,
     on: true
   }, {
     id: "T11",
-    n: "פציעה חוזרת",
+    n: "Recurring injury",
     ic: "ti-alert-triangle",
     w: 1,
     on: true
   }]
 }, {
-  lb: "ביצועים",
+  lb: "Performance",
   its: [{
     id: "T14",
-    n: "שחקן חם",
+    n: "Hot form",
     ic: "ti-flame",
     w: 1,
     on: true
   }, {
     id: "T12",
-    n: "לא משחק דקות",
+    n: "No playing time",
     ic: "ti-player-pause",
     w: 1,
     on: true
   }, {
     id: "T30",
-    n: "שינוי שווי +20%",
+    n: "Value change +20%",
     ic: "ti-chart-line",
     w: 1,
     on: true
   }, {
     id: "T13",
-    n: "ירידה",
+    n: "Decline",
     ic: "ti-trending-down",
     w: 1,
     on: false
   }]
 }, {
-  lb: "מועדון",
+  lb: "Club",
   its: [{
     id: "T16",
-    n: "כרטיס אדום",
+    n: "Red card",
     ic: "ti-rectangle",
     w: 1,
     on: true
   }, {
     id: "T20",
-    n: "קבוצה ירדה ליגה",
+    n: "Relegation",
     ic: "ti-trending-down",
     w: 2,
     on: true
   }, {
     id: "T22",
-    n: "פיטורי מאמן",
+    n: "Manager sacked",
     ic: "ti-user-minus",
     w: 1,
     on: true
   }, {
     id: "T25",
-    n: "72 שעות לחלון",
+    n: "72hrs to window",
     ic: "ti-alarm",
     w: 3,
     on: true
   }, {
     id: "T28",
-    n: "בקשת העברה",
+    n: "Transfer Req",
     ic: "ti-arrows-exchange",
     w: 1,
     on: true
   }]
 }];
 const TREND = [{
-  m: "ינו",
+  m: "Jan",
   v: 185
 }, {
-  m: "פבר",
+  m: "Feb",
   v: 192
 }, {
-  m: "מרץ",
+  m: "Mar",
   v: 198
 }, {
-  m: "אפר",
+  m: "Apr",
   v: 210
 }, {
-  m: "מאי",
+  m: "May",
   v: 225
 }, {
-  m: "יוני",
+  m: "Jun",
   v: 242
 }];
 const COMM_H = [{
-  m: "ינו",
+  m: "Jan",
   c: 3200
 }, {
-  m: "פבר",
+  m: "Feb",
   c: 0
 }, {
-  m: "מרץ",
+  m: "Mar",
   c: 8500
 }, {
-  m: "אפר",
+  m: "Apr",
   c: 12000
 }, {
-  m: "מאי",
+  m: "May",
   c: 7500
 }, {
-  m: "יוני",
+  m: "Jun",
   c: 16700
 }];
 const NAV = [{
   id: "dash",
   ic: "ti-layout-dashboard",
-  l: "דשבורד"
+  l: "Dashboard"
 }, {
   id: "port",
   ic: "ti-briefcase",
-  l: "הפורטפוליו"
+  l: "Portfolio"
 }, {
   id: "disc",
   ic: "ti-search",
-  l: "גלה שחקנים"
+  l: "Discover"
 }, {
   id: "mch",
   ic: "ti-target",
-  l: "מאצ׳ים AI"
+  l: "AI Matches"
 }, {
   id: "pipe",
   ic: "ti-timeline",
-  l: "עסקאות CRM"
+  l: "Deals CRM"
 }, {
   id: "budg",
   ic: "ti-coins",
-  l: "תקציבים"
+  l: "Budgets"
 }, {
   id: "cal",
   ic: "ti-calendar",
-  l: "לוח שנה"
+  l: "Calendar"
 }, {
   id: "anl",
   ic: "ti-chart-bar",
-  l: "ניתוח"
+  l: "Analytics"
 }, {
   id: "net",
   ic: "ti-network",
-  l: "רשת"
+  l: "Network"
 }, {
   id: "set",
   ic: "ti-bell",
-  l: "התראות"
+  l: "Alerts"
 }];
-const STAGES = ["גילוי", "יצירת קשר", "משא ומתן", "חתימה", "סגור"];
+const STAGES = ["Discovery", "Outreach", "Negotiation", "Signing", "Closed"];
 const SBG = ["#F1EFE8", BB, "#FAEEDA", "#E6F1FB", "#EAF3DE"];
 const STC = ["#5F5E5A", B, "#633806", "#0C447C", "#27500A"];
 const dC = d => d === 0 ? {
   bg: "#EAF3DE",
   tc: "#27500A",
-  l: "חופשי"
+  l: "Free"
 } : d <= 30 ? {
   bg: "#FCEBEB",
   tc: "#A32D2D",
-  l: d + "י"
+  l: d + "d"
 } : d <= 90 ? {
   bg: "#FAEEDA",
   tc: "#633806",
-  l: d + "י"
+  l: d + "d"
 } : {
   bg: "#F1EFE8",
   tc: "#5F5E5A",
-  l: d + "י"
+  l: d + "d"
 };
 const sC = s => s >= 85 ? "#1D9E75" : s >= 70 ? "#EF9F27" : "#E24B4A";
 const stL = s => ({
   injury: {
-    l: "פציעה",
+    l: "Injured",
     bg: "#FCEBEB",
     tc: "#A32D2D"
   },
   expiring: {
-    l: "מתפנה",
+    l: "Expiring",
     bg: "#FAEEDA",
     tc: "#633806"
   },
   free: {
-    l: "חופשי",
+    l: "Free",
     bg: "#EAF3DE",
     tc: "#27500A"
   },
   suspended: {
-    l: "מושעה",
+    l: "Suspended",
     bg: "#FAECE7",
     tc: "#712B13"
   },
   transfer_req: {
-    l: "בקשת העברה",
+    l: "Transfer Req",
     bg: BB,
     tc: B
   },
   active: {
-    l: "תפוס",
+    l: "Active",
     bg: "#F1EFE8",
     tc: "#5F5E5A"
   }
 })[s] || {
-  l: "תפוס",
+  l: "Active",
   bg: "#F1EFE8",
   tc: "#5F5E5A"
 };
@@ -868,7 +868,7 @@ function App() {
         transform: ip ? "scale(2.4)" : "scale(1)",
         animation: ip ? "pulse .5s ease" : ""
       }
-    }), n, " ", n === 1 ? "סוכן" : "סוכנים", " כרגע");
+    }), n, " ", n === 1 ? "agent" : "agents", " online");
   }
   function PlayerModal() {
     if (!modal) return null;
@@ -933,7 +933,7 @@ function App() {
         color: "var(--tx3)",
         marginTop: 2
       }
-    }, p.pos, " · ", p.tm, " · גיל ", p.age)), /*#__PURE__*/React.createElement("div", {
+    }, p.pos, " · ", p.tm, " · Age ", p.age)), /*#__PURE__*/React.createElement("div", {
       style: {
         textAlign: "center"
       }
@@ -949,7 +949,7 @@ function App() {
         fontSize: 9,
         color: "var(--tx3)"
       }
-    }, "ציון AI")), /*#__PURE__*/React.createElement("button", {
+    }, "AI Score")), /*#__PURE__*/React.createElement("button", {
       style: {
         width: 28,
         height: 28,
@@ -969,13 +969,13 @@ function App() {
         marginBottom: 14
       }
     }, [{
-      l: "שווי שוק",
+      l: "Market Value",
       v: fmt(p.val) + "K"
     }, {
-      l: "שכר חודשי",
+      l: "Monthly Salary",
       v: fmt(p.sal) + "K"
     }, {
-      l: "חוזה",
+      l: "Contract",
       v: dC(p.days).l,
       bg: dC(p.days).bg,
       c: dC(p.days).tc
@@ -1015,23 +1015,23 @@ function App() {
         textTransform: "uppercase",
         letterSpacing: ".06em"
       }
-    }, "ביצועים עונתיים"), /*#__PURE__*/React.createElement("div", {
+    }, "Season Stats"), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "grid",
         gridTemplateColumns: "repeat(4,1fr)",
         gap: 8
       }
     }, [{
-      l: "גולים",
+      l: "Goals",
       v: p.g
     }, {
-      l: "בישולים",
+      l: "Assists",
       v: p.a
     }, {
-      l: "ציון",
+      l: "Rating",
       v: p.rat
     }, {
-      l: "דרכון",
+      l: "Passport",
       v: p.pp
     }].map((s, i) => /*#__PURE__*/React.createElement("div", {
       key: i
@@ -1081,7 +1081,7 @@ function App() {
         fontSize: 13,
         fontWeight: 700
       }
-    }, "פנה עכשיו"), /*#__PURE__*/React.createElement("button", {
+    }, "Contact Now"), /*#__PURE__*/React.createElement("button", {
       style: {
         padding: "10px 16px",
         borderRadius: 9,
@@ -1092,7 +1092,7 @@ function App() {
         fontSize: 13
       },
       onClick: () => setModal(null)
-    }, "סגור"))));
+    }, "Close"))));
   }
   function Dash() {
     const urg = ownPl.filter(p => p.days <= 30 || p.st === "injury" || p.st === "free").length;
@@ -1141,45 +1141,45 @@ function App() {
         textTransform: "uppercase",
         letterSpacing: ".06em"
       }
-    }, "בריף בוקר · Claude AI"), /*#__PURE__*/React.createElement("div", {
+    }, "Morning Brief · Claude AI"), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 12,
         color: "rgba(255,255,255,.82)",
         lineHeight: 1.6
       }
-    }, "יש לך ", /*#__PURE__*/React.createElement("span", {
+    }, "You have ", /*#__PURE__*/React.createElement("span", {
       style: {
         color: "#FCD34D",
         fontWeight: 700
       }
-    }, urg, " שחקנים דחופים"), " — ", ownPl.filter(p => p.st === "injury").length, " פציעות ו-", ownPl.filter(p => p.days <= 30 && p.st !== "free").length, " חוזים בסיום. ", /*#__PURE__*/React.createElement("span", {
+    }, urg, " urgent players"), " — ", ownPl.filter(p => p.st === "injury").length, " injuries and ", ownPl.filter(p => p.days <= 30 && p.st !== "free").length, " expiring contracts. ", /*#__PURE__*/React.createElement("span", {
       style: {
         color: "#86EFAC"
       }
-    }, "חלון קיץ עוד ", wD, " ימים.")))), /*#__PURE__*/React.createElement("div", {
+    }, "Summer window in ", wD, " days.")))), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "grid",
         gridTemplateColumns: "repeat(4,minmax(0,1fr))",
         gap: 10
       }
     }, /*#__PURE__*/React.createElement(Stat, {
-      l: "שחקנים",
+      l: "Players",
       v: ownPl.length,
-      s: "בפורטפוליו"
+      s: "in Portfolio"
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "דחוף",
+      l: "Urgent",
       v: urg,
-      s: "פציעה / חוזה",
+      s: "Injury / Contract",
       bg: "#FCEBEB",
       c: "#A32D2D"
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "מאצ׳ים",
+      l: "AI Matches",
       v: nm,
-      s: "AI היום",
+      s: "AI Today",
       bg: BB,
       c: B
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "עסקאות",
+      l: "Deals",
       v: deals.filter(d => d.st < 4).length,
       s: fmt(totC),
       bg: "#EAF3DE",
@@ -1191,8 +1191,8 @@ function App() {
         gap: 12
       }
     }, /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(CardH, {
-      title: "התראות היום",
-      action: unread > 0 ? "סמן הכל (" + unread + ")" : null,
+      title: "Today's Alerts",
+      action: unread > 0 ? "Mark all (" + unread + ")" : null,
       onAction: () => setAlts(a => a.map(x => ({
         ...x,
         r: true
@@ -1257,8 +1257,8 @@ function App() {
         flexShrink: 0
       }
     })))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(CardH, {
-      title: "הזדמנויות מובילות",
-      action: "כל המאצ׳ים ←",
+      title: "Top Opportunities",
+      action: "All Matches ←",
       onAction: () => setPg("mch")
     }), MATCHES.slice(0, 4).map((m, i) => /*#__PURE__*/React.createElement("div", {
       key: i,
@@ -1309,8 +1309,8 @@ function App() {
     }, m.pos, " · ", m.src)), /*#__PURE__*/React.createElement(W, {
       id: "m" + i
     }))))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(CardH, {
-      title: "תקציבי קבוצות",
-      action: "פירוט ←",
+      title: "Club Budgets",
+      action: "Details ←",
       onAction: () => setPg("budg")
     }), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -1366,23 +1366,23 @@ function App() {
   function Portfolio() {
     const tabs = [{
       id: "all",
-      l: "הכל",
+      l: "All",
       n: ownPl.length
     }, {
       id: "injury",
-      l: "פציעה",
+      l: "Injured",
       n: ownPl.filter(p => p.st === "injury").length
     }, {
       id: "expiring",
-      l: "מתפנים",
+      l: "Expiring",
       n: ownPl.filter(p => p.days <= 30 && p.st !== "free").length
     }, {
       id: "free",
-      l: "חופשיים",
+      l: "Free",
       n: ownPl.filter(p => p.st === "free").length
     }, {
       id: "transfer_req",
-      l: "בקשת העברה",
+      l: "Transfer Req",
       n: ownPl.filter(p => p.st === "transfer_req").length
     }];
     let fp = ownPl;
@@ -1399,7 +1399,7 @@ function App() {
     }, /*#__PURE__*/React.createElement("input", {
       value: srch,
       onChange: e => setSrch(e.target.value),
-      placeholder: "חיפוש שחקן, קבוצה, עמדה...",
+      placeholder: "Search player, club, position...",
       style: {
         flex: 1,
         minWidth: 140,
@@ -1449,7 +1449,7 @@ function App() {
         fontWeight: 700,
         borderBottom: "0.5px solid var(--bd3)"
       }
-    }, /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement("span", null, "שחקן"), /*#__PURE__*/React.createElement("span", null, "עמ׳"), /*#__PURE__*/React.createElement("span", null, "קבוצה"), /*#__PURE__*/React.createElement("span", null, "חוזה"), /*#__PURE__*/React.createElement("span", null, "שכר"), /*#__PURE__*/React.createElement("span", null, "שווי"), /*#__PURE__*/React.createElement("span", null, "סטטוס"), /*#__PURE__*/React.createElement("span", null, "AI")), fp.map(p => {
+    }, /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement("span", null, "Player"), /*#__PURE__*/React.createElement("span", null, "Pos"), /*#__PURE__*/React.createElement("span", null, "Club"), /*#__PURE__*/React.createElement("span", null, "Contract"), /*#__PURE__*/React.createElement("span", null, "Salary"), /*#__PURE__*/React.createElement("span", null, "Value"), /*#__PURE__*/React.createElement("span", null, "Status"), /*#__PURE__*/React.createElement("span", null, "AI")), fp.map(p => {
       const dc = dC(p.days),
         sl = stL(p.st);
       return /*#__PURE__*/React.createElement("div", {
@@ -1543,7 +1543,7 @@ function App() {
     }, /*#__PURE__*/React.createElement("input", {
       value: mktS,
       onChange: e => setMktS(e.target.value),
-      placeholder: "חפש בשוק — עמדה, לאומיות, קבוצה...",
+      placeholder: "Search market — position, nationality, club...",
       style: {
         padding: "7px 12px",
         borderRadius: 8,
@@ -1687,7 +1687,7 @@ function App() {
             setMktPl(m => m.filter(x => x.id !== p.id));
           }
         }
-      }, claimed ? "✓ בפורטפוליו" : "+ הוסף לפורטפוליו")));
+      }, claimed ? "✓ In Portfolio" : "+ Add to Portfolio")));
     })));
   }
   function Matches() {
@@ -1716,13 +1716,13 @@ function App() {
       }
     }, [{
       id: "all",
-      l: "כל המאצ׳ים"
+      l: "All Matches"
     }, {
       id: "high",
-      l: "דחוף"
+      l: "Urgent"
     }, {
       id: "saved",
-      l: "שמורים (" + saved.size + ")"
+      l: "Saved (" + saved.size + ")"
     }].map(f => /*#__PURE__*/React.createElement("button", {
       key: f.id,
       onClick: () => setMF(f.id),
@@ -1759,7 +1759,7 @@ function App() {
         color: "var(--tx3)",
         marginBottom: 8
       }
-    }, MATCHES.length - swI % MATCHES.length, " כרטיסים נותרו"), /*#__PURE__*/React.createElement("div", {
+    }, MATCHES.length - swI % MATCHES.length, " cards remaining"), /*#__PURE__*/React.createElement("div", {
       style: {
         opacity: swDir ? 0 : 1,
         transform: swDir === "right" ? "translateX(50px)" : swDir === "left" ? "translateX(-50px)" : "none",
@@ -1840,7 +1840,7 @@ function App() {
         cursor: "pointer",
         fontSize: 12
       }
-    }, "✕ דלג"), /*#__PURE__*/React.createElement("button", {
+    }, "✕ Skip"), /*#__PURE__*/React.createElement("button", {
       onClick: () => doSwipe("right"),
       style: {
         flex: 1,
@@ -1852,24 +1852,24 @@ function App() {
         cursor: "pointer",
         fontSize: 12
       }
-    }, "✓ פנה"))), /*#__PURE__*/React.createElement("div", {
+    }, "✓ Contact"))), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         flexDirection: "column",
         gap: 8
       }
     }, [{
-      l: "דחופים",
+      l: "Urgent",
       v: MATCHES.filter(m => m.urg === "high").length,
       bg: "#FCEBEB",
       c: "#A32D2D"
     }, {
-      l: "ממוצע ציון",
+      l: "Avg Score",
       v: Math.round(MATCHES.reduce((s, m) => s + m.sc, 0) / MATCHES.length),
       bg: BB,
       c: B
     }, {
-      l: "שמורים",
+      l: "Saved",
       v: saved.size,
       bg: "#EAF3DE",
       c: "#27500A"
@@ -1939,7 +1939,7 @@ function App() {
           marginTop: 2
         }
       }, m.pos, " · ", m.why)), m.urg === "high" && /*#__PURE__*/React.createElement(Pill, {
-        l: "דחוף",
+        l: "Urgent",
         bg: "#FCEBEB",
         tc: "#A32D2D"
       })), /*#__PURE__*/React.createElement("div", {
@@ -1981,7 +1981,7 @@ function App() {
           color: "var(--tx2)",
           marginBottom: 6
         }
-      }, "מחשבון עמלה"), /*#__PURE__*/React.createElement("div", {
+      }, "Fee Calculator"), /*#__PURE__*/React.createElement("div", {
         style: {
           display: "flex",
           gap: 6,
@@ -1993,7 +1993,7 @@ function App() {
           fontSize: 11,
           color: "var(--tx3)"
         }
-      }, "דמי העברה: ", /*#__PURE__*/React.createElement("b", {
+      }, "Transfer Fee: ", /*#__PURE__*/React.createElement("b", {
         style: {
           color: "var(--tx1)",
           fontVariantNumeric: "tabular-nums"
@@ -2003,7 +2003,7 @@ function App() {
           fontSize: 11,
           color: "var(--tx3)"
         }
-      }, "עמלה:"), [3, 5, 8, 10].map(p => /*#__PURE__*/React.createElement("button", {
+      }, "Commission:"), [3, 5, 8, 10].map(p => /*#__PURE__*/React.createElement("button", {
         key: p,
         onClick: () => setCommP(p),
         style: {
@@ -2023,7 +2023,7 @@ function App() {
           color: "#27500A",
           fontVariantNumeric: "tabular-nums"
         }
-      }, fmt(co), " לפני מס"))), /*#__PURE__*/React.createElement("div", {
+      }, fmt(co), " pre-tax"))), /*#__PURE__*/React.createElement("div", {
         style: {
           display: "flex",
           alignItems: "center",
@@ -2047,7 +2047,7 @@ function App() {
           cursor: "pointer"
         },
         onClick: () => setCalcO(calcO === idx ? null : idx)
-      }, "🧮 עמלה"), /*#__PURE__*/React.createElement("button", {
+      }, "🧮 Fee"), /*#__PURE__*/React.createElement("button", {
         style: {
           fontSize: 11,
           padding: "4px 10px",
@@ -2085,7 +2085,7 @@ function App() {
             bg: m.bg,
             tc: m.tc
           }]);
-          alert("הועבר ל-CRM! עמלה: " + fmt(co));
+          alert("Added to CRM! Commission: " + fmt(co));
         }
       }, "→ CRM"))));
     })));
@@ -2104,25 +2104,25 @@ function App() {
         marginBottom: 12
       }
     }, /*#__PURE__*/React.createElement(Stat, {
-      l: "סה״כ בצנרת",
+      l: "Total Pipeline",
       v: deals.length,
-      s: "עסקאות"
+      s: "Deals"
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "עמלה פוטנציאלית",
+      l: "Potential Commission",
       v: fmt(totC),
       s: "",
       bg: BB,
       c: B
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "בשלב חתימה",
+      l: "At Signing Stage",
       v: deals.filter(d => d.st === 3).length,
-      s: "עסקאות",
+      s: "Deals",
       bg: "#EAF3DE",
       c: "#27500A"
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "ממוצע זמן",
-      v: "14י׳",
-      s: "לסגירה"
+      l: "Avg Time",
+      v: "14d",
+      s: "to close"
     })), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
@@ -2242,7 +2242,7 @@ function App() {
         fontSize: 9,
         color: "var(--tx3)"
       }
-    }, d.din, " ימים")), /*#__PURE__*/React.createElement("div", {
+    }, d.din, " days")), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         gap: 4
@@ -2259,7 +2259,7 @@ function App() {
         cursor: "pointer",
         fontSize: 10
       }
-    }, "← חזור"), si < 4 && /*#__PURE__*/React.createElement("button", {
+    }, "← Back"), si < 4 && /*#__PURE__*/React.createElement("button", {
       onClick: () => mv(d.id, 1),
       style: {
         flex: 1,
@@ -2271,7 +2271,7 @@ function App() {
         cursor: "pointer",
         fontSize: 10
       }
-    }, si === 3 ? "✓ סגור" : "הקדם →")))), byS(si).length === 0 && /*#__PURE__*/React.createElement("div", {
+    }, si === 3 ? "✓ Close" : "Advance →")))), byS(si).length === 0 && /*#__PURE__*/React.createElement("div", {
       style: {
         border: "0.5px dashed var(--bd2)",
         borderRadius: 10,
@@ -2280,7 +2280,7 @@ function App() {
         fontSize: 11,
         color: "var(--tx3)"
       }
-    }, "אין עסקאות"))))));
+    }, "No deals yet"))))));
   }
   function Budget() {
     const tot = BUDG.reduce((s, t) => s + t.b, 0),
@@ -2298,23 +2298,23 @@ function App() {
         gap: 8
       }
     }, /*#__PURE__*/React.createElement(Stat, {
-      l: "תקציב כולל",
+      l: "Total Budget",
       v: "€" + (tot / 1000).toFixed(1) + "M",
       s: ""
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "בשימוש",
+      l: "Used",
       v: "€" + (used / 1000).toFixed(1) + "M",
       s: "",
       bg: "#FCEBEB",
       c: "#A32D2D"
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "זמין",
+      l: "Available",
       v: "€" + ((tot - used) / 1000).toFixed(1) + "M",
       s: "",
       bg: "#EAF3DE",
       c: "#27500A"
     })), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(CardH, {
-      title: "תקציב vs שימוש"
+      title: "Budget vs Usage"
     }), /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "12px 14px"
@@ -2366,7 +2366,7 @@ function App() {
         }
       })));
     })))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(CardH, {
-      title: "אחוז ניצול"
+      title: "Utilization %"
     }), BUDG.map((t, i) => {
       const p = Math.round(t.u / t.b * 100),
         bc = p > 85 ? "#E24B4A" : p > 65 ? "#EF9F27" : "#1D9E75";
@@ -2438,7 +2438,7 @@ function App() {
         textTransform: "uppercase",
         letterSpacing: ".08em"
       }
-    }, "חלון ההעברות נסגר בעוד"), /*#__PURE__*/React.createElement("div", {
+    }, "Transfer window closes in"), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         justifyContent: "center",
@@ -2446,16 +2446,16 @@ function App() {
       }
     }, [{
       v: wD,
-      l: "ימים"
+      l: "days"
     }, {
       v: wH,
-      l: "שעות"
+      l: "hours"
     }, {
       v: wM,
-      l: "דקות"
+      l: "minutes"
     }, {
       v: wS,
-      l: "שניות"
+      l: "seconds"
     }].map((u, i) => /*#__PURE__*/React.createElement("div", {
       key: i,
       style: {
@@ -2491,39 +2491,39 @@ function App() {
         borderRadius: 2
       }
     }))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(CardH, {
-      title: "ציר זמן — חוזים וחלונות"
+      title: "Timeline — Contracts & Windows"
     }), /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "0 14px 12px"
       }
     }, [{
       d: "11.06.25",
-      l: "נועם שפירא — חוזה פג",
+      l: "Amit Shahar — contract expired",
       bg: "#EAF3DE",
       tc: "#27500A"
     }, {
       d: "19.06.25",
-      l: "עמיר כץ + בן לוי",
+      l: "Nadav Ben Haim + Shahar",
       bg: "#FCEBEB",
       tc: "#A32D2D"
     }, {
       d: "23.06.25",
-      l: "דיאן צ׳יביטה",
+      l: "Dian Civita",
       bg: "#FCEBEB",
       tc: "#A32D2D"
     }, {
       d: "01.07.25",
-      l: "חלון קיץ נפתח",
+      l: "Summer window opens",
       bg: "#E1F5EE",
       tc: "#085041"
     }, {
       d: "15.08.25",
-      l: "גונסאלו פיגוירדו",
+      l: "Goncalo Figueiredo",
       bg: "#FAEEDA",
       tc: "#633806"
     }, {
       d: "31.08.25",
-      l: "חלון קיץ נסגר",
+      l: "Summer window closes",
       bg: "#FCEBEB",
       tc: "#A32D2D"
     }].map((e, i) => /*#__PURE__*/React.createElement("div", {
@@ -2567,29 +2567,29 @@ function App() {
         gap: 8
       }
     }, /*#__PURE__*/React.createElement(Stat, {
-      l: "עסקאות סגורות",
+      l: "Closed Deals",
       v: "7",
       s: "2024/25"
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "סה״כ עמלות",
+      l: "Total Commissions",
       v: fmt(totC2),
       s: "",
       bg: BB,
       c: B
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "שיעור הצלחה",
+      l: "Success Rate",
       v: "68%",
       s: "",
       bg: "#EAF3DE",
       c: "#27500A"
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "ממוצע לעסקה",
+      l: "Avg per Deal",
       v: fmt(Math.round(totC2 / 7)),
       s: "",
       bg: "#FAEEDA",
       c: "#633806"
     })), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(CardH, {
-      title: "עמלות חודשיות — 2025"
+      title: "Monthly Commissions — 2025"
     }), /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "12px 14px"
@@ -2666,24 +2666,24 @@ function App() {
         fontWeight: 700,
         marginBottom: 10
       }
-    }, "שחקנים לפי סטטוס"), [{
-      l: "תפוסים",
+    }, "Players by Status"), [{
+      l: "Active",
       n: ownPl.filter(p => p.st === "active").length,
       c: "#27500A"
     }, {
-      l: "מתפנים",
+      l: "Expiring",
       n: ownPl.filter(p => p.days <= 30 && p.st !== "free").length,
       c: "#633806"
     }, {
-      l: "פציעה",
+      l: "Injured",
       n: ownPl.filter(p => p.st === "injury").length,
       c: "#A32D2D"
     }, {
-      l: "חופשיים",
+      l: "Free",
       n: ownPl.filter(p => p.st === "free").length,
       c: "#27500A"
     }, {
-      l: "בקשת העברה",
+      l: "Transfer Req",
       n: ownPl.filter(p => p.st === "transfer_req").length,
       c: B
     }].map((s, i) => /*#__PURE__*/React.createElement("div", {
@@ -2726,7 +2726,7 @@ function App() {
         fontWeight: 700,
         marginBottom: 10
       }
-    }, "מגמת שוק"), /*#__PURE__*/React.createElement("div", {
+    }, "Market Trend"), /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "8px 0 0",
         position: "relative",
@@ -2780,38 +2780,38 @@ function App() {
   }
   function Network() {
     const ag = [{
-      n: "יוסי כהן",
-      s: "ליגת העל · בלמים",
+      n: "Yossi Cohen",
+      s: "Premier League · Defenders",
       m: 3,
-      av: "י.כ",
+      av: "Y.C",
       bg: BB,
       tc: B
     }, {
-      n: "מרגלית לוי",
-      s: "ליגה א׳ · חלוצים",
+      n: "Margalit Levi",
+      s: "League A · Forwards",
       m: 1,
-      av: "מ.ל",
+      av: "M.L",
       bg: "#E1F5EE",
       tc: "#085041"
     }, {
-      n: "דוד ברוך",
-      s: "ספרד · EU",
+      n: "David Baruch",
+      s: "Spain · EU",
       m: 5,
-      av: "ד.ב",
+      av: "D.B",
       bg: "#FAECE7",
       tc: "#712B13"
     }, {
-      n: "נעמי שרון",
-      s: "טורקיה · קשרים",
+      n: "Naomi Sharon",
+      s: "Turkey · Midfielders",
       m: 2,
-      av: "נ.ש",
+      av: "N.S",
       bg: "#FAEEDA",
       tc: "#633806"
     }, {
-      n: "אמיר גבאי",
-      s: "שוערים",
+      n: "Amir Gabai",
+      s: "Goalkeepers",
       m: 4,
-      av: "א.ג",
+      av: "A.G",
       bg: "#E6F1FB",
       tc: "#0C447C"
     }];
@@ -2828,23 +2828,23 @@ function App() {
         gap: 8
       }
     }, /*#__PURE__*/React.createElement(Stat, {
-      l: "קשרים",
+      l: "Connections",
       v: "23",
       s: ""
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "בקשות",
+      l: "Requests",
       v: "4",
       s: "",
       bg: BB,
       c: B
     }), /*#__PURE__*/React.createElement(Stat, {
-      l: "שיתופי פעולה",
+      l: "Collaborations",
       v: "7",
       s: "",
       bg: "#EAF3DE",
       c: "#27500A"
     })), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(CardH, {
-      title: "סוכנים מומלצים"
+      title: "Recommended Agents"
     }), /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "0 14px 10px"
@@ -2887,7 +2887,7 @@ function App() {
         fontSize: 10,
         color: "var(--tx3)"
       }
-    }, a.s, " · ", a.m, " קשרים משותפים")), /*#__PURE__*/React.createElement(W, {
+    }, a.s, " · ", a.m, " mutual connections")), /*#__PURE__*/React.createElement(W, {
       id: "n" + i
     }), /*#__PURE__*/React.createElement("button", {
       style: {
@@ -2899,7 +2899,7 @@ function App() {
         color: B,
         cursor: "pointer"
       }
-    }, "התחבר"))))));
+    }, "Connect"))))));
   }
   function Settings() {
     const [channels, setChannels] = useState({
@@ -2956,7 +2956,7 @@ function App() {
         })
       });
       const data = await res.json();
-      alert(data.success ? '✅ הודעת בדיקה נשלחה!' : '❌ שגיאה: ' + (data.error || 'לא ידוע'));
+      alert(data.success ? '✅ Test message sent!' : '❌ Error: ' + (data.error || 'Unknown'));
     }
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -2970,20 +2970,20 @@ function App() {
         fontSize: 13,
         fontWeight: 700
       }
-    }, "ניהול התראות"), /*#__PURE__*/React.createElement("div", {
+    }, "Manage Alerts"), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 11,
         color: "var(--tx3)",
         marginTop: 2
       }
-    }, "כ-", /*#__PURE__*/React.createElement("span", {
+    }, "~", /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 18,
         fontWeight: 700,
         color: B,
         fontVariantNumeric: "tabular-nums"
       }
-    }, wkly), " התראות בשבוע")), /*#__PURE__*/React.createElement("button", {
+    }, wkly), " alerts/week")), /*#__PURE__*/React.createElement("button", {
       onClick: saveChannels,
       style: {
         fontSize: 11,
@@ -2996,7 +2996,7 @@ function App() {
         fontWeight: 700,
         transition: "background .3s"
       }
-    }, saved === 'saving' ? 'שומר...' : saved === 'saved' ? '✓ נשמר!' : saved === 'error' ? '❌ שגיאה' : 'שמור הגדרות')), /*#__PURE__*/React.createElement("div", {
+    }, saved === 'saving' ? 'Saving...' : saved === 'saved' ? '✓ Saved!' : saved === 'error' ? '❌ Error' : 'Save Settings')), /*#__PURE__*/React.createElement("div", {
       style: {
         background: "var(--bg1)",
         border: "0.5px solid var(--bd3)",
@@ -3017,11 +3017,11 @@ function App() {
         display: "flex",
         justifyContent: "space-between"
       }
-    }, "ערוצי שליחה", /*#__PURE__*/React.createElement("span", {
+    }, "Delivery Channels", /*#__PURE__*/React.createElement("span", {
       style: {
         color: B
       }
-    }, Object.values(channels).filter(c => c.on).length, "/", Object.keys(channels).length, " פעיל")), /*#__PURE__*/React.createElement("div", {
+    }, Object.values(channels).filter(c => c.on).length, "/", Object.keys(channels).length, " active")), /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "12px 14px",
         borderBottom: "0.5px solid var(--bd3)"
@@ -3060,12 +3060,12 @@ function App() {
         fontWeight: 700,
         color: "var(--tx1)"
       }
-    }, "אימייל"), /*#__PURE__*/React.createElement("div", {
+    }, "Email"), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 11,
         color: "var(--tx3)"
       }
-    }, "קבל התראות ישירות למייל")), /*#__PURE__*/React.createElement("div", {
+    }, "Receive alerts by email")), /*#__PURE__*/React.createElement("div", {
       onClick: () => setChannels(c => ({
         ...c,
         email: {
@@ -3103,7 +3103,7 @@ function App() {
           val: e.target.value
         }
       })),
-      placeholder: "כתובת אימייל...",
+      placeholder: "Email address...",
       style: {
         width: "100%",
         padding: "7px 10px",
@@ -3159,7 +3159,7 @@ function App() {
         fontSize: 11,
         color: "var(--tx3)"
       }
-    }, "הודעות WhatsApp לנייד שלך")), /*#__PURE__*/React.createElement("div", {
+    }, "WhatsApp alerts to your phone")), /*#__PURE__*/React.createElement("div", {
       onClick: () => setChannels(c => ({
         ...c,
         whatsapp: {
@@ -3223,7 +3223,7 @@ function App() {
       style: {
         fontSize: 12
       }
-    }), " ישלח דרך WhatsApp Business API"), /*#__PURE__*/React.createElement("button", {
+    }), " Sent via WhatsApp Business API"), /*#__PURE__*/React.createElement("button", {
       onClick: () => testChannel('whatsapp'),
       style: {
         marginTop: 6,
@@ -3235,7 +3235,7 @@ function App() {
         color: "#25D366",
         cursor: "pointer"
       }
-    }, "💬 שלח WhatsApp בדיקה"))), /*#__PURE__*/React.createElement("div", {
+    }, "💬 Send WhatsApp test"))), /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "12px 14px",
         borderBottom: "0.5px solid var(--bd3)"
@@ -3279,7 +3279,7 @@ function App() {
         fontSize: 11,
         color: "var(--tx3)"
       }
-    }, "התראות דרך Telegram Bot")), /*#__PURE__*/React.createElement("div", {
+    }, "Alerts via Telegram Bot")), /*#__PURE__*/React.createElement("div", {
       onClick: () => setChannels(c => ({
         ...c,
         telegram: {
@@ -3317,7 +3317,7 @@ function App() {
           val: e.target.value
         }
       })),
-      placeholder: "Telegram Chat ID או @username",
+      placeholder: "Telegram Chat ID or @username",
       style: {
         width: "100%",
         padding: "7px 10px",
@@ -3347,7 +3347,7 @@ function App() {
       style: {
         fontSize: 12
       }
-    }), " פתח Transfer365Bot בטלגרם לקבלת ה-Chat ID שלך"), /*#__PURE__*/React.createElement("button", {
+    }), " Open Transfer365Bot on Telegram to get your Chat ID"), /*#__PURE__*/React.createElement("button", {
       onClick: () => testChannel('telegram'),
       style: {
         marginTop: 6,
@@ -3359,7 +3359,7 @@ function App() {
         color: "#229ED9",
         cursor: "pointer"
       }
-    }, "✈️ שלח Telegram בדיקה"))), /*#__PURE__*/React.createElement("div", {
+    }, "✈️ Send Telegram test"))), /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "12px 14px"
       }
@@ -3396,12 +3396,12 @@ function App() {
         fontWeight: 700,
         color: "var(--tx1)"
       }
-    }, "Push — דפדפן"), /*#__PURE__*/React.createElement("div", {
+    }, "Push — Browser"), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 11,
         color: "var(--tx3)"
       }
-    }, "התראות Push ישירות לדפדפן")), /*#__PURE__*/React.createElement("div", {
+    }, "Push alerts to browser")), /*#__PURE__*/React.createElement("div", {
       onClick: () => setChannels(c => ({
         ...c,
         push: {
@@ -3447,19 +3447,19 @@ function App() {
         letterSpacing: ".07em",
         marginBottom: 10
       }
-    }, "עיתוי שליחה"), [{
-      l: "מיידי",
-      s: "ברגע שהאירוע קורה",
+    }, "Send Timing"), [{
+      l: "Immediate",
+      s: "When event occurs",
       ic: "ti-bolt",
       active: true
     }, {
-      l: "סיכום בוקר",
-      s: "07:30 כל יום",
+      l: "Morning Digest",
+      s: "07:30 daily",
       ic: "ti-sunrise",
       active: false
     }, {
-      l: "סיכום שבועי",
-      s: "ראשון 09:00",
+      l: "Weekly Digest",
+      s: "Sunday 09:00",
       ic: "ti-calendar-week",
       active: false
     }].map((t, i) => /*#__PURE__*/React.createElement("div", {
@@ -3519,7 +3519,7 @@ function App() {
         color: "var(--tx1)",
         marginBottom: 10
       }
-    }, "סוגי התראות"), trigs.map((cat, ci) => /*#__PURE__*/React.createElement(Card, {
+    }, "Alert Types"), trigs.map((cat, ci) => /*#__PURE__*/React.createElement(Card, {
       key: ci,
       style: {
         overflow: "hidden",
@@ -3542,7 +3542,7 @@ function App() {
       style: {
         color: B
       }
-    }, cat.its.filter(t => t.on).length, "/", cat.its.length, " פעיל")), cat.its.map((it, ii) => /*#__PURE__*/React.createElement("div", {
+    }, cat.its.filter(t => t.on).length, "/", cat.its.length, " active")), cat.its.map((it, ii) => /*#__PURE__*/React.createElement("div", {
       key: ii,
       style: {
         display: "flex",
@@ -3582,7 +3582,7 @@ function App() {
         color: "var(--tx3)",
         marginTop: 1
       }
-    }, "~", it.w, " /שבוע · ", it.id)), /*#__PURE__*/React.createElement("div", {
+    }, "~", it.w, " /wk · ", it.id)), /*#__PURE__*/React.createElement("div", {
       style: {
         width: 36,
         height: 20,
@@ -3669,7 +3669,7 @@ function App() {
       flex: 1
     }
   }, TICKER[ti]), unread > 0 && /*#__PURE__*/React.createElement(Pill, {
-    l: unread + " חדש",
+    l: unread + " new",
     bg: "#E24B4A",
     tc: "#fff",
     s: {
@@ -3715,7 +3715,7 @@ function App() {
       color: "rgba(255,255,255,.3)",
       marginTop: 3
     }
-  }, window._T365 && (window._T365.full_name || (window._T365.email || '').split('@')[0]) || 'Agent', " · ", window._T365 && window._T365.plan || 'פרימיום')), /*#__PURE__*/React.createElement("nav", {
+  }, window._T365 && (window._T365.full_name || (window._T365.email || '').split('@')[0]) || 'Agent', " · ", window._T365 && window._T365.plan || 'Premium')), /*#__PURE__*/React.createElement("nav", {
     style: {
       flex: 1,
       padding: "5px 0",
@@ -3774,14 +3774,14 @@ function App() {
       color: "rgba(255,255,255,.3)",
       marginBottom: 3
     }
-  }, "חלון נסגר"), /*#__PURE__*/React.createElement("div", {
+  }, "Window"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 13,
       fontWeight: 700,
       color: "#22C55E",
       fontVariantNumeric: "tabular-nums"
     }
-  }, wD, "י ", pad(wH), ":", pad(wM)), /*#__PURE__*/React.createElement("div", {
+  }, wD, "d ", pad(wH), ":", pad(wM)), /*#__PURE__*/React.createElement("div", {
     style: {
       height: 3,
       background: "rgba(255,255,255,.1)",
@@ -3820,19 +3820,19 @@ function App() {
   }, (NAV.find(n => n.id === pg) || {
     l: ""
   }).l), pg === "port" && /*#__PURE__*/React.createElement(Pill, {
-    l: ownPl.length + " שחקנים",
+    l: ownPl.length + " players",
     bg: BB,
     tc: B
   }), pg === "mch" && /*#__PURE__*/React.createElement(Pill, {
-    l: MATCHES.length + " מאצ׳ים",
+    l: MATCHES.length + " matches",
     bg: "#EAF3DE",
     tc: "#27500A"
   }), pg === "pipe" && /*#__PURE__*/React.createElement(Pill, {
-    l: fmt(totC) + " בצנרת",
+    l: fmt(totC) + " pipeline",
     bg: "#EAF3DE",
     tc: "#27500A"
   }), pg === "set" && /*#__PURE__*/React.createElement(Pill, {
-    l: wkly + " /שבוע",
+    l: wkly + " /wk",
     bg: BB,
     tc: B
   })), PAGES[pg] || PAGES.dash)));
