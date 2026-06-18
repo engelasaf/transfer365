@@ -1,33 +1,110 @@
-// netlify/functions/setup-db.mjs — one-time DB setup, DELETE after use
-const SQL = atob("Q1JFQVRFIFRBQkxFIElGIE5PVCBFWElTVFMgcHVibGljLmFsZXJ0cyAoCiAgaWQgVVVJRCBERUZBVUxUIGdlbl9yYW5kb21fdXVpZCgpIFBSSU1BUlkgS0VZLAogIHBsYXllcl9pZCBURVhUIE5PVCBOVUxMLAogIHBsYXllcl9uYW1lIFRFWFQgTk9UIE5VTEwsCiAgdHJpZ2dlcl90eXBlIFRFWFQgTk9UIE5VTEwsCiAgaGVhZGxpbmUgVEVYVCBOT1QgTlVMTCwKICBzdW1tYXJ5IFRFWFQsCiAgc291cmNlIFRFWFQsCiAgdXJsIFRFWFQgVU5JUVVFLAogIGljb24gVEVYVCwKICBzZXZlcml0eSBURVhUIERFRkFVTFQgJ21lZGl1bScsCiAgcHVibGlzaGVkX2F0IFRJTUVTVEFNUFRaLAogIGNyZWF0ZWRfYXQgVElNRVNUQU1QVFogREVGQVVMVCBOT1coKQopOwpBTFRFUiBUQUJMRSBwdWJsaWMuYWxlcnRzIEVOQUJMRSBST1cgTEVWRUwgU0VDVVJJVFk7CkRST1AgUE9MSUNZIElGIEVYSVNUUyBwdWJfciBPTiBwdWJsaWMuYWxlcnRzOwpEUk9QIFBPTElDWSBJRiBFWElTVFMgcHViX2kgT04gcHVibGljLmFsZXJ0czsKQ1JFQVRFIFBPTElDWSBwdWJfciBPTiBwdWJsaWMuYWxlcnRzIEZPUiBTRUxFQ1QgVVNJTkcgKHRydWUpOwpDUkVBVEUgUE9MSUNZIHB1Yl9pIE9OIHB1YmxpYy5hbGVydHMgRk9SIElOU0VSVCBXSVRIIENIRUNLICh0cnVlKTsKQ1JFQVRFIFRBQkxFIElGIE5PVCBFWElTVFMgcHVibGljLnNjYW5fbG9nICgKICBpZCBVVUlEIERFRkFVTFQgZ2VuX3JhbmRvbV91dWlkKCkgUFJJTUFSWSBLRVksCiAgc2Nhbm5lZF9hdCBUSU1FU1RBTVBUWiBERUZBVUxUIE5PVygpLAogIHBsYXllcnNfc2Nhbm5lZCBJTlRFR0VSLCBhcnRpY2xlc19mb3VuZCBJTlRFR0VSLCBhbGVydHNfY3JlYXRlZCBJTlRFR0VSCik7CkFMVEVSIFRBQkxFIHB1YmxpYy5zY2FuX2xvZyBFTkFCTEUgUk9XIExFVkVMIFNFQ1VSSVRZOwpEUk9QIFBPTElDWSBJRiBFWElTVFMgcHViX3JsIE9OIHB1YmxpYy5zY2FuX2xvZzsKRFJPUCBQT0xJQ1kgSUYgRVhJU1RTIHB1Yl9pbCBPTiBwdWJsaWMuc2Nhbl9sb2c7CkNSRUFURSBQT0xJQ1kgcHViX3JsIE9OIHB1YmxpYy5zY2FuX2xvZyBGT1IgU0VMRUNUIFVTSU5HICh0cnVlKTsKQ1JFQVRFIFBPTElDWSBwdWJfaWwgT04gcHVibGljLnNjYW5fbG9nIEZPUiBJTlNFUlQgV0lUSCBDSEVDSyAodHJ1ZSk7CkNSRUFURSBJTkRFWCBJRiBOT1QgRVhJU1RTIGlkeF9hbF9wIE9OIHB1YmxpYy5hbGVydHMocGxheWVyX2lkKTsKQ1JFQVRFIElOREVYIElGIE5PVCBFWElTVFMgaWR4X2FsX3QgT04gcHVibGljLmFsZXJ0cyhjcmVhdGVkX2F0IERFU0MpOw==");
-const REF = "hivyothlbntxcbsilktp";
-export default async req => {
-  const u = new URL(req.url);
-  const p = u.searchParams.get("p");
-  if (!p) return new Response("Add ?p=SUPABASE_PAT", {status:400});
-  const res = await fetch(`https://api.supabase.com/v1/projects/${REF}/database/query`, {
-    method:"POST",
-    headers:{"Authorization":`Bearer ${p}`,"Content-Type":"application/json"},
-    body:JSON.stringify({query:SQL})
-  });
-  const txt = await res.text();
-  if(res.ok) return new Response(
-    `<html><body style="font:16px sans-serif;padding:40px;max-width:500px;margin:auto">
-    <h1 style="color:#22C55E">&#x2705; Database ready!</h1>
-    <p><b>alerts</b> table created with RLS</p>
-    <p><b>scan_log</b> table created with RLS</p>
-    <p>Indexes on player_id + created_at</p>
-    <hr><p style="color:#9CA3AF">Now run the scan function, then delete setup-db.mjs</p>
-    </body></html>`,
-    {headers:{"Content-Type":"text/html;charset=utf-8"}}
-  );
-  return new Response(
-    `<html><body style="font:14px sans-serif;padding:32px"><h2 style="color:orange">Run this SQL in Supabase Dashboard &#8594; SQL Editor:</h2>
-    <pre style="background:#f5f5f5;padding:14px;border-radius:8px;font-size:11px;overflow:auto;white-space:pre-wrap">` +
-    SQL.replace(/</g,'&lt;') + `</pre>
-    <p>Status: ${res.status} | ${txt.slice(0,300)}</p>
-    </body></html>`,
-    {headers:{"Content-Type":"text/html;charset=utf-8"}}
-  );
+// netlify/functions/setup-db.mjs
+// GET /api/setup-db?secret=SETUP_SECRET
+// Run ONCE to create all required Supabase tables
+
+const SQL = `
+CREATE TABLE IF NOT EXISTS t365_players (
+  id           BIGSERIAL PRIMARY KEY,
+  player_id    INTEGER NOT NULL,
+  name         TEXT NOT NULL,
+  firstname    TEXT, lastname TEXT,
+  age          INTEGER, nationality TEXT, photo TEXT,
+  position     TEXT, team_id INTEGER, team_name TEXT,
+  games_played INTEGER DEFAULT 0, goals INTEGER DEFAULT 0,
+  assists      INTEGER DEFAULT 0, rating NUMERIC(4,2) DEFAULT 0,
+  minutes      INTEGER DEFAULT 0, contract_end DATE, market_value NUMERIC(12,2),
+  league_id    INTEGER NOT NULL DEFAULT 271,
+  season       INTEGER NOT NULL DEFAULT 2025,
+  updated_at   TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(player_id, league_id, season)
+);
+
+CREATE TABLE IF NOT EXISTS t365_injuries (
+  id           BIGSERIAL PRIMARY KEY,
+  player_id    INTEGER NOT NULL,
+  player_name  TEXT, team_name TEXT,
+  injury_type  TEXT, reason TEXT, fixture_id INTEGER,
+  league_id    INTEGER DEFAULT 271, season INTEGER DEFAULT 2025,
+  updated_at   TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(player_id, season, injury_type)
+);
+
+CREATE TABLE IF NOT EXISTS t365_alerts (
+  id           BIGSERIAL PRIMARY KEY,
+  type         TEXT NOT NULL,
+  player_id    INTEGER, player_name TEXT, team_name TEXT,
+  title        TEXT NOT NULL, body TEXT,
+  urgency      TEXT DEFAULT 'medium',
+  is_read      BOOLEAN DEFAULT FALSE,
+  created_at   TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS notification_settings (
+  id               BIGSERIAL PRIMARY KEY,
+  user_id          TEXT NOT NULL UNIQUE,
+  email            TEXT,
+  ch_email_on      BOOLEAN DEFAULT FALSE,
+  ch_email_val     TEXT DEFAULT '',
+  ch_whatsapp_on   BOOLEAN DEFAULT FALSE,
+  ch_whatsapp_val  TEXT DEFAULT '',
+  ch_telegram_on   BOOLEAN DEFAULT FALSE,
+  ch_telegram_val  TEXT DEFAULT '',
+  ch_push_on       BOOLEAN DEFAULT FALSE,
+  timing           TEXT DEFAULT 'immediate',
+  updated_at       TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_players_league_season ON t365_players(league_id, season);
+CREATE INDEX IF NOT EXISTS idx_injuries_season       ON t365_injuries(season);
+CREATE INDEX IF NOT EXISTS idx_alerts_urgency        ON t365_alerts(urgency, created_at);
+`;
+
+export default async (req) => {
+  const url    = new URL(req.url);
+  const secret = url.searchParams.get("secret");
+  const EXPECTED = Netlify.env.get("SETUP_SECRET") || "transfer365setup";
+
+  if (secret !== EXPECTED) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const SB_URL = Netlify.env.get("SUPABASE_URL");
+  const SB_KEY = Netlify.env.get("SUPABASE_SERVICE_KEY") || Netlify.env.get("SUPABASE_ANON_KEY");
+
+  if (!SB_URL || !SB_KEY) return Response.json({ error: "Supabase not configured" }, { status: 500 });
+
+  try {
+    // Use Supabase SQL via rpc (requires service role or pg function)
+    const r = await fetch(`${SB_URL}/rest/v1/rpc/exec_sql`, {
+      method: "POST",
+      headers: {
+        "apikey": SB_KEY,
+        "Authorization": `Bearer ${SB_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ sql: SQL }),
+    });
+
+    if (r.ok) {
+      return Response.json({ success: true, message: "All tables created successfully" });
+    }
+
+    // Fallback: try each statement individually via Postgres endpoint
+    const statements = SQL.split(";").map(s => s.trim()).filter(Boolean);
+    const results = [];
+    for (const stmt of statements) {
+      const sr = await fetch(`${SB_URL}/rest/v1/rpc/exec_sql`, {
+        method: "POST",
+        headers: { "apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ sql: stmt + ";" }),
+      });
+      results.push({ stmt: stmt.slice(0, 40), ok: sr.ok, status: sr.status });
+    }
+
+    return Response.json({ success: true, results, note: "Check Supabase for table status" });
+  } catch (e) {
+    return Response.json({ error: e.message, sql_to_run_manually: SQL }, { status: 500 });
+  }
 };
-export const config = {path:"/.netlify/functions/setup-db"};
+
+export const config = { path: "/api/setup-db" };
