@@ -811,6 +811,14 @@ function App() {
   const [calcO, setCalcO] = useState(null);
   const [commP, setCommP] = useState(5);
   const [mktS, setMktS] = useState("");
+  const [channels, setChannels] = useState({
+    email:    { on: true,  val: (window._T365 && window._T365.email) || '' },
+    whatsapp: { on: false, val: '' },
+    telegram: { on: false, val: '' },
+    push:     { on: false, val: '' },
+  });
+  const [savedCh, setSavedCh] = useState(false);
+
   useEffect(() => {
     const t = setInterval(() => setTi(i => (i + 1) % TICKER.length), 4000);
     return () => clearInterval(t);
@@ -2902,25 +2910,6 @@ function App() {
     }, "Connect"))))));
   }
   function Settings() {
-    const [channels, setChannels] = useState({
-      email: {
-        on: true,
-        val: window._T365 && window._T365.email || ""
-      },
-      whatsapp: {
-        on: false,
-        val: ""
-      },
-      telegram: {
-        on: false,
-        val: ""
-      },
-      push: {
-        on: false,
-        val: ""
-      }
-    });
-    const [saved, setSavedCh] = useState(false);
     async function saveChannels() {
       setSavedCh('saving');
       try {
@@ -2937,7 +2926,7 @@ function App() {
             timing: 'immediate'
           })
         });
-        setSavedCh('saved');
+        setSavedCh('savedCh');
       } catch (e) {
         setSavedCh('error');
       }
@@ -2990,13 +2979,13 @@ function App() {
         padding: "7px 16px",
         borderRadius: 8,
         border: "none",
-        background: saved === 'saved' ? '#1D9E75' : saved === 'error' ? '#E24B4A' : B,
+        background: savedCh === 'savedCh' ? '#1D9E75' : savedCh === 'error' ? '#E24B4A' : B,
         color: "#EEEDFE",
         cursor: "pointer",
         fontWeight: 700,
         transition: "background .3s"
       }
-    }, saved === 'saving' ? 'Saving...' : saved === 'saved' ? '✓ Saved!' : saved === 'error' ? '❌ Error' : 'Save Settings')), /*#__PURE__*/React.createElement("div", {
+    }, savedCh === 'saving' ? 'Saving...' : savedCh === 'savedCh' ? '✓ Saved!' : savedCh === 'error' ? '❌ Error' : 'Save Settings')), /*#__PURE__*/React.createElement("div", {
       style: {
         background: "var(--bg1)",
         border: "0.5px solid var(--bd3)",
