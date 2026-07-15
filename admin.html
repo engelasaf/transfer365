@@ -55,6 +55,9 @@ select{background:#0f1117;border:1px solid #334155;color:#e2e8f0;border-radius:6
     <h1>🔐 Transfer365 Admin</h1>
     <input type="password" id="secretInput" placeholder="Admin secret key" onkeydown="if(event.key==='Enter')doLogin()">
     <button onclick="doLogin()">Login</button>
+    <button onclick="testConnection()" style="width:100%;padding:9px;border-radius:8px;border:1px solid #334155;background:transparent;color:#64748b;font-size:12px;cursor:pointer;margin-top:8px">
+      Test connection
+    </button>
     <div id="loginErr" style="color:#f87171;font-size:12px;margin-top:8px"></div>
   </div>
 </div>
@@ -124,6 +127,19 @@ function doLogin() {
   loadData();
 }
 
+async function testConnection() {
+  const log = document.getElementById('loginErr');
+  log.style.color = '#94a3b8';
+  log.textContent = 'Testing /api/admin...';
+  try {
+    const r = await fetch('/api/admin?secret=wrong_test&action=users');
+    const d = await r.json();
+    if (r.status === 401) log.textContent = '✅ Function reachable — enter correct secret to login';
+    else log.textContent = 'Response: ' + JSON.stringify(d).slice(0,100);
+  } catch(e) {
+    log.textContent = '❌ Cannot reach /api/admin: ' + e.message;
+  }
+}
 function doLogout() {
   SECRET = '';
   document.getElementById('login').style.display = 'flex';
@@ -135,7 +151,7 @@ async function loadData() {
     // Load users
     const res = await fetch('/api/admin?secret=' + encodeURIComponent(SECRET) + '&action=users');
     if (res.status === 401) {
-      document.getElementById('loginErr').textContent = 'Invalid secret key';
+      document.getElementById('loginErr').textContent = 'Wrong secret key. Check ADMIN_SECRET in Netlify env vars.';
       return;
     }
     const data = await res.json();
@@ -161,7 +177,7 @@ async function loadData() {
     renderTable(allUsers);
 
   } catch(e) {
-    document.getElementById('loginErr').textContent = 'Error: ' + e.message;
+    document.getElementById('loginErr').textContent = 'Connection error: ' + e.message + ' — check Netlify functions are deployed';
   }
 }
 
