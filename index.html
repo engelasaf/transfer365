@@ -635,57 +635,72 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 
 <div class="div"></div>
 
-<section id="pricing" style="text-align:center">
-  <div class="slbl" data-i18n="sec_pricing">Pricing</div>
-  <h2 class="sh2" data-i18n="price_h">One deal pays for a year.</h2>
-  <p class="ssub" style="margin:10px auto 0" data-i18n="price_sub">All plans include a 7-day free trial.</p>
-  <div class="ptog">
-    <button class="ptbtn" id="ptm" onclick="setBill('m')" data-i18n="bill_m">Monthly</button>
-    <button class="ptbtn on" id="pta" onclick="setBill('a')"><span data-i18n="bill_a">Annual</span><span class="stag" data-i18n="save_tag">Save 20%</span></button>
-  </div>
-  <div class="pgrid2">
-    <div class="plc">
-      <div class="pname" data-i18n="plan_scout">Scout</div><div class="pprice"><span>€</span>0</div><div class="pperiod" data-i18n="plan_free">Free forever</div>
-      <button class="pcta ou" onclick="openAuth('signup')" data-i18n="plan_cta_free">Get started</button>
-      <div class="pdiv"></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pf1">10 player profiles</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pf2">Transfer window countdown</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pf3">3 AI matches / month</span></div>
-      <div class="pft n"><i class="ti ti-x"></i><span data-i18n="pf4_no">Real-time triggers</span></div>
-      <div class="pft n"><i class="ti ti-x"></i><span data-i18n="pf5_no">Deal CRM</span></div>
+<section id="pricing" style="padding:80px 20px;background:var(--bg2);text-align:center">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--acc);text-transform:uppercase;margin-bottom:12px" data-i18n="sec_pricing">PRICING</div>
+    <h2 style="font-size:clamp(26px,4vw,38px);font-weight:800;color:var(--tx1);margin-bottom:8px" data-i18n="price_h">One deal pays for a decade of Transfer365.</h2>
+    <p style="font-size:15px;color:var(--tx3);margin-bottom:28px;max-width:600px;margin-left:auto;margin-right:auto" data-i18n="price_sub">Every plan includes a 7-day free trial. No card required.</p>
+    <div style="display:inline-flex;background:var(--bg1);border:1px solid var(--bd);border-radius:10px;padding:4px;margin-bottom:36px;gap:4px">
+      <button onclick="setBill('m')" id="bill_m_btn" style="padding:7px 20px;border-radius:7px;border:none;background:var(--acc);color:#fff;font-size:13px;font-weight:600;cursor:pointer" data-i18n="bill_m">Monthly</button>
+      <button onclick="setBill('a')" id="bill_a_btn" style="padding:7px 20px;border-radius:7px;border:none;background:transparent;color:var(--tx2);font-size:13px;cursor:pointer" data-i18n="bill_a">Annual</button>
     </div>
-    <div class="plc">
-      <div class="pname" data-i18n="plan_agent">Agent</div><div class="pprice" id="ppa"><span>€</span>39</div><div class="pperiod" id="ppap" data-i18n="plan_free">per month</div>
-      <button class="pcta ou" onclick="openCheckout('['director'].pop(); return 'agent'" data-i18n="plan_cta_trial">Start 7-day trial</button>
-      <div class="pdiv"></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pa1">300 player profiles</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pa2">50 AI matches / month</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pa3">Basic AI Fit Score</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pa4">5 trigger rules</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pa5">GBE &amp; FFAR calculator</span></div>
-      <div class="pft n"><i class="ti ti-x"></i><span data-i18n="pa6_no">Market intelligence</span></div>
-    </div>
-    <div class="plc pop">
-      <div class="pbadge" data-i18n="plan_pop">⭐ Most popular</div>
-      <div class="pname" data-i18n="plan_dir">Director</div><div class="pprice" id="ppd"><span>€</span>119</div><div class="pperiod" id="ppdp">per month</div>
-      <button class="pcta pr" onclick="openCheckout(\'agent\',_billing)" data-i18n="plan_cta_trial">Start 7-day trial</button>
-      <div class="pdiv"></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pd1">Unlimited profiles &amp; matches</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pd2">Full AI Fit Score</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pd3">Unlimited trigger rules</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pd4">Natural language search</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pd5">Full market intelligence</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pd6">Deal CRM included</span></div>
-    </div>
-    <div class="plc">
-      <div class="pname" data-i18n="plan_exec">Executive</div><div class="pprice" id="ppe"><span>€</span>319</div><div class="pperiod" id="ppep">per month</div>
-      <button class="pcta ou" onclick="openCheckout('['director'].pop(); return 'agent'" data-i18n="plan_cta_trial">Start 7-day trial</button>
-      <div class="pdiv"></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pe1">Everything in Director</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pe2">5 user seats</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pe3">White-label PDF reports</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pe4">API access</span></div>
-      <div class="pft"><i class="ti ti-check"></i><span data-i18n="pe5">Priority support</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;text-align:right">
+      <div style="background:var(--bg1);border:1px solid var(--bd);border-radius:16px;padding:28px 24px">
+        <div style="font-size:13px;font-weight:700;color:var(--tx3);margin-bottom:8px" data-i18n="plan_scout">Scout</div>
+        <div style="font-size:36px;font-weight:800;color:var(--tx1);line-height:1">$0</div>
+        <div style="font-size:12px;color:var(--tx3);margin-bottom:20px" data-i18n="plan_free">Always free</div>
+        <ul style="list-style:none;margin-bottom:24px">
+          <li style="font-size:13px;color:var(--tx2);padding:5px 0;border-bottom:1px solid var(--bd)">✅ <span data-i18n="pf1">10 player profiles</span></li>
+          <li style="font-size:13px;color:var(--tx2);padding:5px 0;border-bottom:1px solid var(--bd)">✅ <span data-i18n="pf2">Live window countdown</span></li>
+          <li style="font-size:13px;color:var(--tx2);padding:5px 0;border-bottom:1px solid var(--bd)">✅ <span data-i18n="pf3">3 AI scores / month</span></li>
+          <li style="font-size:13px;color:var(--tx3);padding:5px 0;border-bottom:1px solid var(--bd)">🔒 <span data-i18n="pf4_no">Real-time alerts</span></li>
+          <li style="font-size:13px;color:var(--tx3);padding:5px 0">🔒 <span data-i18n="pf5_no">CRM Pipeline</span></li>
+        </ul>
+        <button onclick="openAuth('signup')" style="width:100%;padding:11px;border-radius:9px;border:1px solid var(--acc);background:transparent;color:var(--acc);font-size:14px;font-weight:600;cursor:pointer" data-i18n="plan_cta_free">Get started free</button>
+      </div>
+      <div style="background:var(--bg1);border:2px solid var(--acc);border-radius:16px;padding:28px 24px;position:relative">
+        <div style="position:absolute;top:-12px;right:20px;background:var(--acc);color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px" data-i18n="plan_pop">Most popular</div>
+        <div style="font-size:13px;font-weight:700;color:var(--acc);margin-bottom:8px" data-i18n="plan_agent">Agent</div>
+        <div id="price_agent_m" style="font-size:36px;font-weight:800;color:var(--tx1);line-height:1">$39</div>
+        <div id="price_agent_a" style="display:none;font-size:36px;font-weight:800;color:var(--tx1);line-height:1">$29</div>
+        <div style="font-size:12px;color:var(--tx3);margin-bottom:20px">/ month</div>
+        <ul style="list-style:none;margin-bottom:24px">
+          <li style="font-size:13px;color:var(--tx2);padding:5px 0;border-bottom:1px solid var(--bd)">✅ Unlimited players</li>
+          <li style="font-size:13px;color:var(--tx2);padding:5px 0;border-bottom:1px solid var(--bd)">✅ Real-time alerts (Email + Telegram)</li>
+          <li style="font-size:13px;color:var(--tx2);padding:5px 0;border-bottom:1px solid var(--bd)">✅ Unlimited AI matches</li>
+          <li style="font-size:13px;color:var(--tx2);padding:5px 0;border-bottom:1px solid var(--bd)">✅ CRM Pipeline</li>
+          <li style="font-size:13px;color:var(--tx3);padding:5px 0">🔒 WhatsApp alerts (Director+)</li>
+        </ul>
+        <button onclick="openCheckout('agent',_billing)" style="width:100%;padding:11px;border-radius:9px;border:none;background:var(--acc);color:#fff;font-size:14px;font-weight:700;cursor:pointer" data-i18n="plan_cta_trial">Start 7-day free trial</button>
+      </div>
+      <div style="background:var(--bg1);border:1px solid var(--bd);border-radius:16px;padding:28px 24px">
+        <div style="font-size:13px;font-weight:700;color:var(--tx3);margin-bottom:8px" data-i18n="plan_dir">Director</div>
+        <div id="price_director_m" style="font-size:36px;font-weight:800;color:var(--tx1);line-height:1">$99</div>
+        <div id="price_director_a" style="display:none;font-size:36px;font-weight:800;color:var(--tx1);line-height:1">$79</div>
+        <div style="font-size:12px;color:var(--tx3);margin-bottom:20px">/ month</div>
+        <ul style="list-style:none;margin-bottom:24px">
+          <li style="font-size:13px;color:var(--tx2);padding:5px 0;border-bottom:1px solid var(--bd)">✅ Everything in Agent</li>
+          <li style="font-size:13px;color:var(--tx2);padding:5px 0;border-bottom:1px solid var(--bd)">✅ WhatsApp alerts</li>
+          <li style="font-size:13px;color:var(--tx2);padding:5px 0;border-bottom:1px solid var(--bd)">✅ Advanced analytics</li>
+          <li style="font-size:13px;color:var(--tx2);padding:5px 0;border-bottom:1px solid var(--bd)">✅ All club budgets</li>
+          <li style="font-size:13px;color:var(--tx2);padding:5px 0">✅ Priority support</li>
+        </ul>
+        <button onclick="openCheckout('director',_billing)" style="width:100%;padding:11px;border-radius:9px;border:none;background:var(--tx1);color:var(--bg1);font-size:14px;font-weight:700;cursor:pointer" data-i18n="plan_cta_trial">Start 7-day free trial</button>
+      </div>
+      <div style="background:linear-gradient(135deg,#0D1A0D,#152A15);border:1px solid rgba(34,197,94,.3);border-radius:16px;padding:28px 24px">
+        <div style="font-size:13px;font-weight:700;color:#22C55E;margin-bottom:8px" data-i18n="plan_exec">Executive</div>
+        <div id="price_exec_m" style="font-size:36px;font-weight:800;color:#fff;line-height:1">$249</div>
+        <div id="price_exec_a" style="display:none;font-size:36px;font-weight:800;color:#fff;line-height:1">$199</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:20px">/ month</div>
+        <ul style="list-style:none;margin-bottom:24px">
+          <li style="font-size:13px;color:rgba(255,255,255,.8);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.1)">✅ Everything in Director</li>
+          <li style="font-size:13px;color:rgba(255,255,255,.8);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.1)">✅ API access</li>
+          <li style="font-size:13px;color:rgba(255,255,255,.8);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.1)">✅ Custom alert rules</li>
+          <li style="font-size:13px;color:rgba(255,255,255,.8);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.1)">✅ White-label reports</li>
+          <li style="font-size:13px;color:rgba(255,255,255,.8);padding:5px 0">✅ Dedicated account manager</li>
+        </ul>
+        <button onclick="openCheckout('executive',_billing)" style="width:100%;padding:11px;border-radius:9px;border:none;background:#22C55E;color:#000;font-size:14px;font-weight:700;cursor:pointer" data-i18n="plan_cta_trial">Start 7-day free trial</button>
+      </div>
     </div>
   </div>
 </section>
