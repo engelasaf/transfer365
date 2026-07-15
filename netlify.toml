@@ -1,20 +1,19 @@
 [build]
   publish = "."
   functions = "netlify/functions"
+  command = "node netlify/migrate.js || echo 'Migration skipped'"
 
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
+    X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
 
-# App JS files — must NOT be cached (change frequently)
 [[headers]]
   for = "/assets/app.js"
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
 
-# Immutable only for vendor libs that NEVER change
 [[headers]]
   for = "/assets/react.min.js"
   [headers.values]
@@ -25,7 +24,6 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# HTML — never cache
 [[headers]]
   for = "/*.html"
   [headers.values]
@@ -40,3 +38,18 @@
   for = "/"
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[redirects]]
+  from = "/app"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
+
+[[redirects]]
+  from = "/setup"
+  to = "/setup.html"
+  status = 200
