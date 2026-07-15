@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Transfer365 — Database Setup</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#0f1117;color:#e2e8f0;
+  display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.box{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:36px;width:100%;max-width:520px}
+h1{font-size:18px;font-weight:700;color:#f1f5f9;margin-bottom:6px}
+p{font-size:13px;color:#64748b;margin-bottom:24px;line-height:1.5}
+label{font-size:12px;font-weight:600;color:#94a3b8;display:block;margin-bottom:6px}
+input,select{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #334155;
+  background:#0f1117;color:#e2e8f0;font-size:13px;margin-bottom:16px;font-family:monospace}
+button{width:100%;padding:12px;border-radius:8px;border:none;background:#3C3489;
+  color:#EEEDFE;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:12px}
+button:hover{background:#534AB7}
+.log{background:#0f1117;border:1px solid #334155;border-radius:8px;padding:14px;
+  font-family:monospace;font-size:12px;min-height:80px;max-height:300px;overflow-y:auto;
+  white-space:pre-wrap;color:#86efac;display:none}
+.how{background:#1a2235;border-radius:8px;padding:14px;margin-bottom:20px;font-size:12px;color:#94a3b8;line-height:1.7}
+.how b{color:#f1f5f9}
+a{color:#818cf8}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>🗄️ Transfer365 — One-Time Database Setup</h1>
+  <p>This page creates all required Supabase tables. Run once.</p>
+
+  <div class="how">
+    <b>How to get your Service Role Key:</b><br>
+    1. Go to <a href="https://supabase.com/dashboard/project/hivyothlbntxcbsilktp/settings/api" target="_blank">Supabase → Settings → API</a><br>
+    2. Copy the <b>service_role</b> key (NOT anon key)<br>
+    3. Paste below and click Run Setup
+  </div>
+
+  <label>Supabase Service Role Key</label>
+  <input type="password" id="svcKey" placeholder="eyJh... or sb_secret_...">
+
+  <label>Setup Secret</label>
+  <input type="text" id="setupSecret" value="transfer365setup2026">
+
+  <button onclick="runSetup()">🚀 Run Setup</button>
+
+  <div class="log" id="log"></div>
+
+  <p style="margin-top:16px;font-size:11px;color:#475569;text-align:center">
+    <a href="/admin">Go to Admin Dashboard</a> · <a href="/app">Go to App</a>
+  </p>
+</div>
+<script>
+async function runSetup() {
+  const key    = document.getElementById('svcKey').value.trim();
+  const secret = document.getElementById('setupSecret').value.trim();
+  const log    = document.getElementById('log');
+  log.style.display = 'block';
+  log.textContent = 'Starting setup...\n';
+
+  try {
+    const r = await fetch('/api/setup-db?secret=' + encodeURIComponent(secret) + '&svc_key=' + encodeURIComponent(key));
+    const data = await r.json();
+    log.textContent += JSON.stringify(data, null, 2);
+    if (data.success) {
+      log.textContent += '\n\n✅ Setup complete! All tables created.';
+      log.style.color = '#86efac';
+    } else {
+      log.textContent += '\n\n⚠️ Partial: ' + (data.error || 'Check results above');
+      log.style.color = '#fde68a';
+    }
+  } catch(e) {
+    log.textContent += '\n❌ Error: ' + e.message;
+    log.style.color = '#f87171';
+  }
+}
+</script>
+</body>
+</html>
