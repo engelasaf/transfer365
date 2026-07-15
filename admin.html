@@ -155,9 +155,18 @@ async function loadData() {
       return;
     }
     const data = await res.json();
-    if (!data.success) throw new Error(data.error);
+    // data.success can be true even without DB (returns empty + warning)
+    if (!data.success && res.status !== 200) throw new Error(data.error);
+    if (data.error && !data.success) throw new Error(data.error);
 
     allUsers = data.users || [];
+
+    // Show warning if Supabase not configured
+    if (data.warning) {
+      document.getElementById('lastRefresh').textContent =
+        '⚠️ ' + data.warning + (data.setup_url ? ' → ' + data.setup_url : '');
+      document.getElementById('lastRefresh').style.color = '#f59e0b';
+    }
 
     document.getElementById('login').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
