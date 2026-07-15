@@ -784,7 +784,37 @@ const Stat = ({
   }
 }, s));
 function App() {
-  const [pg, setPg] = useState("dash");
+  
+  // ── Plan & feature gating ──────────────────────────────────────────
+  const _plan = (window._T365 && window._T365.plan) || 'scout';
+  const PLAN_RANK = { scout: 0, agent: 1, director: 2, executive: 3 };
+  const canUse = (minPlan) => (PLAN_RANK[_plan] || 0) >= (PLAN_RANK[minPlan] || 0);
+
+  function UpgradeWall({ minPlan, feature }) {
+    if (canUse(minPlan)) return null;
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute", inset: 0, background: "rgba(15,17,23,.85)",
+        backdropFilter: "blur(4px)", borderRadius: 12,
+        display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center", zIndex: 10,
+        padding: 24, textAlign: "center"
+      }
+    },
+      React.createElement("div", { style: { fontSize: 32, marginBottom: 8 } }, "🔒"),
+      React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "#f1f5f9", marginBottom: 6 } },
+        feature + " — " + minPlan.charAt(0).toUpperCase() + minPlan.slice(1) + "+ plan"),
+      React.createElement("div", { style: { fontSize: 12, color: "#64748b", marginBottom: 14 } },
+        "Upgrade to unlock this feature"),
+      React.createElement("a", {
+        href: "/#pricing",
+        style: { padding: "8px 18px", borderRadius: 8, background: "#3C3489",
+          color: "#EEEDFE", fontSize: 12, fontWeight: 700, textDecoration: "none" }
+      }, "Upgrade now →")
+    );
+  }
+
+const [pg, setPg] = useState("dash");
   const [ti, setTi] = useState(0);
   const [secs, setSecs] = useState(41 * 86400 + 7 * 3600 + 23 * 60);
   const [wtch, setWtch] = useState(() => {
@@ -1170,7 +1200,24 @@ function App() {
         gridTemplateColumns: "repeat(4,minmax(0,1fr))",
         gap: 10
       }
-    }, /*#__PURE__*/React.createElement(Stat, {
+    }, /*#__PURE__*/
+      /*#__PURE__*/React.createElement("div", {
+        style: { background: "#1e293b", borderRadius: 10, padding: "12px 14px",
+          display: "flex", alignItems: "center", justifyContent: "space-between" }
+      },
+        React.createElement("div", { style: { fontSize: 10, color: "var(--tx3)" } }, "Your Plan"),
+        React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
+          React.createElement("span", {
+            style: { fontSize: 12, fontWeight: 700, color: "#a78bfa",
+              background: "#2d1b69", padding: "3px 10px", borderRadius: 20 }
+          }, (_plan.charAt(0).toUpperCase() + _plan.slice(1))),
+          _plan === "scout" && React.createElement("a", {
+            href: "/#pricing",
+            style: { fontSize: 11, color: "#3b82f6", textDecoration: "none" }
+          }, "Upgrade →")
+        )
+      ),
+      React.createElement(Stat, {
       l: "Players",
       v: ownPl.length,
       s: "in portfolio"
