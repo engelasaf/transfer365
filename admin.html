@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Transfer365 Admin</title>
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#0f1117;color:#e2e8f0;min-height:100vh}
+#login{display:flex;align-items:center;justify-content:center;min-height:100vh}
+#login .box{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:32px;width:340px}
+#login h1{font-size:18px;font-weight:700;margin-bottom:20px;color:#f1f5f9}
+#login input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #334155;background:#0f1117;color:#e2e8f0;font-size:14px;margin-bottom:12px}
+#login button{width:100%;padding:11px;border-radius:8px;border:none;background:#3C3489;color:#EEEDFE;font-size:14px;font-weight:700;cursor:pointer}
+#dashboard{display:none;padding:24px 32px;max-width:1200px;margin:0 auto}
+header{display:flex;align-items:center;gap:12px;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid #1e293b}
+header h1{font-size:18px;font-weight:700;color:#f1f5f9}
+header .sub{font-size:12px;color:#64748b;margin-top:2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:28px}
+.stat{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px 20px}
+.stat .n{font-size:28px;font-weight:800;color:#f1f5f9}
+.stat .l{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+.stat.green .n{color:#22c55e}.stat.blue .n{color:#3b82f6}.stat.purple .n{color:#a78bfa}.stat.amber .n{color:#f59e0b}
+.card{background:#1e293b;border:1px solid #334155;border-radius:10px;overflow:hidden;margin-bottom:20px}
+.card-head{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #334155}
+.card-head span{font-size:13px;font-weight:700;color:#f1f5f9}
+.card-head input{padding:6px 10px;border-radius:7px;border:1px solid #334155;background:#0f1117;color:#e2e8f0;font-size:12px;width:220px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:9px 14px;text-align:left;color:#64748b;font-size:11px;text-transform:uppercase;letter-spacing:.06em;background:#0f1117;border-bottom:1px solid #1e293b}
+td{padding:10px 14px;border-top:1px solid #1e293b;vertical-align:middle}
+tr:hover td{background:#1a2235}
+.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
+.badge.scout{background:#1e293b;color:#64748b;border:1px solid #334155}
+.badge.agent{background:#1e3a5f;color:#93c5fd}
+.badge.director{background:#2d1b69;color:#a78bfa}
+.badge.executive{background:#14532d;color:#86efac}
+.badge.active{background:#14532d;color:#86efac}
+.badge.cancelled{background:#7f1d1d;color:#fca5a5}
+.badge.trial{background:#78350f;color:#fde68a}
+select{background:#0f1117;border:1px solid #334155;color:#e2e8f0;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer}
+.action-btn{padding:4px 10px;border-radius:6px;border:none;font-size:11px;font-weight:600;cursor:pointer;background:#3C3489;color:#EEEDFE}
+.action-btn:hover{background:#534AB7}
+.mrr{color:#22c55e;font-weight:700}
+.search-wrap{position:relative}
+.search-wrap i{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:#64748b;font-size:14px}
+.search-wrap input{padding-left:28px}
+#toast{position:fixed;bottom:24px;right:24px;background:#22c55e;color:#000;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;display:none;z-index:999}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="box">
+    <h1>🔐 Transfer365 Admin</h1>
+    <input type="password" id="secretInput" placeholder="Admin secret key" onkeydown="if(event.key==='Enter')doLogin()">
+    <button onclick="doLogin()">Login</button>
+    <div id="loginErr" style="color:#f87171;font-size:12px;margin-top:8px"></div>
+  </div>
+</div>
+
+<div id="dashboard">
+  <header>
+    <div>
+      <h1>Transfer365 Admin Dashboard</h1>
+      <div class="sub" id="lastRefresh">Loading...</div>
+    </div>
+    <button onclick="loadData()" style="margin-left:auto;padding:7px 14px;border-radius:8px;border:none;background:#1e293b;color:#e2e8f0;font-size:12px;cursor:pointer;border:1px solid #334155">
+      <i class="ti ti-refresh"></i> Refresh
+    </button>
+    <button onclick="doLogout()" style="padding:7px 14px;border-radius:8px;border:1px solid #334155;background:transparent;color:#64748b;font-size:12px;cursor:pointer;margin-left:8px">
+      Logout
+    </button>
+  </header>
+
+  <div class="stats">
+    <div class="stat green"><div class="n" id="s_total">—</div><div class="l">Total Users</div></div>
+    <div class="stat blue"><div class="n" id="s_active">—</div><div class="l">Active</div></div>
+    <div class="stat purple"><div class="n" id="s_mrr">—</div><div class="l">MRR ($)</div></div>
+    <div class="stat amber"><div class="n" id="s_agent">—</div><div class="l">Agent Plan</div></div>
+    <div class="stat"><div class="n" id="s_dir">—</div><div class="l">Director Plan</div></div>
+    <div class="stat green"><div class="n" id="s_exec">—</div><div class="l">Executive Plan</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <span>Users <span id="userCount" style="color:#64748b;font-weight:400"></span></span>
+      <div class="search-wrap">
+        <i class="ti ti-search"></i>
+        <input type="text" id="searchInput" placeholder="Search email or name..." oninput="filterTable()">
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Plan</th>
+            <th>Status</th>
+            <th>Billing</th>
+            <th>Joined</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="userTable"></tbody>
+      </table>
+      <div id="noUsers" style="padding:40px;text-align:center;color:#64748b;display:none">No users found</div>
+    </div>
+  </div>
+</div>
+
+<div id="toast">✅ Saved</div>
+
+<script>
+let SECRET = '';
+let allUsers = [];
+
+function doLogin() {
+  const s = document.getElementById('secretInput').value.trim();
+  if (!s) return;
+  SECRET = s;
+  loadData();
+}
+
+function doLogout() {
+  SECRET = '';
+  document.getElementById('login').style.display = 'flex';
+  document.getElementById('dashboard').style.display = 'none';
+}
+
+async function loadData() {
+  try {
+    // Load users
+    const res = await fetch('/api/admin?secret=' + encodeURIComponent(SECRET) + '&action=users');
+    if (res.status === 401) {
+      document.getElementById('loginErr').textContent = 'Invalid secret key';
+      return;
+    }
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error);
+
+    allUsers = data.users || [];
+
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    document.getElementById('lastRefresh').textContent = 'Last refresh: ' + new Date().toLocaleString();
+
+    // Load stats
+    const statsRes = await fetch('/api/admin?secret=' + encodeURIComponent(SECRET) + '&action=stats');
+    const stats = await statsRes.json();
+    if (stats.success) {
+      document.getElementById('s_active').textContent = stats.activeCount || 0;
+      document.getElementById('s_mrr').textContent = '$' + (stats.mrr || 0).toLocaleString();
+      document.getElementById('s_agent').textContent = stats.byPlan?.agent || 0;
+      document.getElementById('s_dir').textContent = stats.byPlan?.director || 0;
+      document.getElementById('s_exec').textContent = stats.byPlan?.executive || 0;
+    }
+    document.getElementById('s_total').textContent = allUsers.length;
+    renderTable(allUsers);
+
+  } catch(e) {
+    document.getElementById('loginErr').textContent = 'Error: ' + e.message;
+  }
+}
+
+function renderTable(users) {
+  document.getElementById('userCount').textContent = '(' + users.length + ')';
+  const tbody = document.getElementById('userTable');
+  if (users.length === 0) {
+    tbody.innerHTML = '';
+    document.getElementById('noUsers').style.display = 'block';
+    return;
+  }
+  document.getElementById('noUsers').style.display = 'none';
+  tbody.innerHTML = users.map((u,i) => {
+    const date = u.created_at ? new Date(u.created_at).toLocaleDateString() : '—';
+    return '<tr>' +
+      '<td style="color:#64748b">' + (i+1) + '</td>' +
+      '<td style="font-family:monospace;font-size:12px">' + (u.email||'—') + '</td>' +
+      '<td>' + (u.full_name||'—') + '</td>' +
+      '<td><span class="badge ' + (u.plan||'scout') + '">' + (u.plan||'scout') + '</span></td>' +
+      '<td><span class="badge ' + (u.status||'active') + '">' + (u.status||'active') + '</span></td>' +
+      '<td style="color:#64748b">' + (u.billing||'monthly') + '</td>' +
+      '<td style="color:#64748b">' + date + '</td>' +
+      '<td>' +
+        '<select onchange="updatePlan(\'' + u.email + '\',this.value)">' +
+          ['scout','agent','director','executive'].map(p =>
+            '<option value="' + p + '"' + (u.plan===p?' selected':'') + '>' + p + '</option>'
+          ).join('') +
+        '</select> ' +
+        '<button class="action-btn" onclick="toggleStatus(\'' + u.email + '\',\'' + u.status + '\')">'+
+          (u.status==='active' ? 'Deactivate' : 'Activate') +
+        '</button>' +
+      '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+function filterTable() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = allUsers.filter(u =>
+    (u.email||'').toLowerCase().includes(q) ||
+    (u.full_name||'').toLowerCase().includes(q) ||
+    (u.plan||'').includes(q)
+  );
+  renderTable(filtered);
+}
+
+async function updatePlan(email, plan) {
+  try {
+    const r = await fetch('/api/admin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ secret: SECRET, action: 'update_plan', email, plan }),
+    });
+    const data = await r.json();
+    if (data.success) showToast('Plan updated: ' + email + ' → ' + plan);
+    else showToast('Error: ' + data.error, true);
+    loadData();
+  } catch(e) { showToast('Error: ' + e.message, true); }
+}
+
+async function toggleStatus(email, currentStatus) {
+  const newStatus = currentStatus === 'active' ? 'cancelled' : 'active';
+  try {
+    const r = await fetch('/api/admin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ secret: SECRET, action: 'update_plan', email, status: newStatus }),
+    });
+    const data = await r.json();
+    if (data.success) showToast('Status: ' + email + ' → ' + newStatus);
+    loadData();
+  } catch(e) { showToast('Error: ' + e.message, true); }
+}
+
+function showToast(msg, err=false) {
+  const t = document.getElementById('toast');
+  t.textContent = err ? '❌ ' + msg : '✅ ' + msg;
+  t.style.background = err ? '#ef4444' : '#22c55e';
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3000);
+}
+</script>
+</body>
+</html>
