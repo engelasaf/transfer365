@@ -1,10 +1,10 @@
 // netlify/functions/scan-news.mjs
 // Scheduled: every 30 min | Auto-creates DB | Emails digest
-const SB_URL = process.env.SUPABASE_URL || "https://hivyothlbntxcbsilktp.supabase.co";
-const SB_KEY = process.env.SUPABASE_KEY  || "sb_publishable_JSj4WcwoxYSrEC7Hi2Zxlg_0rboiHzE";
-const SB_PAT = process.env.SUPABASE_PAT  || "";
-const RESEND  = process.env.RESEND_KEY   || "re_fpiGyquS_6da8bc4B3z1GgSS3yWDMnzKp";
-const REF     = "hivyothlbntxcbsilktp";
+const SB_URL = process.env.SUPABASE_URL || "";
+const SB_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_KEY || "";
+const SB_PAT = process.env.SUPABASE_PAT || "";
+const RESEND  = process.env.RESEND_API_KEY || process.env.RESEND_KEY || "";
+const REF     = (SB_URL.match(/\/\/([^.]+)\.supabase\.co/) || [])[1] || "";
 
 const SQL_SETUP = `
 CREATE TABLE IF NOT EXISTS public.alerts (
