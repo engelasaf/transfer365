@@ -96,7 +96,13 @@ function parseRSS(xml){
     const r=m[1];
     const get=tag=>r.match(new RegExp(`<${tag}><!\\[CDATA\\[([\\s\\S]*?)\\]\\]></${tag}>`))?.[1]||r.match(new RegExp(`<${tag}>([^<]*)</${tag}>`))?.[1]||"";
     const title=get("title").trim(),desc=get("description").replace(/<[^>]+>/g,"").trim().slice(0,280);
-    const link=get("link").trim(),pub=get("pubDate");
+    let rawLink=get("link").trim();
+    // Strip any HTML tags that might wrap the URL in some RSS feeds
+    rawLink=rawLink.replace(/<[^>]+>/g,"").trim();
+    // Also try to extract URL from href= if it's embedded as HTML
+    const hrefMatch=r.match(/href="(https?[^"]+)"/);
+    const link=(rawLink.startsWith("http")?rawLink:hrefMatch?.[1]||rawLink).trim();
+    const pub=get("pubDate");
     let src=r.match(/<source[^>]*>([^<]*)<\/source>/)?.[1]||"";
     if(!src&&link){try{src=new URL(link).hostname.replace("www.","");}catch(e){}}
     if(title)items.push({title,desc,link,pub,src});
@@ -132,34 +138,56 @@ function buildEmail(alerts, scanTime) {
     const abbr = a.player_name.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
     const player = PLAYERS.find(p=>p.id===a.player_id);
     const ta = timeAgo(a.published_at||a.created_at);
+    const safeUrl=(a.url||"").replace(/<[^>]+>/g,"").trim();
+    const validUrl=safeUrl.startsWith("http")?safeUrl:"";
     return `
     <tr>
-      <td style="padding:0 20px">
-        <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #F1F5F9;padding:16px 0">
+      <td style="padding:0 16px 16px">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0"
+               style="background:#FFFFFF;border:1px solid #E5E7EB;border-radius:12px;overflow:hidden">
           <tr>
-            <td width="44" style="vertical-align:top;padding-right:12px">
-              <div style="width:40px;height:40px;border-radius:50%;background:#0D1F14;display:table-cell;text-align:center;vertical-align:middle;color:#22C55E;font-weight:700;font-size:13px;font-family:sans-serif">${abbr}</div>
-            </td>
-            <td style="vertical-align:top">
+            <!-- Left accent bar by severity -->
+            <td width="4" style="background:${t.badgeC};border-radius:12px 0 0 12px">&nbsp;</td>
+            <td style="padding:14px 16px">
               <table width="100%" cellpadding="0" cellspacing="0">
+                <!-- Row 1: badge + player name + club -->
                 <tr>
                   <td>
-                    <span style="background:${t.badgeBg};color:${t.badgeC};font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:0.04em">${a.trigger_type}</span>
-                    <span style="color:#374151;font-size:12px;font-weight:700;margin-left:8px">${a.player_name}</span>
-                    ${player?`<span style="color:#9CA3AF;font-size:11px;margin-left:6px">· ${player.club}</span>`:""}
+                    <span style="background:${t.badgeBg};color:${t.badgeC};font-size:10px;font-weight:800;
+                      padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:0.06em;
+                      display:inline-block">${a.trigger_type}</span>
+                    <span style="color:#111827;font-size:13px;font-weight:700;margin-left:8px">${a.player_name}</span>
+                    ${player?`<span style="color:#9CA3AF;font-size:12px;margin-left:4px">· ${player.club}</span>`:""}
                   </td>
                 </tr>
-                <tr><td style="padding-top:6px">
-                  <p style="margin:0;color:#111827;font-size:14px;font-weight:600;line-height:1.4">
-                    ${a.icon||t.icon} ${(a.headline||"").slice(0,100)}${a.headline&&a.headline.length>100?"…":""}
+                <!-- Row 2: headline -->
+                <tr><td style="padding-top:8px">
+                  <p style="margin:0;color:#111827;font-size:14px;font-weight:600;line-height:1.45">
+                    ${(a.headline||"").slice(0,110)}${(a.headline||"").length>110?"…":""}
                   </p>
                 </td></tr>
-                ${a.summary?`<tr><td style="padding-top:5px"><p style="margin:0;color:#6B7280;font-size:12px;line-height:1.5">${a.summary.slice(0,160)}…</p></td></tr>`:""}
-                <tr><td style="padding-top:8px">
-                  <table cellpadding="0" cellspacing="0">
+                ${a.summary?`
+                <tr><td style="padding-top:5px">
+                  <p style="margin:0;color:#6B7280;font-size:12px;line-height:1.5">
+                    ${a.summary.slice(0,140)}…
+                  </p>
+                </td></tr>`:""}
+                <!-- Row 3: source + read button -->
+                <tr><td style="padding-top:10px">
+                  <table width="100%" cellpadding="0" cellspacing="0">
                     <tr>
-                      <td style="color:#9CA3AF;font-size:11px">${a.source||""}${ta?` · ${ta}`:""}</td>
-                      ${a.url?`<td style="padding-left:12px"><a href="${a.url}" target="_blank" style="background:#0D1F14;color:#22C55E;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;text-decoration:none;display:inline-block">Read →</a></td>`:""}
+                      <td style="color:#9CA3AF;font-size:11px;vertical-align:middle">
+                        ${a.source||""}${ta?` · ${ta}`:""}
+                      </td>
+                      ${validUrl?`
+                      <td align="right" style="vertical-align:middle">
+                        <a href="${validUrl}" target="_blank"
+                           style="background:#0D1F14;color:#22C55E;font-size:12px;font-weight:700;
+                                  padding:6px 14px;border-radius:8px;text-decoration:none;
+                                  display:inline-block;white-space:nowrap">
+                          Read article →
+                        </a>
+                      </td>`:""}
                     </tr>
                   </table>
                 </td></tr>
