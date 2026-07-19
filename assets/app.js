@@ -786,7 +786,7 @@ const Stat = ({
 function App() {
   
   // ── Plan & feature gating ──────────────────────────────────────────
-  const _plan = _serverPlan;
+  
   const PLAN_RANK = { scout: 0, agent: 1, director: 2, executive: 3 };
   const canUse = (minPlan) => (PLAN_RANK[_plan] || 0) >= (PLAN_RANK[minPlan] || 0);
 
@@ -817,6 +817,7 @@ function App() {
 
   // ── Server-verified plan (fetched from /api/me on load) ───────────
   const [_serverPlan, _setServerPlan] = useState(
+  const _plan = _serverPlan;
     (window._T365 && window._T365.plan) || 'scout'
   );
   const [_planLoaded, _setPlanLoaded] = useState(false);
