@@ -209,141 +209,92 @@ function buildEmail(alerts, scanTime) {
 <meta name="color-scheme" content="light">
 <title>Transfer365 Alert</title>
 </head>
-<body style="margin:0;padding:0;background:#F1F5F9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased">
+<body style="margin:0;padding:0;background:#F0F4F8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased">
 
-<!--[if mso]><center><table width="600"><tr><td><![endif]-->
 <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation">
-<tr><td align="center" style="padding:24px 16px">
-
-  <table width="100%" style="max-width:600px" cellpadding="0" cellspacing="0" border="0">
+<tr><td align="center" style="padding:24px 12px">
+  <table width="100%" style="max-width:580px" cellpadding="0" cellspacing="0" border="0">
 
     <!-- HEADER -->
     <tr>
-      <td style="background:#0D1F14;border-radius:14px 14px 0 0;padding:24px 24px 20px;overflow:hidden">
+      <td style="background:linear-gradient(135deg,#071A09 0%,#0D2B12 100%);border-radius:14px 14px 0 0;padding:22px 24px">
         <table width="100%" cellpadding="0" cellspacing="0">
           <tr>
             <td>
               <span style="color:#22C55E;font-size:22px;font-weight:800;letter-spacing:-0.5px">Transfer365</span>
             </td>
             <td align="right">
-              <span style="display:inline-block;background:rgba(34,197,94,.15);color:#22C55E;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid rgba(34,197,94,.3);letter-spacing:0.06em">● LIVE SCAN</span>
+              <span style="background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.4);color:#22C55E;
+                           font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:0.05em">
+                ● LIVE SCAN
+              </span>
             </td>
           </tr>
           <tr>
-            <td colspan="2" style="padding-top:10px">
-              <p style="margin:0;color:rgba(255,255,255,.5);font-size:12px">${scanDate} GMT · ${alerts.length} alert${alerts.length>1?"s":""} across ${playerCount} player${playerCount>1?"s":""}</p>
+            <td colspan="2" style="padding-top:6px;color:rgba(255,255,255,0.5);font-size:12px">
+              ${scanDate} GMT · ${alerts.length} alert${alerts.length!==1?"s":""} across ${playerCount} player${playerCount!==1?"s":""}
             </td>
           </tr>
         </table>
       </td>
     </tr>
 
-    <!-- URGENCY BANNER (only if high-priority alerts) -->
-    ${highCount>0?`
+    <!-- ALERT CARDS -->
     <tr>
-      <td style="background:#DC2626;padding:10px 24px">
-        <p style="margin:0;color:#fff;font-size:12px;font-weight:700">⚡ ${highCount} HIGH PRIORITY alert${highCount>1?"s":""} require immediate attention</p>
-      </td>
-    </tr>`:""}
-
-    <!-- ALERTS -->
-    <tr>
-      <td style="background:#ffffff;border-left:1px solid #E2E8F0;border-right:1px solid #E2E8F0">
+      <td style="background:#F8FAFC;padding:16px 0 4px">
         <table width="100%" cellpadding="0" cellspacing="0">
           ${alertCards}
         </table>
       </td>
     </tr>
 
-    <!-- SUMMARY ROW -->
+    <!-- STATS BAR -->
     <tr>
-      <td style="background:#F8FAFC;border:1px solid #E2E8F0;border-top:none;padding:16px 24px">
+      <td style="background:#FFFFFF;border-top:1px solid #E5E7EB;padding:16px 24px">
         <table width="100%" cellpadding="0" cellspacing="0">
           <tr>
-            <td width="33%" style="text-align:center;border-right:1px solid #E2E8F0">
-              <p style="margin:0;font-size:20px;font-weight:700;color:#111827">${alerts.filter(a=>TRIGGERS[a.trigger_type]?.sev==="high").length}</p>
-              <p style="margin:4px 0 0;font-size:11px;color:#9CA3AF">High priority</p>
+            <td align="center" style="border-right:1px solid #E5E7EB">
+              <div style="font-size:22px;font-weight:800;color:#111827">${highCount}</div>
+              <div style="font-size:11px;color:#9CA3AF;margin-top:2px">High priority</div>
             </td>
-            <td width="33%" style="text-align:center;border-right:1px solid #E2E8F0">
-              <p style="margin:0;font-size:20px;font-weight:700;color:#111827">${playerCount}</p>
-              <p style="margin:4px 0 0;font-size:11px;color:#9CA3AF">Players tracked</p>
+            <td align="center" style="border-right:1px solid #E5E7EB">
+              <div style="font-size:22px;font-weight:800;color:#111827">${playerCount}</div>
+              <div style="font-size:11px;color:#9CA3AF;margin-top:2px">Players tracked</div>
             </td>
-            <td width="33%" style="text-align:center">
-              <p style="margin:0;font-size:20px;font-weight:700;color:#111827">${alerts.length}</p>
-              <p style="margin:4px 0 0;font-size:11px;color:#9CA3AF">Total alerts</p>
+            <td align="center">
+              <div style="font-size:22px;font-weight:800;color:#111827">${alerts.length}</div>
+              <div style="font-size:11px;color:#9CA3AF;margin-top:2px">Total alerts</div>
             </td>
           </tr>
         </table>
       </td>
     </tr>
 
-    <!-- CTA FOOTER -->
+    <!-- CTA -->
     <tr>
-      <td style="background:#0D1F14;border-radius:0 0 14px 14px;padding:24px;text-align:center">
-        <a href="https://transfer365.net/app" style="display:inline-block;background:#22C55E;color:#052E0A;font-weight:700;font-size:14px;padding:14px 32px;border-radius:9px;text-decoration:none;letter-spacing:-0.01em">Open Transfer365 →</a>
-        <p style="margin:14px 0 0;color:rgba(255,255,255,.3);font-size:11px">Transfer365 · Intelligence for football agents · <a href="https://transfer365.net" style="color:#22C55E;text-decoration:none">transfer365.net</a></p>
-        <p style="margin:6px 0 0;color:rgba(255,255,255,.2);font-size:10px">Automated scan every 30 minutes · 9 players monitored · <a href="https://transfer365.net/app" style="color:rgba(255,255,255,.2)">Manage alerts</a></p>
+      <td style="background:#0D1F14;border-radius:0 0 14px 14px;padding:20px 24px;text-align:center">
+        <a href="https://transfer365.net/app" target="_blank"
+           style="background:#22C55E;color:#0A1A0B;font-size:14px;font-weight:800;
+                  padding:12px 32px;border-radius:8px;text-decoration:none;
+                  display:inline-block;letter-spacing:0.01em">
+          Open Transfer365 →
+        </a>
+        <p style="margin:14px 0 0;color:rgba(255,255,255,0.35);font-size:11px;line-height:1.6">
+          Transfer365 · Intelligence for football agents ·
+          <a href="https://transfer365.net" target="_blank" style="color:#22C55E;text-decoration:none">transfer365.net</a>
+        </p>
+        <p style="margin:6px 0 0;color:rgba(255,255,255,0.25);font-size:10px">
+          Automated scan every 30 minutes · ${PLAYERS.length} players monitored ·
+          <a href="https://transfer365.net/app" target="_blank"
+             style="color:rgba(255,255,255,0.35);text-decoration:underline">Manage alerts</a>
+        </p>
       </td>
     </tr>
 
   </table>
-
 </td></tr>
 </table>
-<!--[if mso]></td></tr></table></center><![endif]-->
+
 </body>
 </html>`;
-}
 
-async function sendDigest(alerts, scanTime) {
-  if (!RESEND || !alerts.length) return;
-  const highCount = alerts.filter(a=>TRIGGERS[a.trigger_type]?.sev==="high").length;
-  const subjectPrefix = highCount>0 ? `⚡ ${highCount} URGENT` : `⚽ ${alerts.length} new`;
-  const players = [...new Set(alerts.map(a=>a.player_name))].slice(0,3).join(", ");
-
-  await fetch("https://api.resend.com/emails", {
-    method:"POST",
-    headers:{"Authorization":`Bearer ${RESEND}`,"Content-Type":"application/json"},
-    body:JSON.stringify({
-      from:"Transfer365 <noreply@transfer365.net>",
-      to:["engelasaf@gmail.com"],
-      subject:`${subjectPrefix} alert${alerts.length>1?"s":""} — ${players}${alerts.length>3?" +more":""}`,
-      html: buildEmail(alerts, scanTime)
-    })
-  }).catch(e=>console.warn("Email failed:",e.message));
-}
-
-export default async () => {
-  const started=Date.now(),log={players:0,articles:0,alerts:0,errors:[]};
-  await ensureTables();
-  const newAlerts=[];
-  for(const player of PLAYERS){
-    try{
-      const res=await fetch(`https://news.google.com/rss/search?q=${player.q}+football&hl=en&gl=GB&ceid=GB:en`,
-        {headers:{"User-Agent":"Mozilla/5.0 (compatible; Transfer365/1.0)"}});
-      if(!res.ok){log.errors.push(`${player.id}:${res.status}`);continue;}
-      const xml=await res.text(),items=parseRSS(xml);
-      log.articles+=items.length;log.players++;
-      const cutoff=Date.now()-6*3600*1000;
-      const fresh=items.filter(it=>!it.pub||isNaN(new Date(it.pub))||new Date(it.pub)>cutoff);
-      for(const item of fresh.slice(0,5)){
-        const trigger=classify(item.title+" "+item.desc);
-        if(!trigger)continue;
-        if(await sbExists(item.link))continue;
-        const alert={player_id:player.id,player_name:player.name,trigger_type:trigger.type,
-          headline:item.title.slice(0,250),summary:item.desc.slice(0,400),source:item.src,
-          url:item.link||null,icon:trigger.icon,severity:trigger.severity,
-          published_at:item.pub?new Date(item.pub).toISOString():null};
-        const ins=await sbInsert("alerts",alert);
-        if(ins.status===201||ins.status===200){log.alerts++;newAlerts.push({...alert,...trigger});}
-      }
-    }catch(e){log.errors.push(`${player.id}:${e.message.slice(0,50)}`);}
-  }
-  await sbInsert("scan_log",{players_scanned:log.players,articles_found:log.articles,alerts_created:log.alerts}).catch(()=>{});
-  if(newAlerts.length>0)await sendDigest(newAlerts,new Date().toISOString());
-  const result={...log,duration_ms:Date.now()-started,timestamp:new Date().toISOString()};
-  console.log("Scan done:",JSON.stringify(result));
-  return new Response(JSON.stringify(result,null,2),{headers:{"Content-Type":"application/json"}});
-};
-
-export const config={schedule:"*/30 * * * *"};
