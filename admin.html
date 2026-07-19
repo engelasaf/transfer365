@@ -151,7 +151,8 @@ async function loadData() {
     // Load users
     const res = await fetch('/api/admin?secret=' + encodeURIComponent(SECRET) + '&action=users');
     if (res.status === 401) {
-      document.getElementById('loginErr').textContent = 'Wrong secret key. Check ADMIN_SECRET in Netlify env vars.';
+      const errData = await res.json().catch(()=>({}));
+      document.getElementById('loginErr').textContent = 'Wrong password — try again. (' + (errData.hint || 'check spelling') + ')';
       return;
     }
     const data = await res.json();
