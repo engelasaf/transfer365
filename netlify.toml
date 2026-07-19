@@ -1,4 +1,4 @@
-# Redeploy: 20260719-1034 — updated ADMIN_SECRET env var
+# Redeploy 20260719-1143 — process.env fix
 [build]
   publish = "."
   functions = "netlify/functions"
