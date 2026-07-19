@@ -817,9 +817,9 @@ function App() {
 
   // ── Server-verified plan (fetched from /api/me on load) ───────────
   const [_serverPlan, _setServerPlan] = useState(
-  const _plan = _serverPlan;
     (window._T365 && window._T365.plan) || 'scout'
   );
+  const _plan = _serverPlan;
   const [_planLoaded, _setPlanLoaded] = useState(false);
 
 const [pg, setPg] = useState("dash");
