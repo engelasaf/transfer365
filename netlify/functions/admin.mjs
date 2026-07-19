@@ -1,6 +1,5 @@
 // netlify/functions/admin.mjs
-// GET /api/admin?secret=ADMIN_SECRET&action=users|stats
-// POST /api/admin { secret, action, email, plan, status }
+// Transfer365 Admin API
 
 const CORS = {
   "Content-Type": "application/json",
@@ -8,6 +7,21 @@ const CORS = {
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
+
+function getEnv(key) {
+  // Try both process.env and Netlify.env
+  try {
+    if (typeof process !== "undefined" && process.env && process.env[key]) {
+      return process.env[key];
+    }
+  } catch(e) {}
+  try {
+    if (typeof Netlify !== "undefined" && Netlify.env) {
+      return Netlify.env.get(key) || "";
+    }
+  } catch(e) {}
+  return "";
+}
 
 async function sbQuery(url, key, path, method = "GET", body = null) {
   const r = await fetch(`${url}/rest/v1/${path}`, {
@@ -31,76 +45,55 @@ async function sbQuery(url, key, path, method = "GET", body = null) {
 export default async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
 
-  // ── Auth ────────────────────────────────────────────────────────────
+  // Read secret from query (GET) or body (POST)
   const url = new URL(req.url);
-  let secret, body = {};
+  let secret = url.searchParams.get("secret") || "";
+  let bodyData = {};
+
   if (req.method === "POST") {
-    try { body = await req.json(); } catch(_) {}
-    secret = body.secret;
-  } else {
-    secret = url.searchParams.get("secret");
+    try { bodyData = await req.json(); } catch(_) {}
+    if (!secret) secret = bodyData.secret || "";
   }
 
-    const EXPECTED = (Netlify.env.get("ADMIN_SECRET") || "").trim();
-  const provided = (secret || "").trim();
+  // Auth check — use process.env + Netlify.env
+  const ADMIN_SECRET = getEnv("ADMIN_SECRET");
+  const provided     = secret.trim();
+  const expected     = ADMIN_SECRET.trim();
 
-  // Log for debugging (never log actual secret values)
-  console.log(`Admin auth attempt: provided_len=${provided.length}, expected_len=${EXPECTED.length}, match=${provided === EXPECTED}`);
+  console.log(`[admin] auth: provided_len=${provided.length} expected_len=${expected.length} env_set=${!!expected}`);
 
-  if (!provided || !EXPECTED || provided !== EXPECTED) {
-    return Response.json({
-      error: "Unauthorized — wrong secret key",
-      hint: "Check ADMIN_SECRET in Netlify env vars matches what you typed",
-    }, { status: 401, headers: CORS });
+  if (!provided || !expected || provided !== expected) {
+    return Response.json(
+      { error: "Unauthorized", hint: expected ? "Wrong password" : "ADMIN_SECRET env var not set in Netlify" },
+      { status: 401, headers: CORS }
+    );
   }
-  }
 
-  // ── Supabase config — optional, degrade gracefully ──────────────────
-  const SB_URL = Netlify.env.get("SUPABASE_URL");
-  const SB_KEY = Netlify.env.get("SUPABASE_ANON_KEY");
+  const SB_URL = getEnv("SUPABASE_URL");
+  const SB_KEY = getEnv("SUPABASE_ANON_KEY");
   const hasDB  = !!(SB_URL && SB_KEY);
+  const action = url.searchParams.get("action") || bodyData.action || "users";
 
-  const action = url.searchParams.get("action") || body.action || "users";
-
-  // ── No DB configured — return empty shell ──────────────────────────
+  // No DB — return empty shell
   if (!hasDB) {
     if (action === "users") {
-      return Response.json({
-        success: true, count: 0, users: [],
-        warning: "SUPABASE_ANON_KEY not set in Netlify env vars. Visit /setup to configure.",
-        setup_url: "https://transfer365.net/setup",
-      }, { headers: CORS });
+      return Response.json({ success: true, count: 0, users: [],
+        warning: "Supabase not configured — visit /setup" }, { headers: CORS });
     }
     if (action === "stats") {
-      return Response.json({
-        success: true, byPlan: {}, mrr: 0, activeCount: 0,
-        warning: "Supabase not configured",
-      }, { headers: CORS });
+      return Response.json({ success: true, byPlan: {}, mrr: 0, activeCount: 0 }, { headers: CORS });
     }
-    return Response.json({
-      success: false,
-      error: "Supabase not configured — set SUPABASE_ANON_KEY in Netlify env vars",
-      setup_url: "https://transfer365.net/setup",
-    }, { status: 200, headers: CORS });
+    return Response.json({ success: true, note: "No DB" }, { headers: CORS });
   }
 
-  // ── With DB ─────────────────────────────────────────────────────────
   try {
     if (action === "users") {
-      let users;
+      let users = [];
       try {
         users = await sbQuery(SB_URL, SB_KEY,
           "t365_subscribers?select=*&order=created_at.desc&limit=200");
-      } catch(e) {
-        // Table might not exist yet
-        users = [];
-        console.warn("t365_subscribers query failed:", e.message);
-      }
-      return Response.json({
-        success: true,
-        count: Array.isArray(users) ? users.length : 0,
-        users: Array.isArray(users) ? users : [],
-      }, { headers: CORS });
+      } catch(e) { users = []; }
+      return Response.json({ success: true, count: users.length, users }, { headers: CORS });
     }
 
     if (action === "stats") {
@@ -109,16 +102,16 @@ export default async (req) => {
         users = await sbQuery(SB_URL, SB_KEY,
           "t365_subscribers?select=plan,status&status=eq.active");
       } catch(_) {}
-      const arr = Array.isArray(users) ? users : [];
+      const arr    = Array.isArray(users) ? users : [];
       const byPlan = {};
       arr.forEach(u => { byPlan[u.plan] = (byPlan[u.plan] || 0) + 1; });
       const PRICES = { scout: 0, agent: 39, director: 99, executive: 249 };
-      const mrr = arr.reduce((s, u) => s + (PRICES[u.plan] || 0), 0);
+      const mrr    = arr.reduce((s, u) => s + (PRICES[u.plan] || 0), 0);
       return Response.json({ success: true, byPlan, mrr, activeCount: arr.length }, { headers: CORS });
     }
 
     if (action === "update_plan") {
-      const { email, plan, status } = body;
+      const { email, plan, status } = bodyData;
       if (!email) return Response.json({ error: "email required" }, { status: 400, headers: CORS });
       const update = { updated_at: new Date().toISOString() };
       if (plan)   update.plan   = plan;
@@ -128,24 +121,10 @@ export default async (req) => {
       return Response.json({ success: true, updated: r }, { headers: CORS });
     }
 
-    if (action === "upsert_user") {
-      const { email, plan, name, billing, ls_order_id } = body;
-      if (!email) return Response.json({ error: "email required" }, { status: 400, headers: CORS });
-      const row = {
-        email, plan: plan || "scout", full_name: name || "",
-        status: "active", billing: billing || "monthly",
-        ls_order_id: ls_order_id || null,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-      const r = await sbQuery(SB_URL, SB_KEY, "t365_subscribers", "POST", [row]);
-      return Response.json({ success: true, user: r }, { headers: CORS });
-    }
-
     return Response.json({ error: `Unknown action: ${action}` }, { status: 400, headers: CORS });
 
   } catch(e) {
-    console.error("admin error:", e.message);
+    console.error("[admin] error:", e.message);
     return Response.json({ error: e.message }, { status: 500, headers: CORS });
   }
 };
