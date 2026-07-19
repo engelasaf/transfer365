@@ -786,7 +786,7 @@ const Stat = ({
 function App() {
   
   // ── Plan & feature gating ──────────────────────────────────────────
-  const _plan = (window._T365 && window._T365.plan) || 'scout';
+  const _plan = _serverPlan;
   const PLAN_RANK = { scout: 0, agent: 1, director: 2, executive: 3 };
   const canUse = (minPlan) => (PLAN_RANK[_plan] || 0) >= (PLAN_RANK[minPlan] || 0);
 
@@ -813,6 +813,13 @@ function App() {
       }, "Upgrade now →")
     );
   }
+
+
+  // ── Server-verified plan (fetched from /api/me on load) ───────────
+  const [_serverPlan, _setServerPlan] = useState(
+    (window._T365 && window._T365.plan) || 'scout'
+  );
+  const [_planLoaded, _setPlanLoaded] = useState(false);
 
 const [pg, setPg] = useState("dash");
   const [ti, setTi] = useState(0);
@@ -851,6 +858,34 @@ const [pg, setPg] = useState("dash");
 
   useEffect(() => {
     const t = setInterval(() => setTi(i => (i + 1) % TICKER.length), 4000);
+
+  // Fetch real plan from server on every app load
+  useEffect(function() {
+    const email = (window._T365 && window._T365.email) || '';
+    if (!email) { _setPlanLoaded(true); return; }
+    fetch('/api/me?email=' + encodeURIComponent(email))
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d && d.plan) {
+          _setServerPlan(d.plan);
+          // Update session with server-verified plan
+          if (window._T365) {
+            window._T365.plan = d.plan;
+            window._T365.plan_name = d.plan_name;
+            window._T365.features = d.features;
+            try {
+              var s = JSON.parse(localStorage.getItem('t365_session') || '{}');
+              s.plan = d.plan;
+              localStorage.setItem('t365_session', JSON.stringify(s));
+            } catch(e) {}
+          }
+        }
+        _setPlanLoaded(true);
+      })
+      .catch(function() { _setPlanLoaded(true); });
+  }, []);
+
+
     return () => clearInterval(t);
   }, []);
   useEffect(() => {
