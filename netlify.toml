@@ -1,4 +1,4 @@
-# Redeploy: 20260715-0844 — env vars: SUPABASE_ANON_KEY + ADMIN_SECRET + SETUP_SECRET
+# Redeploy: 20260719-1034 — updated ADMIN_SECRET env var
 [build]
   publish = "."
   functions = "netlify/functions"
