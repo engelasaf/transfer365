@@ -41,9 +41,18 @@ export default async (req) => {
     secret = url.searchParams.get("secret");
   }
 
-  const EXPECTED = Netlify.env.get("ADMIN_SECRET") || "t365admin2026";
-  if (!secret || secret.trim() !== EXPECTED.trim()) {
-    return Response.json({ error: "Unauthorized" }, { status: 401, headers: CORS });
+    const EXPECTED = (Netlify.env.get("ADMIN_SECRET") || "").trim();
+  const provided = (secret || "").trim();
+
+  // Log for debugging (never log actual secret values)
+  console.log(`Admin auth attempt: provided_len=${provided.length}, expected_len=${EXPECTED.length}, match=${provided === EXPECTED}`);
+
+  if (!provided || !EXPECTED || provided !== EXPECTED) {
+    return Response.json({
+      error: "Unauthorized — wrong secret key",
+      hint: "Check ADMIN_SECRET in Netlify env vars matches what you typed",
+    }, { status: 401, headers: CORS });
+  }
   }
 
   // ── Supabase config — optional, degrade gracefully ──────────────────
