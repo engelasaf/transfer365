@@ -1,4 +1,4 @@
-# Deploy 20260809155705 — account upgraded, triggering fresh build
+# Deploy 20260809160135 — new app filename
 [build]
   publish = "."
   functions = "netlify/functions"
@@ -44,7 +44,7 @@
 
 [[redirects]]
   from = "/app"
-  to = "/app.html"
+  to = "/t365app.html"
   status = 200
 
 [[redirects]]
