@@ -787,6 +787,7 @@ function App() {
   
   // ── Plan & feature gating ──────────────────────────────────────────
   
+  const _plan = (window._T365 && window._T365.plan) || 'scout';
   const PLAN_RANK = { scout: 0, agent: 1, director: 2, executive: 3 };
   const canUse = (minPlan) => (PLAN_RANK[_plan] || 0) >= (PLAN_RANK[minPlan] || 0);
 
