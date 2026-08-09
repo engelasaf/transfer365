@@ -1303,19 +1303,6 @@ async function openCheckout(plan, billing) {
     alert('Could not open checkout: ' + e.message);
   }
 }
-  } catch(e) {}
-
-  // Fallback: open store page
-  if (!url) {
-    url = 'https://transfer365.lemonsqueezy.com';
-  }
-
-  if (window.LemonSqueezy && url.includes('checkout/buy')) {
-    window.LemonSqueezy.Url.Open(url);
-  } else {
-    window.open(url, '_blank');
-  }
-}
 
 /* Current billing period (monthly/annual) */
 var _billing = 'monthly';
