@@ -1,4 +1,4 @@
-# Deploy 20260809192402 — fix double async
+# Deploy 20260809192737 — all buttons fixed
 [build]
   publish = "."
   functions = "netlify/functions"
