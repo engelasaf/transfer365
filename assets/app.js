@@ -1633,7 +1633,14 @@ function App() {
     let fp = ownPl;
     if (pF === "injury") fp = fp.filter(p => p.st === "injury");else if (pF === "expiring") fp = fp.filter(p => p.days <= 30 && p.st !== "free");else if (pF === "free") fp = fp.filter(p => p.st === "free");else if (pF === "transfer_req") fp = fp.filter(p => p.st === "transfer_req");
     if (srch) fp = fp.filter(p => p.n.includes(srch) || p.tm.includes(srch) || p.pos.includes(srch));
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", null,
+      showAddPlayer && /*#__PURE__*/React.createElement(AddPlayerModal, {
+        onClose: function() { setShowAddPlayer(false); },
+        onAdd: function(player) {
+          setOwnPl(function(prev) { return [player].concat(prev); });
+          setShowAddPlayer(false);
+        }
+      }), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         gap: 8,
@@ -1655,7 +1662,18 @@ function App() {
         color: "var(--tx1)",
         fontSize: 12
       }
-    })), /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: function() { setShowAddPlayer(true); },
+      style: {
+        padding: "7px 16px", borderRadius: 8, border: "none",
+        background: "#3C3489", color: "#EEEDFE", fontSize: 12,
+        fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap",
+        display: "flex", alignItems: "center", gap: 6, flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "ti ti-plus",
+      style: { fontSize: 14 }
+    }), "הוסף שחקן"))), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         gap: 5,
