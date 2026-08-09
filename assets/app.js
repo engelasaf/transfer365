@@ -783,6 +783,192 @@ const Stat = ({
     marginTop: 2
   }
 }, s));
+
+// ── Add Player Modal ──────────────────────────────────────────────────
+function AddPlayerModal({ onAdd, onClose }) {
+  const [form, setForm] = React.useState({
+    name: '', pos: '', tm: '', age: '', sal: '', val: '',
+    pp: '', days: '', st: 'active', g: '0', a: '0', rat: '7.0'
+  });
+  const [err, setErr] = React.useState('');
+
+  function update(k, v) { setForm(f => ({...f, [k]: v})); }
+
+  function submit() {
+    if (!form.name.trim()) { setErr('שם שחקן הכרחי'); return; }
+    if (!form.pos)         { setErr('עמדה הכרחית'); return; }
+    const initials = form.name.trim().split(' ').filter(Boolean)
+      .map(w => w[0]).join('').slice(0,2).toUpperCase();
+    const COLORS = [
+      {bg:'#EEEDFE',tc:'#3C3489'},{bg:'#E1F5EE',tc:'#085041'},
+      {bg:'#FAEEDA',tc:'#633806'},{bg:'#FAECE7',tc:'#712B13'},
+      {bg:'#FCEBEB',tc:'#A32D2D'},{bg:'#E6F1FB',tc:'#0C447C'},
+    ];
+    const col = COLORS[Math.floor(Math.random() * COLORS.length)];
+    const player = {
+      id:   Date.now(),
+      n:    form.name.trim(),
+      i2:   initials || '??',
+      pos:  form.pos,
+      tm:   form.tm  || 'לא ידוע',
+      age:  parseInt(form.age)  || 24,
+      sal:  parseFloat(form.sal) || 0,
+      val:  parseFloat(form.val) || 0,
+      pp:   form.pp  || 'IL',
+      days: parseInt(form.days)  || 365,
+      st:   form.st,
+      g:    parseInt(form.g)  || 0,
+      a:    parseInt(form.a)  || 0,
+      rat:  parseFloat(form.rat) || 7.0,
+      sc:   Math.floor(Math.random() * 15) + 75,
+      bg:   col.bg,
+      tc:   col.tc,
+    };
+    onAdd(player);
+    onClose();
+  }
+
+  const B = '#3C3489';
+  const inp = {
+    padding:'8px 10px', borderRadius:8, border:'1px solid var(--bd2)',
+    background:'var(--bg2)', color:'var(--tx1)', fontSize:13, width:'100%'
+  };
+  const lbl = { fontSize:11, color:'var(--tx3)', marginBottom:4, display:'block' };
+  const row  = { display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:12 };
+
+  return React.createElement('div', {
+    style: { position:'fixed', inset:0, background:'rgba(0,0,0,.6)', zIndex:300,
+      display:'flex', alignItems:'center', justifyContent:'center', padding:20 },
+    onClick: onClose
+  },
+    React.createElement('div', {
+      style: { background:'var(--bg1)', borderRadius:16, padding:24, width:'100%',
+        maxWidth:480, maxHeight:'90vh', overflow:'auto' },
+      onClick: e => e.stopPropagation()
+    },
+      // Header
+      React.createElement('div', { style:{ display:'flex', justifyContent:'space-between',
+        alignItems:'center', marginBottom:20 }},
+        React.createElement('h2', { style:{ fontSize:16, fontWeight:700, color:'var(--tx1)', margin:0 }},
+          '➕ הוסף שחקן ידנית'),
+        React.createElement('button', { onClick:onClose,
+          style:{ border:'none', background:'var(--bg2)', borderRadius:'50%',
+            width:28, height:28, cursor:'pointer', fontSize:16, color:'var(--tx2)' }}, '✕')
+      ),
+
+      // Row 1: Name + Position
+      React.createElement('div', { style:row },
+        React.createElement('div', null,
+          React.createElement('label', { style:lbl }, 'שם השחקן *'),
+          React.createElement('input', { style:inp, placeholder:'דני כהן', value:form.name,
+            onChange:e=>update('name',e.target.value) })
+        ),
+        React.createElement('div', null,
+          React.createElement('label', { style:lbl }, 'עמדה *'),
+          React.createElement('select', { style:inp, value:form.pos,
+            onChange:e=>update('pos',e.target.value) },
+            React.createElement('option', {value:''}, '-- בחר --'),
+            ['שוער','בלם','מגן','קשר','חלוץ'].map(p =>
+              React.createElement('option', {key:p, value:p}, p))
+          )
+        )
+      ),
+
+      // Row 2: Team + Age
+      React.createElement('div', { style:row },
+        React.createElement('div', null,
+          React.createElement('label', { style:lbl }, 'קבוצה'),
+          React.createElement('input', { style:inp, placeholder:'מכבי ת״א', value:form.tm,
+            onChange:e=>update('tm',e.target.value) })
+        ),
+        React.createElement('div', null,
+          React.createElement('label', { style:lbl }, 'גיל'),
+          React.createElement('input', { style:inp, type:'number', placeholder:'24', value:form.age,
+            onChange:e=>update('age',e.target.value) })
+        )
+      ),
+
+      // Row 3: Salary + Market Value
+      React.createElement('div', { style:row },
+        React.createElement('div', null,
+          React.createElement('label', { style:lbl }, 'שכר חודשי (€K)'),
+          React.createElement('input', { style:inp, type:'number', placeholder:'5.0', value:form.sal,
+            onChange:e=>update('sal',e.target.value) })
+        ),
+        React.createElement('div', null,
+          React.createElement('label', { style:lbl }, 'שווי שוק (€K)'),
+          React.createElement('input', { style:inp, type:'number', placeholder:'200', value:form.val,
+            onChange:e=>update('val',e.target.value) })
+        )
+      ),
+
+      // Row 4: Contract days + Passport
+      React.createElement('div', { style:row },
+        React.createElement('div', null,
+          React.createElement('label', { style:lbl }, 'ימים לסיום חוזה'),
+          React.createElement('input', { style:inp, type:'number', placeholder:'365', value:form.days,
+            onChange:e=>update('days',e.target.value) })
+        ),
+        React.createElement('div', null,
+          React.createElement('label', { style:lbl }, 'דרכון (IL/EU/BR...)'),
+          React.createElement('input', { style:inp, placeholder:'IL', value:form.pp,
+            onChange:e=>update('pp',e.target.value) })
+        )
+      ),
+
+      // Row 5: Goals + Assists + Rating
+      React.createElement('div', { style:{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr',
+        gap:10, marginBottom:12 }},
+        React.createElement('div', null,
+          React.createElement('label', { style:lbl }, 'גולים'),
+          React.createElement('input', { style:inp, type:'number', placeholder:'0', value:form.g,
+            onChange:e=>update('g',e.target.value) })
+        ),
+        React.createElement('div', null,
+          React.createElement('label', { style:lbl }, 'בישולים'),
+          React.createElement('input', { style:inp, type:'number', placeholder:'0', value:form.a,
+            onChange:e=>update('a',e.target.value) })
+        ),
+        React.createElement('div', null,
+          React.createElement('label', { style:lbl }, 'ציון ממוצע'),
+          React.createElement('input', { style:inp, type:'number', step:'0.1', placeholder:'7.0', value:form.rat,
+            onChange:e=>update('rat',e.target.value) })
+        )
+      ),
+
+      // Status
+      React.createElement('div', { style:{ marginBottom:16 }},
+        React.createElement('label', { style:lbl }, 'סטטוס'),
+        React.createElement('select', { style:inp, value:form.st,
+          onChange:e=>update('st',e.target.value) },
+          [['active','תפוס'],['expiring','מתפנה'],['free','שוק חופשי'],
+           ['injury','פציעה'],['transfer_req','בקשת העברה'],['suspended','מושעה']]
+            .map(([v,l]) => React.createElement('option', {key:v, value:v}, l))
+        )
+      ),
+
+      // Error
+      err && React.createElement('div', {
+        style:{ color:'#A32D2D', background:'#FCEBEB', borderRadius:8,
+          padding:'8px 12px', fontSize:12, marginBottom:12 }}, err),
+
+      // Buttons
+      React.createElement('div', { style:{ display:'flex', gap:10 }},
+        React.createElement('button', {
+          onClick: submit,
+          style:{ flex:1, padding:12, borderRadius:9, border:'none',
+            background:B, color:'#EEEDFE', fontSize:14, fontWeight:700, cursor:'pointer' }
+        }, '✅ הוסף לפורטפוליו'),
+        React.createElement('button', {
+          onClick: onClose,
+          style:{ padding:'12px 20px', borderRadius:9, border:'1px solid var(--bd2)',
+            background:'transparent', color:'var(--tx2)', fontSize:14, cursor:'pointer' }
+        }, 'ביטול')
+      )
+    )
+  );
+}
+
 function App() {
   
   // ── Plan & feature gating ──────────────────────────────────────────
@@ -816,7 +1002,8 @@ function App() {
   }
 
 
-const [pg, setPg] = useState("dash");
+  const [showAddPlayer, setShowAddPlayer] = React.useState(false);
+  const [pg, setPg] = useState("dash");
   const [ti, setTi] = useState(0);
   const [secs, setSecs] = useState(41 * 86400 + 7 * 3600 + 23 * 60);
   const [wtch, setWtch] = useState(() => {
