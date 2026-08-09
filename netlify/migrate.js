@@ -63,6 +63,10 @@ const TABLES = [
     is_read BOOLEAN DEFAULT FALSE, created_at TIMESTAMPTZ DEFAULT NOW())`,
 
   `CREATE INDEX IF NOT EXISTS idx_sub_email    ON t365_subscribers(email)`,
+
+  `ALTER TABLE t365_subscribers ADD COLUMN IF NOT EXISTS paddle_customer_id TEXT`,
+  `ALTER TABLE t365_subscribers ADD COLUMN IF NOT EXISTS paddle_subscription_id TEXT`,
+  `CREATE INDEX IF NOT EXISTS idx_sub_paddle_cust ON t365_subscribers(paddle_customer_id)`,
   `CREATE INDEX IF NOT EXISTS idx_sub_plan     ON t365_subscribers(plan)`,
   `CREATE INDEX IF NOT EXISTS idx_wh_event_id  ON t365_webhook_events(event_id)`,
   `CREATE INDEX IF NOT EXISTS idx_pl_league    ON t365_players(league_id, season)`,
