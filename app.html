@@ -10,33 +10,15 @@
 <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css" rel="stylesheet">
 </head>
 <body style="margin:0">
-<script>
-(function(){var s=null;try{s=localStorage.getItem('t365_session');}catch(e){}
-if(!s){window.location.replace('/');return;}
-try{window._T365=JSON.parse(s);}catch(e){window._T365={};}
-})();
-</script>
-<div id="qa-err" style="display:none;position:fixed;inset:0;background:#1a1a2e;color:#fff;padding:32px;font-family:monospace;font-size:13px;overflow:auto;z-index:99999;direction:ltr">
-<h2 style="color:#f87171;margin-bottom:16px">&#10060; App Error</h2>
-<pre id="qa-err-pre"></pre>
-<p style="margin-top:16px"><a href="/" style="color:#a5b4fc">&#8592; Back</a></p>
-</div>
-<div id="t365bar" style="position:fixed;top:0;right:0;z-index:9999;display:flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(17,24,39,.95);border-bottom-left-radius:10px;font-family:system-ui,sans-serif;font-size:12px">
-<span id="t365name" style="color:#fff;font-weight:600">...</span>
-<a href="/" onclick="try{localStorage.removeItem('t365_session')}catch(e){}" style="padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.65);font-size:11px;text-decoration:none">Log out</a>
-</div>
+<script>(function(){var s=null;try{s=localStorage.getItem('t365_session');}catch(e){}if(!s){window.location.replace('/');return;}try{window._T365=JSON.parse(s);}catch(e){window._T365={};}})();</script>
+<div id="qa-err" style="display:none;position:fixed;inset:0;background:#1a1a2e;color:#fff;padding:32px;font-family:monospace;font-size:13px;overflow:auto;z-index:99999;direction:ltr"><h2 style="color:#f87171;margin-bottom:16px">&#10060; App Error</h2><pre id="qa-err-pre"></pre><p><a href="/" style="color:#a5b4fc">&#8592; Back</a></p></div>
+<div id="t365bar" style="position:fixed;top:0;right:0;z-index:9999;display:flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(17,24,39,.95);border-bottom-left-radius:10px;font-family:system-ui,sans-serif;font-size:12px"><span id="t365name" style="color:#fff;font-weight:600">...</span><a href="/" onclick="try{localStorage.removeItem('t365_session')}catch(e){}" style="padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.65);font-size:11px;text-decoration:none">Log out</a></div>
 <script>(function(){var u=window._T365||{};document.getElementById('t365name').textContent=(u.full_name||(u.email||'').split('@')[0]||'Agent');})();</script>
 <div id="root" style="min-height:100vh"></div>
 <script>window.onerror=function(msg,src,line,col,err){var b=document.getElementById('qa-err'),p=document.getElementById('qa-err-pre');if(b)b.style.display='block';if(p)p.textContent=msg+'\n\n'+(err&&err.stack?err.stack:'');return false;};</script>
 <script src="/assets/react.min.js"></script>
 <script src="/assets/reactdom.min.js"></script>
-<script src="/assets/app.js?v=20260809102953"></script>
-<script>
-(function(){
-if(typeof App!=='function'){document.getElementById('qa-err').style.display='block';document.getElementById('qa-err-pre').textContent='App not defined';return;}
-try{ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App,null));}
-catch(e){document.getElementById('qa-err').style.display='block';document.getElementById('qa-err-pre').textContent='Mount: '+e.message+'\n'+(e.stack||'');}
-})();
-</script>
+<script src="/assets/app.js?v=20260809103050"></script>
+<script>(function(){if(typeof App!=='function'){document.getElementById('qa-err').style.display='block';document.getElementById('qa-err-pre').textContent='App not defined';return;}try{ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App,null));}catch(e){document.getElementById('qa-err').style.display='block';document.getElementById('qa-err-pre').textContent='Mount: '+e.message+'\n'+(e.stack||'');}})();</script>
 </body>
 </html>
