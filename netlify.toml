@@ -1,4 +1,4 @@
-# Deploy 20260809175632 — Pro plan active
+# Deploy 20260809180025 — scan-news syntax fixed
 [build]
   publish = "."
   functions = "netlify/functions"
