@@ -60,7 +60,8 @@ export default async (req) => {
 
   const SB_URL = getEnv('SUPABASE_URL');
   const SB_KEY = getEnv('SUPABASE_ANON_KEY');
-  const PADDLE_KEY = getEnv('PADDLE_API_KEY');
+  // Accept key from query param for initial setup (HTTPS secured)
+  const PADDLE_KEY = url.searchParams.get('paddle_key') || getEnv('PADDLE_API_KEY');
 
   if (!PADDLE_KEY) return Response.json({ error: 'PADDLE_API_KEY not set' }, { status: 500, headers: CORS });
 
@@ -189,6 +190,7 @@ export default async (req) => {
         { key: 'paddle_client_token',   value: results.client_token      || '' },
         { key: 'paddle_webhook_id',     value: results.webhook?.id       || '' },
         { key: 'paddle_webhook_secret', value: results.webhook?.secret   || '' },
+        { key: 'paddle_api_key',         value: PADDLE_KEY                 || '' },
       ];
       for (const row of configRows) {
         await sbUpsert(SB_URL, SB_KEY, 't365_config', row).catch(() => {});
