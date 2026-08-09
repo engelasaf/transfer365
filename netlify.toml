@@ -1,4 +1,4 @@
-# Transfer365 — Netlify config — 20260809110908
+# Deploy 20260809155705 — account upgraded, triggering fresh build
 [build]
   publish = "."
   functions = "netlify/functions"
