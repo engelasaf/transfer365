@@ -1,4 +1,4 @@
-# Deploy 20260809185609 — load PADDLE_API_KEY env var
+# Deploy 20260809185902 — Paddle price IDs live
 [build]
   publish = "."
   functions = "netlify/functions"
