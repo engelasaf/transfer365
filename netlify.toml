@@ -1,4 +1,4 @@
-# Deploy 20260809191540 — Paddle checkout fix
+# Deploy 20260809192402 — fix double async
 [build]
   publish = "."
   functions = "netlify/functions"
