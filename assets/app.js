@@ -814,13 +814,10 @@ function App() {
     );
   }
 
-
   // ── Server-verified plan (fetched from /api/me on load) ───────────
   const [_serverPlan, _setServerPlan] = useState(
     (window._T365 && window._T365.plan) || 'scout'
   );
-  const _plan = _serverPlan;
-  const [_planLoaded, _setPlanLoaded] = useState(false);
 
 const [pg, setPg] = useState("dash");
   const [ti, setTi] = useState(0);
@@ -865,13 +862,12 @@ const [pg, setPg] = useState("dash");
   // Fetch real plan from server on every app load
   useEffect(function() {
     const email = (window._T365 && window._T365.email) || '';
-    if (!email) { _setPlanLoaded(true); return; }
+    if (!email) {  return; }
     fetch('/api/me?email=' + encodeURIComponent(email))
       .then(function(r) { return r.json(); })
       .then(function(d) {
         if (d && d.plan) {
-          _setServerPlan(d.plan);
-          if (window._T365) {
+                    if (window._T365) {
             window._T365.plan      = d.plan;
             window._T365.plan_name = d.plan_name;
             window._T365.features  = d.features;
@@ -882,9 +878,8 @@ const [pg, setPg] = useState("dash");
             } catch(e) {}
           }
         }
-        _setPlanLoaded(true);
-      })
-      .catch(function() { _setPlanLoaded(true); });
+              })
+      .catch(function() {  });
   }, []);
   useEffect(() => {
     const t = setInterval(() => setSecs(s => Math.max(0, s - 1)), 1000);
