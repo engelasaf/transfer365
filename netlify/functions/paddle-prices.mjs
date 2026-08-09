@@ -30,20 +30,30 @@ export default async (req) => {
   const cfg = (SB_URL && SB_KEY) ? await sbConfig(SB_URL, SB_KEY) : {};
 
   // Fall back to env vars
+  // Fallback to known price IDs if Supabase not available
+  const KNOWN_PRICES = {
+    agent_m:  'pri_01kzky778vsstmr35hvyxtvkyh',
+    agent_a:  'pri_01kzky77ak0g5zxwc3tqxj2a7b',
+    dir_m:    'pri_01kzky77c3tserrvg0wnwtmyjm',
+    dir_a:    'pri_01kzky77dyw87hew45z27njvyr',
+    exec_m:   'pri_01kzky77gnmvdpp3wxk3jx57gd',
+    exec_a:   'pri_01kzky77j4ck3s1bbt30eh2pme',
+  };
+
   const prices = {
     agent:     {
-      monthly: cfg.paddle_price_agent_m || getEnv('PADDLE_PRICE_AGENT_M'),
-      annual:  cfg.paddle_price_agent_a || getEnv('PADDLE_PRICE_AGENT_A'),
+      monthly: cfg.paddle_price_agent_m || getEnv('PADDLE_PRICE_AGENT_M') || KNOWN_PRICES.agent_m,
+      annual:  cfg.paddle_price_agent_a || getEnv('PADDLE_PRICE_AGENT_A') || KNOWN_PRICES.agent_a,
     },
     director:  {
-      monthly: cfg.paddle_price_dir_m   || getEnv('PADDLE_PRICE_DIR_M'),
-      annual:  cfg.paddle_price_dir_a   || getEnv('PADDLE_PRICE_DIR_A'),
+      monthly: cfg.paddle_price_dir_m   || getEnv('PADDLE_PRICE_DIR_M')   || KNOWN_PRICES.dir_m,
+      annual:  cfg.paddle_price_dir_a   || getEnv('PADDLE_PRICE_DIR_A')   || KNOWN_PRICES.dir_a,
     },
     executive: {
-      monthly: cfg.paddle_price_exec_m  || getEnv('PADDLE_PRICE_EXEC_M'),
-      annual:  cfg.paddle_price_exec_a  || getEnv('PADDLE_PRICE_EXEC_A'),
+      monthly: cfg.paddle_price_exec_m  || getEnv('PADDLE_PRICE_EXEC_M')  || KNOWN_PRICES.exec_m,
+      annual:  cfg.paddle_price_exec_a  || getEnv('PADDLE_PRICE_EXEC_A')  || KNOWN_PRICES.exec_a,
     },
-    client_token: cfg.paddle_client_token || getEnv('PADDLE_CLIENT_TOKEN'),
+    client_token: cfg.paddle_client_token || getEnv('PADDLE_CLIENT_TOKEN') || '',
   };
 
   const configured = !!(prices.agent.monthly && prices.agent.annual &&
