@@ -1,4 +1,4 @@
-# Deploy 20260809180025 — scan-news syntax fixed
+# Deploy 20260809180701 — Paddle integration
 [build]
   publish = "."
   functions = "netlify/functions"
