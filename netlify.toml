@@ -1,4 +1,4 @@
-# Deploy 20260809190856 — client token + webhook secret loaded
+# Deploy 20260809191236
 [build]
   publish = "."
   functions = "netlify/functions"
