@@ -1,4 +1,4 @@
-# Deploy 20260809181601 — Paddle auto-setup
+# Deploy 20260809181943 — paddle-setup accepts key param
 [build]
   publish = "."
   functions = "netlify/functions"
