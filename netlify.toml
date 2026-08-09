@@ -1,4 +1,4 @@
-# Redeploy 20260719-1143 — process.env fix
+# Redeploy 20260809-1035 — fix import errors that blocked all deploys since July 19
 [build]
   publish = "."
   functions = "netlify/functions"
