@@ -58,7 +58,18 @@ function billingFromPriceId(priceId) {
 export default async (req) => {
   const SB_URL = getEnv('SUPABASE_URL');
   const SB_KEY = getEnv('SUPABASE_ANON_KEY');
-  const WEBHOOK_SECRET = getEnv('PADDLE_WEBHOOK_SECRET');
+  // Read webhook secret from env var OR Supabase config
+  let WEBHOOK_SECRET = getEnv('PADDLE_WEBHOOK_SECRET');
+  if (!WEBHOOK_SECRET && SB_URL && SB_KEY) {
+    try {
+      const cr = await fetch(
+        `${SB_URL}/rest/v1/t365_config?key=eq.paddle_webhook_secret&limit=1`,
+        { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } }
+      );
+      const cd = await cr.json();
+      WEBHOOK_SECRET = cd?.[0]?.value || '';
+    } catch(e) {}
+  }
 
   // Verify signature
   if (WEBHOOK_SECRET) {
