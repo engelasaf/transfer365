@@ -60,12 +60,14 @@ export default async (req) => {
 
   const SB_URL = getEnv('SUPABASE_URL');
   const SB_KEY = getEnv('SUPABASE_ANON_KEY');
-  // Accept key from query param for initial setup (HTTPS secured)
-  const PADDLE_KEY = url.searchParams.get('paddle_key') || getEnv('PADDLE_API_KEY');
+  // Accept key from query param — trim all whitespace/newlines
+  const rawKey = url.searchParams.get('paddle_key') || getEnv('PADDLE_API_KEY') || '';
+  const PADDLE_KEY = rawKey.replace(/\s+/g, '').trim();
 
   if (!PADDLE_KEY) return Response.json({ error: 'PADDLE_API_KEY not set' }, { status: 500, headers: CORS });
 
   const log = [];
+  log.push(`Key prefix: ${PADDLE_KEY.slice(0,20)}... (len=${PADDLE_KEY.length})`);
   const results = { products: {}, prices: {}, webhook: null, client_token: null };
 
   try {
