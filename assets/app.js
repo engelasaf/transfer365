@@ -859,6 +859,8 @@ const [pg, setPg] = useState("dash");
 
   useEffect(() => {
     const t = setInterval(() => setTi(i => (i + 1) % TICKER.length), 4000);
+    return () => clearInterval(t);
+  }, []);
 
   // Fetch real plan from server on every app load
   useEffect(function() {
@@ -869,11 +871,10 @@ const [pg, setPg] = useState("dash");
       .then(function(d) {
         if (d && d.plan) {
           _setServerPlan(d.plan);
-          // Update session with server-verified plan
           if (window._T365) {
-            window._T365.plan = d.plan;
+            window._T365.plan      = d.plan;
             window._T365.plan_name = d.plan_name;
-            window._T365.features = d.features;
+            window._T365.features  = d.features;
             try {
               var s = JSON.parse(localStorage.getItem('t365_session') || '{}');
               s.plan = d.plan;
@@ -884,10 +885,6 @@ const [pg, setPg] = useState("dash");
         _setPlanLoaded(true);
       })
       .catch(function() { _setPlanLoaded(true); });
-  }, []);
-
-
-    return () => clearInterval(t);
   }, []);
   useEffect(() => {
     const t = setInterval(() => setSecs(s => Math.max(0, s - 1)), 1000);
