@@ -1258,15 +1258,26 @@ async async function openCheckout(plan, billing) {
     const priceId = billing === 'a' ? d.prices[plan].annual : d.prices[plan].monthly;
     if (!priceId) { alert('Price not found for ' + plan + ' ' + billing); return; }
 
-    // Initialize Paddle
+    // Initialize Paddle with client token
+    const clientToken = d.prices.client_token;
+    if (!clientToken) {
+      alert('Paddle client token not configured. Please add PADDLE_CLIENT_TOKEN to Netlify env vars.');
+      return;
+    }
     if (!window._paddleInit) {
-      Paddle.Initialize({ token: d.prices.client_token });
-      window._paddleInit = true;
+      try {
+        Paddle.Initialize({ token: clientToken });
+        window._paddleInit = true;
+      } catch(initErr) {
+        console.error('Paddle init error:', initErr);
+        alert('Paddle initialization failed: ' + initErr.message);
+        return;
+      }
     }
 
     // Open Paddle checkout
     Paddle.Checkout.open({
-      items: [{ priceId, quantity: 1 }],
+      items: [{ priceId: priceId, quantity: 1 }],
       settings: {
         displayMode: 'overlay',
         theme: 'dark',
@@ -1276,7 +1287,7 @@ async async function openCheckout(plan, billing) {
     });
   } catch(e) {
     console.error('Paddle checkout error:', e);
-    window.open('https://transfer365.net/#pricing', '_blank');
+    alert('Checkout error: ' + e.message + '\nCheck browser console for details.');
   }
 }
   } catch(e) {}
