@@ -142,7 +142,7 @@ export default async (req) => {
         results.client_token = liveToken.id;
         log.push(`Client token: ${liveToken.id}`);
       } else {
-        const ct = await paddle('POST', '/client-tokens', { description: 'Transfer365 frontend' });
+        const ct = await paddle('POST', '/client-tokens', { name: 'Transfer365 Frontend', description: 'Used for Paddle.js checkout on transfer365.net' });
         results.client_token = ct.id;
         log.push(`Created client token: ${ct.id}`);
       }
