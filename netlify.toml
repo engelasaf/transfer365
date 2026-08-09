@@ -1,4 +1,4 @@
-# Deploy 20260809160135 — new app filename
+# Deploy 20260809175632 — Pro plan active
 [build]
   publish = "."
   functions = "netlify/functions"
