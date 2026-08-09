@@ -1,4 +1,4 @@
-# Deploy 20260809185902 — Paddle price IDs live
+# Deploy 20260809190856 — client token + webhook secret loaded
 [build]
   publish = "."
   functions = "netlify/functions"
