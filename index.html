@@ -1247,47 +1247,60 @@ async function getLsConfig() {
 
 async async function openCheckout(plan, billing) {
   billing = billing || _billing || 'm';
+
+  // Check Paddle.js loaded
+  if (typeof Paddle === 'undefined') {
+    alert('Payment system loading, please wait and try again.');
+    return;
+  }
+
   try {
-    // Get price IDs from server
-    const r = await fetch('/api/paddle-prices');
-    const d = await r.json();
+    // Use cached prices or fetch
+    let d = window._paddlePrices ? { prices: window._paddlePrices } : null;
+    if (!d) {
+      const r = await fetch('/api/paddle-prices');
+      if (!r.ok) throw new Error('Could not load prices (' + r.status + ')');
+      d = await r.json();
+    }
+
     if (!d.prices || !d.prices[plan]) {
-      alert('Checkout not configured yet. Contact support.');
+      alert('Plan "' + plan + '" not found. Contact support.');
       return;
     }
-    const priceId = billing === 'a' ? d.prices[plan].annual : d.prices[plan].monthly;
-    if (!priceId) { alert('Price not found for ' + plan + ' ' + billing); return; }
 
-    // Initialize Paddle with client token
+    const priceId = billing === 'a' ? d.prices[plan].annual : d.prices[plan].monthly;
+    if (!priceId) {
+      alert('Price not found for ' + plan + ' (' + billing + ')');
+      return;
+    }
+
     const clientToken = d.prices.client_token;
     if (!clientToken) {
-      alert('Paddle client token not configured. Please add PADDLE_CLIENT_TOKEN to Netlify env vars.');
+      alert('Payment not configured yet. Contact support@transfer365.net');
       return;
     }
-    if (!window._paddleInit) {
-      try {
-        Paddle.Initialize({ token: clientToken });
-        window._paddleInit = true;
-      } catch(initErr) {
-        console.error('Paddle init error:', initErr);
-        alert('Paddle initialization failed: ' + initErr.message);
-        return;
-      }
+
+    // Initialize Paddle (once)
+    if (!window._paddleReady) {
+      Paddle.Initialize({ token: clientToken });
+      window._paddleReady = true;
     }
 
-    // Open Paddle checkout
+    // Open checkout overlay
     Paddle.Checkout.open({
       items: [{ priceId: priceId, quantity: 1 }],
       settings: {
         displayMode: 'overlay',
         theme: 'dark',
         locale: 'en',
+        frameTarget: 'checkout-container',
         successUrl: 'https://transfer365.net/app',
       },
     });
+
   } catch(e) {
-    console.error('Paddle checkout error:', e);
-    alert('Checkout error: ' + e.message + '\nCheck browser console for details.');
+    console.error('Checkout error:', e);
+    alert('Could not open checkout: ' + e.message);
   }
 }
   } catch(e) {}
@@ -1308,6 +1321,38 @@ async async function openCheckout(plan, billing) {
 var _billing = 'monthly';
 
 
+</script>
+
+<script>
+// Pre-fetch Paddle config on page load so checkout opens instantly
+(function() {
+  window._paddleReady = false;
+  window._paddlePrices = null;
+
+  function initPaddleWhenReady() {
+    if (typeof Paddle === 'undefined') {
+      setTimeout(initPaddleWhenReady, 200);
+      return;
+    }
+    fetch('/api/paddle-prices')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        window._paddlePrices = d.prices;
+        if (d.prices && d.prices.client_token) {
+          Paddle.Initialize({ token: d.prices.client_token });
+          window._paddleReady = true;
+          console.log('[Transfer365] Paddle ready');
+        }
+      })
+      .catch(function(e) { console.warn('[Transfer365] Paddle pre-init failed:', e); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPaddleWhenReady);
+  } else {
+    initPaddleWhenReady();
+  }
+})();
 </script>
 </body>
 </html>
