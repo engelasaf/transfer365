@@ -1,4 +1,4 @@
-# Deploy 20260809194635
+# Deploy 20260809194959 — force add-player button
 [build]
   publish = "."
   functions = "netlify/functions"
