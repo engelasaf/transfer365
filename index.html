@@ -235,7 +235,7 @@ footer{padding:40px 5vw;display:flex;align-items:center;justify-content:space-be
 [dir="rtl"] .pbadge {direction:rtl}
 .hide-mobile{display:inline}.show-mobile{display:none}@media(max-width:640px){.hide-mobile{display:none}.show-mobile{display:inline}.bprim{padding:6px 12px;font-size:12px}}
 </style>
-<script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 </head>
 <body>
 
@@ -1245,17 +1245,40 @@ async function getLsConfig() {
   return _lsConfig;
 }
 
-async function openCheckout(plan, billing) {
-  billing = billing || _billing || 'monthly';
-
-  // Try to get configured URLs from ls-config
-  let url = null;
+async async function openCheckout(plan, billing) {
+  billing = billing || _billing || 'm';
   try {
-    const r = await fetch('/api/ls-config');
-    const cfg = await r.json();
-    if (cfg.configured && cfg.plans && cfg.plans[plan]) {
-      url = cfg.plans[plan][billing] || cfg.plans[plan].monthly;
+    // Get price IDs from server
+    const r = await fetch('/api/paddle-prices');
+    const d = await r.json();
+    if (!d.prices || !d.prices[plan]) {
+      alert('Checkout not configured yet. Contact support.');
+      return;
     }
+    const priceId = billing === 'a' ? d.prices[plan].annual : d.prices[plan].monthly;
+    if (!priceId) { alert('Price not found for ' + plan + ' ' + billing); return; }
+
+    // Initialize Paddle
+    if (!window._paddleInit) {
+      Paddle.Initialize({ token: d.prices.client_token });
+      window._paddleInit = true;
+    }
+
+    // Open Paddle checkout
+    Paddle.Checkout.open({
+      items: [{ priceId, quantity: 1 }],
+      settings: {
+        displayMode: 'overlay',
+        theme: 'dark',
+        locale: 'en',
+        successUrl: 'https://transfer365.net/app',
+      },
+    });
+  } catch(e) {
+    console.error('Paddle checkout error:', e);
+    window.open('https://transfer365.net/#pricing', '_blank');
+  }
+}
   } catch(e) {}
 
   // Fallback: open store page
