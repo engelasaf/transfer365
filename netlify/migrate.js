@@ -37,6 +37,11 @@ const TABLES = [
     event_name TEXT NOT NULL,
     processed_at TIMESTAMPTZ DEFAULT NOW())`,
 
+
+  `CREATE TABLE IF NOT EXISTS t365_config (
+    key        TEXT PRIMARY KEY,
+    value      TEXT NOT NULL DEFAULT '',
+    updated_at TIMESTAMPTZ DEFAULT NOW())`,
   `CREATE TABLE IF NOT EXISTS t365_players (
     id BIGSERIAL PRIMARY KEY, player_id INTEGER NOT NULL,
     name TEXT NOT NULL, firstname TEXT, lastname TEXT,
