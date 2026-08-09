@@ -298,3 +298,108 @@ function buildEmail(alerts, scanTime) {
 </body>
 </html>`;
 
+  return { subject, html };
+}
+
+// ── Main handler ──────────────────────────────────────────────────────
+export default async (req) => {
+  const SB_URL = process.env.SUPABASE_URL;
+  const SB_KEY = process.env.SUPABASE_ANON_KEY;
+  const RESEND_KEY = process.env.RESEND_API_KEY || process.env.RESEND_KEY;
+
+  // Validate env
+  if (!SB_URL || !SB_KEY || !RESEND_KEY) {
+    console.log("[scan-news] Missing env vars — skipping");
+    return new Response("OK", { status: 200 });
+  }
+
+  try {
+    // Get all players from Supabase
+    const pr = await fetch(
+      `${SB_URL}/rest/v1/t365_players?select=player_id,name,team_name,nationality&limit=50`,
+      { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } }
+    );
+    const PLAYERS = pr.ok ? await pr.json() : [];
+
+    // Get all notification subscribers who have email enabled
+    const nr = await fetch(
+      `${SB_URL}/rest/v1/notification_settings?ch_email_on=eq.true&select=user_id,ch_email_val`,
+      { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } }
+    );
+    const subscribers = nr.ok ? await nr.json() : [];
+
+    if (!PLAYERS.length || !subscribers.length) {
+      console.log(`[scan-news] players=${PLAYERS.length} subscribers=${subscribers.length} — nothing to do`);
+      return new Response("OK", { status: 200 });
+    }
+
+    // Fetch news for each player
+    const alerts = [];
+    for (const player of PLAYERS.slice(0, 9)) {
+      const query = encodeURIComponent(`${player.name} football transfer`);
+      try {
+        const feed = await fetch(
+          `https://news.google.com/rss/search?q=${query}&hl=en&gl=US&ceid=US:en`,
+          { headers: { "User-Agent": "Transfer365/1.0" } }
+        );
+        if (!feed.ok) continue;
+        const xml  = await feed.text();
+        const items = parseRSS(xml).slice(0, 1);
+        for (const item of items) {
+          const tt = classifyTrigger(item.title + " " + item.desc);
+          alerts.push({
+            player_id:    player.player_id,
+            player_name:  player.name,
+            team_name:    player.team_name,
+            trigger_type: tt.type,
+            headline:     item.title,
+            summary:      item.desc,
+            url:          item.link,
+            source:       item.src,
+            pub_date:     item.pub,
+            icon:         tt.icon,
+          });
+        }
+      } catch(e) {
+        console.warn(`[scan-news] fetch error for ${player.name}:`, e.message);
+      }
+    }
+
+    if (!alerts.length) {
+      console.log("[scan-news] No alerts generated");
+      return new Response("OK", { status: 200 });
+    }
+
+    // Build and send email to each subscriber
+    const { subject, html } = buildEmail(alerts, PLAYERS);
+    let sent = 0;
+    for (const sub of subscribers) {
+      if (!sub.ch_email_val || !sub.ch_email_val.includes("@")) continue;
+      try {
+        const er = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${RESEND_KEY}`, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            from:    "Transfer365 <alerts@transfer365.net>",
+            to:      [sub.ch_email_val],
+            subject,
+            html,
+          }),
+        });
+        if (er.ok) sent++;
+        else console.warn(`[scan-news] Resend error for ${sub.ch_email_val}:`, await er.text());
+      } catch(e) {
+        console.warn(`[scan-news] email error:`, e.message);
+      }
+    }
+
+    console.log(`[scan-news] Done: ${alerts.length} alerts, ${sent}/${subscribers.length} emails sent`);
+    return new Response("OK", { status: 200 });
+
+  } catch(e) {
+    console.error("[scan-news] Fatal:", e.message);
+    return new Response("Error", { status: 500 });
+  }
+};
+
+export const config = { schedule: "*/30 * * * *" };
