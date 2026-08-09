@@ -1,4 +1,4 @@
-# Deploy 20260809182245 — paddle key sanitize
+# Deploy 20260809185609 — load PADDLE_API_KEY env var
 [build]
   publish = "."
   functions = "netlify/functions"
