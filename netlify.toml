@@ -1,4 +1,4 @@
-# Deploy 20260809180701 — Paddle integration
+# Deploy 20260809181601 — Paddle auto-setup
 [build]
   publish = "."
   functions = "netlify/functions"
