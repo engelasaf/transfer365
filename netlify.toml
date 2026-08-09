@@ -1,8 +1,10 @@
-# Redeploy 20260809-1035 — fix import errors that blocked all deploys since July 19
+# Transfer365 — Netlify config — 20260809110908
 [build]
   publish = "."
   functions = "netlify/functions"
-  command = "node netlify/migrate.js || echo 'Migration skipped'"
+
+[build.environment]
+  NODE_VERSION = "20"
 
 [[headers]]
   for = "/*"
