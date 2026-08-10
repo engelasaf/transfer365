@@ -784,190 +784,6 @@ const Stat = ({
   }
 }, s));
 
-// ── Add Player Modal ──────────────────────────────────────────────────
-function AddPlayerModal({ onAdd, onClose }) {
-  const [form, setForm] = React.useState({
-    name: '', pos: '', tm: '', age: '', sal: '', val: '',
-    pp: '', days: '', st: 'active', g: '0', a: '0', rat: '7.0'
-  });
-  const [err, setErr] = React.useState('');
-
-  function update(k, v) { setForm(f => ({...f, [k]: v})); }
-
-  function submit() {
-    if (!form.name.trim()) { setErr('שם שחקן הכרחי'); return; }
-    if (!form.pos)         { setErr('עמדה הכרחית'); return; }
-    const initials = form.name.trim().split(' ').filter(Boolean)
-      .map(w => w[0]).join('').slice(0,2).toUpperCase();
-    const COLORS = [
-      {bg:'#EEEDFE',tc:'#3C3489'},{bg:'#E1F5EE',tc:'#085041'},
-      {bg:'#FAEEDA',tc:'#633806'},{bg:'#FAECE7',tc:'#712B13'},
-      {bg:'#FCEBEB',tc:'#A32D2D'},{bg:'#E6F1FB',tc:'#0C447C'},
-    ];
-    const col = COLORS[Math.floor(Math.random() * COLORS.length)];
-    const player = {
-      id:   Date.now(),
-      n:    form.name.trim(),
-      i2:   initials || '??',
-      pos:  form.pos,
-      tm:   form.tm  || 'לא ידוע',
-      age:  parseInt(form.age)  || 24,
-      sal:  parseFloat(form.sal) || 0,
-      val:  parseFloat(form.val) || 0,
-      pp:   form.pp  || 'IL',
-      days: parseInt(form.days)  || 365,
-      st:   form.st,
-      g:    parseInt(form.g)  || 0,
-      a:    parseInt(form.a)  || 0,
-      rat:  parseFloat(form.rat) || 7.0,
-      sc:   Math.floor(Math.random() * 15) + 75,
-      bg:   col.bg,
-      tc:   col.tc,
-    };
-    onAdd(player);
-    onClose();
-  }
-
-  const B = '#3C3489';
-  const inp = {
-    padding:'8px 10px', borderRadius:8, border:'1px solid var(--bd2)',
-    background:'var(--bg2)', color:'var(--tx1)', fontSize:13, width:'100%'
-  };
-  const lbl = { fontSize:11, color:'var(--tx3)', marginBottom:4, display:'block' };
-  const row  = { display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:12 };
-
-  return React.createElement('div', {
-    style: { position:'fixed', inset:0, background:'rgba(0,0,0,.6)', zIndex:300,
-      display:'flex', alignItems:'center', justifyContent:'center', padding:20 },
-    onClick: onClose
-  },
-    React.createElement('div', {
-      style: { background:'var(--bg1)', borderRadius:16, padding:24, width:'100%',
-        maxWidth:480, maxHeight:'90vh', overflow:'auto' },
-      onClick: e => e.stopPropagation()
-    },
-      // Header
-      React.createElement('div', { style:{ display:'flex', justifyContent:'space-between',
-        alignItems:'center', marginBottom:20 }},
-        React.createElement('h2', { style:{ fontSize:16, fontWeight:700, color:'var(--tx1)', margin:0 }},
-          '➕ הוסף שחקן ידנית'),
-        React.createElement('button', { onClick:onClose,
-          style:{ border:'none', background:'var(--bg2)', borderRadius:'50%',
-            width:28, height:28, cursor:'pointer', fontSize:16, color:'var(--tx2)' }}, '✕')
-      ),
-
-      // Row 1: Name + Position
-      React.createElement('div', { style:row },
-        React.createElement('div', null,
-          React.createElement('label', { style:lbl }, 'שם השחקן *'),
-          React.createElement('input', { style:inp, placeholder:'דני כהן', value:form.name,
-            onChange:e=>update('name',e.target.value) })
-        ),
-        React.createElement('div', null,
-          React.createElement('label', { style:lbl }, 'עמדה *'),
-          React.createElement('select', { style:inp, value:form.pos,
-            onChange:e=>update('pos',e.target.value) },
-            React.createElement('option', {value:''}, '-- בחר --'),
-            ['שוער','בלם','מגן','קשר','חלוץ'].map(p =>
-              React.createElement('option', {key:p, value:p}, p))
-          )
-        )
-      ),
-
-      // Row 2: Team + Age
-      React.createElement('div', { style:row },
-        React.createElement('div', null,
-          React.createElement('label', { style:lbl }, 'קבוצה'),
-          React.createElement('input', { style:inp, placeholder:'מכבי ת״א', value:form.tm,
-            onChange:e=>update('tm',e.target.value) })
-        ),
-        React.createElement('div', null,
-          React.createElement('label', { style:lbl }, 'גיל'),
-          React.createElement('input', { style:inp, type:'number', placeholder:'24', value:form.age,
-            onChange:e=>update('age',e.target.value) })
-        )
-      ),
-
-      // Row 3: Salary + Market Value
-      React.createElement('div', { style:row },
-        React.createElement('div', null,
-          React.createElement('label', { style:lbl }, 'שכר חודשי (€K)'),
-          React.createElement('input', { style:inp, type:'number', placeholder:'5.0', value:form.sal,
-            onChange:e=>update('sal',e.target.value) })
-        ),
-        React.createElement('div', null,
-          React.createElement('label', { style:lbl }, 'שווי שוק (€K)'),
-          React.createElement('input', { style:inp, type:'number', placeholder:'200', value:form.val,
-            onChange:e=>update('val',e.target.value) })
-        )
-      ),
-
-      // Row 4: Contract days + Passport
-      React.createElement('div', { style:row },
-        React.createElement('div', null,
-          React.createElement('label', { style:lbl }, 'ימים לסיום חוזה'),
-          React.createElement('input', { style:inp, type:'number', placeholder:'365', value:form.days,
-            onChange:e=>update('days',e.target.value) })
-        ),
-        React.createElement('div', null,
-          React.createElement('label', { style:lbl }, 'דרכון (IL/EU/BR...)'),
-          React.createElement('input', { style:inp, placeholder:'IL', value:form.pp,
-            onChange:e=>update('pp',e.target.value) })
-        )
-      ),
-
-      // Row 5: Goals + Assists + Rating
-      React.createElement('div', { style:{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr',
-        gap:10, marginBottom:12 }},
-        React.createElement('div', null,
-          React.createElement('label', { style:lbl }, 'גולים'),
-          React.createElement('input', { style:inp, type:'number', placeholder:'0', value:form.g,
-            onChange:e=>update('g',e.target.value) })
-        ),
-        React.createElement('div', null,
-          React.createElement('label', { style:lbl }, 'בישולים'),
-          React.createElement('input', { style:inp, type:'number', placeholder:'0', value:form.a,
-            onChange:e=>update('a',e.target.value) })
-        ),
-        React.createElement('div', null,
-          React.createElement('label', { style:lbl }, 'ציון ממוצע'),
-          React.createElement('input', { style:inp, type:'number', step:'0.1', placeholder:'7.0', value:form.rat,
-            onChange:e=>update('rat',e.target.value) })
-        )
-      ),
-
-      // Status
-      React.createElement('div', { style:{ marginBottom:16 }},
-        React.createElement('label', { style:lbl }, 'סטטוס'),
-        React.createElement('select', { style:inp, value:form.st,
-          onChange:e=>update('st',e.target.value) },
-          [['active','תפוס'],['expiring','מתפנה'],['free','שוק חופשי'],
-           ['injury','פציעה'],['transfer_req','בקשת העברה'],['suspended','מושעה']]
-            .map(([v,l]) => React.createElement('option', {key:v, value:v}, l))
-        )
-      ),
-
-      // Error
-      err && React.createElement('div', {
-        style:{ color:'#A32D2D', background:'#FCEBEB', borderRadius:8,
-          padding:'8px 12px', fontSize:12, marginBottom:12 }}, err),
-
-      // Buttons
-      React.createElement('div', { style:{ display:'flex', gap:10 }},
-        React.createElement('button', {
-          onClick: submit,
-          style:{ flex:1, padding:12, borderRadius:9, border:'none',
-            background:B, color:'#EEEDFE', fontSize:14, fontWeight:700, cursor:'pointer' }
-        }, '✅ הוסף לפורטפוליו'),
-        React.createElement('button', {
-          onClick: onClose,
-          style:{ padding:'12px 20px', borderRadius:9, border:'1px solid var(--bd2)',
-            background:'transparent', color:'var(--tx2)', fontSize:14, cursor:'pointer' }
-        }, 'ביטול')
-      )
-    )
-  );
-}
 
 function App() {
   
@@ -1000,9 +816,6 @@ function App() {
       }, "Upgrade now →")
     );
   }
-
-
-  const [showAddPlayer, setShowAddPlayer] = React.useState(false);
   const [pg, setPg] = useState("dash");
   const [ti, setTi] = useState(0);
   const [secs, setSecs] = useState(41 * 86400 + 7 * 3600 + 23 * 60);
@@ -1633,47 +1446,7 @@ function App() {
     let fp = ownPl;
     if (pF === "injury") fp = fp.filter(p => p.st === "injury");else if (pF === "expiring") fp = fp.filter(p => p.days <= 30 && p.st !== "free");else if (pF === "free") fp = fp.filter(p => p.st === "free");else if (pF === "transfer_req") fp = fp.filter(p => p.st === "transfer_req");
     if (srch) fp = fp.filter(p => p.n.includes(srch) || p.tm.includes(srch) || p.pos.includes(srch));
-    return /*#__PURE__*/React.createElement("div", null,
-      showAddPlayer && /*#__PURE__*/React.createElement(AddPlayerModal, {
-        onClose: function() { setShowAddPlayer(false); },
-        onAdd: function(player) {
-          setOwnPl(function(prev) { return [player].concat(prev); });
-          setShowAddPlayer(false);
-        }
-      }), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        gap: 8,
-        marginBottom: 10,
-        flexWrap: "wrap",
-        alignItems: "center"
-      }
-    }, /*#__PURE__*/React.createElement("input", {
-      value: srch,
-      onChange: e => setSrch(e.target.value),
-      placeholder: "Search player, club, position...",
-      style: {
-        flex: 1,
-        minWidth: 140,
-        padding: "7px 12px",
-        borderRadius: 8,
-        border: "0.5px solid var(--bd2)",
-        background: "var(--bg2)",
-        color: "var(--tx1)",
-        fontSize: 12
-      }
-    }, /*#__PURE__*/React.createElement("button", {
-      onClick: function() { setShowAddPlayer(true); },
-      style: {
-        padding: "7px 16px", borderRadius: 8, border: "none",
-        background: "#3C3489", color: "#EEEDFE", fontSize: 12,
-        fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap",
-        display: "flex", alignItems: "center", gap: 6, flexShrink: 0
-      }
-    }, /*#__PURE__*/React.createElement("i", {
-      className: "ti ti-plus",
-      style: { fontSize: 14 }
-    }), "הוסף שחקן"))), /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         gap: 5,
@@ -1795,164 +1568,304 @@ function App() {
       }, p.sc));
     })));
   }
+
+  // ── Add / Discover Players ────────────────────────────────────────
   function Discover() {
-    const fm = mktPl.filter(p => !mktS || p.n.includes(mktS) || p.pos.includes(mktS) || p.pp.includes(mktS));
-    return /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        flexDirection: "column",
-        gap: 10
+    const B = "#3C3489", BB = "#EEEDFE";
+    const [tab, setTab]         = React.useState("search");   // search | manual | tm
+    const [query, setQuery]     = React.useState("");
+    const [results, setResults] = React.useState([]);
+    const [loading, setLoading] = React.useState(false);
+    const [tmUrl, setTmUrl]     = React.useState("");
+    const [tmLoading, setTmLoading] = React.useState(false);
+    const [msg, setMsg]         = React.useState("");
+    const [form, setForm]       = React.useState({
+      name:"", pos:"", tm:"", age:"", sal:"", val:"",
+      pp:"IL", days:"365", st:"active", g:"0", a:"0", rat:"7.0"
+    });
+
+    const COLORS = [
+      {bg:"#EEEDFE",tc:"#3C3489"},{bg:"#E1F5EE",tc:"#085041"},
+      {bg:"#FAEEDA",tc:"#633806"},{bg:"#FAECE7",tc:"#712B13"},
+      {bg:"#FCEBEB",tc:"#A32D2D"},{bg:"#E6F1FB",tc:"#0C447C"},
+    ];
+
+    function makePlayer(data) {
+      const col = COLORS[Math.floor(Math.random()*COLORS.length)];
+      const initials = (data.name||"??").split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
+      return {
+        id:   Date.now() + Math.random(),
+        n:    data.name||"", i2: initials,
+        pos:  data.pos||"", tm: data.tm||"",
+        age:  parseInt(data.age)||24,
+        sal:  parseFloat(data.sal)||0,
+        val:  parseFloat(data.val)||0,
+        pp:   data.pp||"IL",
+        days: parseInt(data.days)||365,
+        st:   data.st||"active",
+        g:    parseInt(data.g)||0, a: parseInt(data.a)||0,
+        rat:  parseFloat(data.rat)||7.0,
+        sc:   Math.floor(Math.random()*15)+75,
+        bg: col.bg, tc: col.tc,
+      };
+    }
+
+    function addToPortfolio(p) {
+      setOwnPl(prev => [p].concat(prev.filter(x=>x.id!==p.id)));
+      setMsg("✅ " + p.n + " נוסף לפורטפוליו!");
+      setTimeout(()=>setMsg(""), 3000);
+    }
+
+    async function searchPlayers() {
+      if (!query.trim()) return;
+      setLoading(true); setResults([]);
+      try {
+        const r = await fetch("/api/search-players?q=" + encodeURIComponent(query));
+        const d = await r.json();
+        setResults(d.players || []);
+        if (!(d.players||[]).length) setMsg("לא נמצאו שחקנים — נסה שם אחר");
+        else setMsg("");
+      } catch(e) {
+        setMsg("שגיאת חיפוש — נסה הוספה ידנית");
       }
-    }, /*#__PURE__*/React.createElement("input", {
-      value: mktS,
-      onChange: e => setMktS(e.target.value),
-      placeholder: "Search — position, nationality, club...",
-      style: {
-        padding: "7px 12px",
-        borderRadius: 8,
-        border: "0.5px solid var(--bd2)",
-        background: "var(--bg2)",
-        color: "var(--tx1)",
-        fontSize: 12,
-        width: "100%"
+      setLoading(false);
+    }
+
+    async function addFromTm() {
+      if (!tmUrl.trim()) return;
+      setTmLoading(true); setMsg("");
+      try {
+        const r = await fetch("/api/tm-player?url=" + encodeURIComponent(tmUrl));
+        const d = await r.json();
+        if (d.player) {
+          addToPortfolio(makePlayer(d.player));
+          setTmUrl("");
+        } else {
+          setMsg("לא ניתן לקרוא מ-Transfermarkt — נסה הוספה ידנית");
+        }
+      } catch(e) {
+        setMsg("שגיאה — נסה הוספה ידנית");
       }
-    }), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: 10
-      }
-    }, fm.map(p => {
-      const sl = stL(p.st),
-        dc = dC(p.days),
-        claimed = ownPl.some(o => o.id === p.id);
-      return /*#__PURE__*/React.createElement(Card, {
-        key: p.id,
-        style: {
-          padding: "12px 14px"
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: "flex",
-          alignItems: "center",
-          gap: 9,
-          marginBottom: 8
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          width: 36,
-          height: 36,
-          borderRadius: "50%",
-          background: p.bg,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: 11,
-          fontWeight: 700,
-          color: p.tc,
-          flexShrink: 0,
-          cursor: "pointer"
-        },
-        onClick: () => setModal({
-          ...p,
-          g: 0,
-          a: 0,
-          rat: 7.0,
-          sal: p.sal,
-          days: p.days
-        })
-      }, p.i2), /*#__PURE__*/React.createElement("div", {
-        style: {
-          flex: 1,
-          cursor: "pointer"
-        },
-        onClick: () => setModal({
-          ...p,
-          g: 0,
-          a: 0,
-          rat: 7.0
-        })
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 13,
-          fontWeight: 700,
-          color: "var(--tx1)"
-        }
-      }, p.n), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 11,
-          color: "var(--tx3)"
-        }
-      }, p.pos, " · ", p.tm)), /*#__PURE__*/React.createElement("div", {
-        style: {
-          textAlign: "center"
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 18,
-          fontWeight: 700,
-          color: sC(p.sc),
-          fontVariantNumeric: "tabular-nums"
-        }
-      }, p.sc), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 9,
-          color: "var(--tx3)"
-        }
-      }, "AI"))), /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: "flex",
-          gap: 5,
-          flexWrap: "wrap",
-          marginBottom: 8
-        }
-      }, /*#__PURE__*/React.createElement(Pill, {
-        l: sl.l,
-        bg: sl.bg,
-        tc: sl.tc
-      }), /*#__PURE__*/React.createElement(Pill, {
-        l: dc.l,
-        bg: dc.bg,
-        tc: dc.tc
-      }), p.pp.includes("EU") && /*#__PURE__*/React.createElement(Pill, {
-        l: "EU",
-        bg: "#EAF3DE",
-        tc: "#27500A"
-      })), /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between"
-        }
-      }, /*#__PURE__*/React.createElement(W, {
-        id: "mk" + p.id
-      }), /*#__PURE__*/React.createElement("button", {
-        style: {
-          fontSize: 11,
-          padding: "4px 11px",
-          borderRadius: 7,
-          border: "0.5px solid " + (claimed ? "#27500A" : B),
-          background: claimed ? "#EAF3DE" : BB,
-          color: claimed ? "#27500A" : B,
-          cursor: "pointer"
-        },
-        onClick: () => {
-          if (!claimed) {
-            setOwnPl(o => [...o, {
-              ...p,
-              since: 2025,
-              g: 0,
-              a: 0,
-              rat: 7.0,
-              sal: p.sal,
-              age: p.age || 24
-            }]);
-            setMktPl(m => m.filter(x => x.id !== p.id));
+      setTmLoading(false);
+    }
+
+    function submitManual() {
+      if (!form.name.trim()) { setMsg("שם שחקן הכרחי"); return; }
+      if (!form.pos)         { setMsg("עמדה הכרחית"); return; }
+      addToPortfolio(makePlayer(form));
+      setForm({name:"",pos:"",tm:"",age:"",sal:"",val:"",
+               pp:"IL",days:"365",st:"active",g:"0",a:"0",rat:"7.0"});
+    }
+
+    function upd(k,v) { setForm(f=>({...f,[k]:v})); }
+
+    const inp = {padding:"9px 12px",borderRadius:8,border:"1px solid var(--bd2)",
+      background:"var(--bg2)",color:"var(--tx1)",fontSize:13,width:"100%"};
+    const lbl = {fontSize:11,color:"var(--tx3)",marginBottom:4,display:"block"};
+
+    return /*#__PURE__*/React.createElement("div", {style:{display:"flex",flexDirection:"column",gap:14}},
+
+      // Message bar
+      msg && /*#__PURE__*/React.createElement("div", {style:{
+        padding:"10px 16px",borderRadius:9,
+        background: msg.startsWith("✅") ? "#EAF3DE" : "#FCEBEB",
+        color: msg.startsWith("✅") ? "#27500A" : "#A32D2D",
+        fontSize:13,fontWeight:600
+      }}, msg),
+
+      // Tab switcher
+      /*#__PURE__*/React.createElement("div", {style:{
+        display:"flex",gap:0,background:"var(--bg2)",borderRadius:10,
+        border:"1px solid var(--bd2)",overflow:"hidden"
+      }},
+        [
+          {id:"search", icon:"ti-search",    label:"חפש שחקן"},
+          {id:"tm",     icon:"ti-link",      label:"קישור Transfermarkt"},
+          {id:"manual", icon:"ti-edit",      label:"הוספה ידנית"},
+        ].map(t => /*#__PURE__*/React.createElement("button", {
+          key: t.id,
+          onClick: ()=>{setTab(t.id);setMsg("");},
+          style:{
+            flex:1, padding:"11px 8px", border:"none",
+            background: tab===t.id ? B : "transparent",
+            color: tab===t.id ? "#fff" : "var(--tx2)",
+            fontSize:12, fontWeight: tab===t.id ? 700 : 400,
+            cursor:"pointer", display:"flex", alignItems:"center",
+            justifyContent:"center", gap:5, transition:"all .15s"
           }
-        }
-      }, claimed ? "✓ in portfolio" : "+ Add to Portfolio")));
-    })));
+        },
+          /*#__PURE__*/React.createElement("i",{className:"ti "+t.icon,style:{fontSize:14}}),
+          t.label
+        ))
+      ),
+
+      // ── TAB: Search ────────────────────────────────────────────────
+      tab==="search" && /*#__PURE__*/React.createElement("div", {style:{display:"flex",flexDirection:"column",gap:10}},
+        /*#__PURE__*/React.createElement("div", {style:{display:"flex",gap:8}},
+          /*#__PURE__*/React.createElement("input", {
+            value:query, placeholder:"הכנס שם שחקן (למשל: Messi, דני כהן...)",
+            onChange:e=>setQuery(e.target.value),
+            onKeyDown:e=>e.key==="Enter"&&searchPlayers(),
+            style:{...inp, flex:1}
+          }),
+          /*#__PURE__*/React.createElement("button", {
+            onClick:searchPlayers,
+            style:{padding:"9px 20px",borderRadius:8,border:"none",
+              background:B,color:"#EEEDFE",fontWeight:700,cursor:"pointer",
+              fontSize:13,whiteSpace:"nowrap"}
+          }, loading ? "מחפש..." : "🔍 חפש")
+        ),
+        /*#__PURE__*/React.createElement("p", {style:{fontSize:11,color:"var(--tx3)",margin:0}},
+          "מחיפוש ב-API-Football — מאגר של מעל 700,000 שחקנים מכל העולם"),
+
+        results.length > 0 && /*#__PURE__*/React.createElement("div", {
+          style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}},
+          results.map((p,i) => {
+            const col = COLORS[i%COLORS.length];
+            const initials = (p.name||"??").split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
+            const inPortfolio = ownPl.some(x=>x.n===p.name);
+            return /*#__PURE__*/React.createElement("div", {
+              key:i,
+              style:{background:"var(--bg1)",border:"1px solid var(--bd2)",borderRadius:12,padding:"14px"}
+            },
+              /*#__PURE__*/React.createElement("div",{style:{display:"flex",alignItems:"center",gap:10,marginBottom:10}},
+                /*#__PURE__*/React.createElement("div",{style:{
+                  width:42,height:42,borderRadius:"50%",background:col.bg,
+                  display:"flex",alignItems:"center",justifyContent:"center",
+                  fontSize:13,fontWeight:700,color:col.tc,flexShrink:0
+                }}, initials),
+                /*#__PURE__*/React.createElement("div",{style:{flex:1,minWidth:0}},
+                  /*#__PURE__*/React.createElement("div",{style:{fontSize:13,fontWeight:700,color:"var(--tx1)"}}, p.name),
+                  /*#__PURE__*/React.createElement("div",{style:{fontSize:11,color:"var(--tx3)"}},
+                    [p.pos, p.tm, p.nationality].filter(Boolean).join(" · "))
+                )
+              ),
+              /*#__PURE__*/React.createElement("div",{style:{display:"flex",gap:8,marginBottom:10,flexWrap:"wrap"}},
+                p.age && /*#__PURE__*/React.createElement("span",{style:{fontSize:11,background:"var(--bg2)",
+                  padding:"2px 8px",borderRadius:20,color:"var(--tx2)"}}, "גיל "+p.age),
+                p.nationality && /*#__PURE__*/React.createElement("span",{style:{fontSize:11,background:"var(--bg2)",
+                  padding:"2px 8px",borderRadius:20,color:"var(--tx2)"}}, p.nationality)
+              ),
+              /*#__PURE__*/React.createElement("button",{
+                onClick:()=>{ if(!inPortfolio) addToPortfolio(makePlayer({...p})); },
+                style:{width:"100%",padding:"8px",borderRadius:8,border:"none",
+                  background:inPortfolio?"#EAF3DE":B,
+                  color:inPortfolio?"#27500A":"#EEEDFE",
+                  fontSize:12,fontWeight:700,cursor:inPortfolio?"default":"pointer"}
+              }, inPortfolio ? "✓ בפורטפוליו" : "+ הוסף לפורטפוליו")
+            );
+          })
+        )
+      ),
+
+      // ── TAB: Transfermarkt URL ─────────────────────────────────────
+      tab==="tm" && /*#__PURE__*/React.createElement("div", {style:{display:"flex",flexDirection:"column",gap:12}},
+        /*#__PURE__*/React.createElement("div",{style:{
+          background:"#EAF3DE",borderRadius:10,padding:"12px 16px",
+          fontSize:12,color:"#27500A",lineHeight:1.6
+        }},
+          "📋 ", /*#__PURE__*/React.createElement("b",null,"איך:"),
+          " כנס לפרופיל השחקן ב-Transfermarkt → העתק את הURL → הדבק כאן"
+        ),
+        /*#__PURE__*/React.createElement("div",{style:{display:"flex",gap:8}},
+          /*#__PURE__*/React.createElement("input",{
+            value:tmUrl,
+            placeholder:"https://www.transfermarkt.com/player-name/profil/spieler/12345",
+            onChange:e=>setTmUrl(e.target.value),
+            style:{...inp,flex:1,fontSize:12}
+          }),
+          /*#__PURE__*/React.createElement("button",{
+            onClick:addFromTm,
+            disabled:tmLoading,
+            style:{padding:"9px 20px",borderRadius:8,border:"none",
+              background:B,color:"#EEEDFE",fontWeight:700,cursor:"pointer",
+              fontSize:12,whiteSpace:"nowrap"}
+          }, tmLoading ? "טוען..." : "📥 ייבא")
+        ),
+        /*#__PURE__*/React.createElement("p",{style:{fontSize:11,color:"var(--tx3)",margin:0}},
+          "דוגמה: https://www.transfermarkt.com/lionel-messi/profil/spieler/28003")
+      ),
+
+      // ── TAB: Manual ────────────────────────────────────────────────
+      tab==="manual" && /*#__PURE__*/React.createElement("div", {
+        style:{background:"var(--bg1)",border:"1px solid var(--bd2)",borderRadius:12,padding:20}
+      },
+        /*#__PURE__*/React.createElement("h3",{style:{fontSize:14,fontWeight:700,color:"var(--tx1)",marginBottom:16,margin:"0 0 16px"}},
+          "הוספת שחקן ידנית"),
+
+        // Row 1
+        /*#__PURE__*/React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:12}},
+          /*#__PURE__*/React.createElement("div",null,
+            /*#__PURE__*/React.createElement("label",{style:lbl},"שם שחקן *"),
+            /*#__PURE__*/React.createElement("input",{style:inp,placeholder:"דני כהן",value:form.name,onChange:e=>upd("name",e.target.value)})
+          ),
+          /*#__PURE__*/React.createElement("div",null,
+            /*#__PURE__*/React.createElement("label",{style:lbl},"עמדה *"),
+            /*#__PURE__*/React.createElement("select",{style:inp,value:form.pos,onChange:e=>upd("pos",e.target.value)},
+              /*#__PURE__*/React.createElement("option",{value:""},"-- בחר --"),
+              ["שוער","בלם","מגן","קשר","חלוץ"].map(p=>/*#__PURE__*/React.createElement("option",{key:p,value:p},p))
+            )
+          )
+        ),
+        // Row 2
+        /*#__PURE__*/React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:12}},
+          /*#__PURE__*/React.createElement("div",null,
+            /*#__PURE__*/React.createElement("label",{style:lbl},"קבוצה נוכחית"),
+            /*#__PURE__*/React.createElement("input",{style:inp,placeholder:"מכבי ת״א",value:form.tm,onChange:e=>upd("tm",e.target.value)})
+          ),
+          /*#__PURE__*/React.createElement("div",null,
+            /*#__PURE__*/React.createElement("label",{style:lbl},"גיל"),
+            /*#__PURE__*/React.createElement("input",{style:inp,type:"number",placeholder:"24",value:form.age,onChange:e=>upd("age",e.target.value)})
+          )
+        ),
+        // Row 3
+        /*#__PURE__*/React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:12}},
+          /*#__PURE__*/React.createElement("div",null,
+            /*#__PURE__*/React.createElement("label",{style:lbl},"שכר חודשי (€K)"),
+            /*#__PURE__*/React.createElement("input",{style:inp,type:"number",placeholder:"5.0",value:form.sal,onChange:e=>upd("sal",e.target.value)})
+          ),
+          /*#__PURE__*/React.createElement("div",null,
+            /*#__PURE__*/React.createElement("label",{style:lbl},"שווי שוק (€K)"),
+            /*#__PURE__*/React.createElement("input",{style:inp,type:"number",placeholder:"200",value:form.val,onChange:e=>upd("val",e.target.value)})
+          ),
+          /*#__PURE__*/React.createElement("div",null,
+            /*#__PURE__*/React.createElement("label",{style:lbl},"ימי חוזה נותרים"),
+            /*#__PURE__*/React.createElement("input",{style:inp,type:"number",placeholder:"365",value:form.days,onChange:e=>upd("days",e.target.value)})
+          )
+        ),
+        // Row 4
+        /*#__PURE__*/React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:12}},
+          /*#__PURE__*/React.createElement("div",null,
+            /*#__PURE__*/React.createElement("label",{style:lbl},"גולים"),
+            /*#__PURE__*/React.createElement("input",{style:inp,type:"number",placeholder:"0",value:form.g,onChange:e=>upd("g",e.target.value)})
+          ),
+          /*#__PURE__*/React.createElement("div",null,
+            /*#__PURE__*/React.createElement("label",{style:lbl},"בישולים"),
+            /*#__PURE__*/React.createElement("input",{style:inp,type:"number",placeholder:"0",value:form.a,onChange:e=>upd("a",e.target.value)})
+          ),
+          /*#__PURE__*/React.createElement("div",null,
+            /*#__PURE__*/React.createElement("label",{style:lbl},"דרכון"),
+            /*#__PURE__*/React.createElement("input",{style:inp,placeholder:"IL/EU/BR",value:form.pp,onChange:e=>upd("pp",e.target.value)})
+          )
+        ),
+        // Satus
+        /*#__PURE__*/React.createElement("div",{style:{marginBottom:16}},
+          /*#__PURE__*/React.createElement("label",{style:lbl},"סטטוס חוזה"),
+          /*#__PURE__*/React.createElement("select",{style:inp,value:form.st,onChange:e=>upd("st",e.target.value)},
+            [["active","תפוס"],["expiring","מתפנה"],["free","שוק חופשי"],
+             ["injury","פציעה"],["transfer_req","בקשת העברה"],["suspended","מושעה"]]
+              .map(([v,l])=>/*#__PURE__*/React.createElement("option",{key:v,value:v},l))
+          )
+        ),
+        /*#__PURE__*/React.createElement("button",{
+          onClick:submitManual,
+          style:{width:"100%",padding:13,borderRadius:9,border:"none",
+            background:B,color:"#EEEDFE",fontSize:14,fontWeight:700,cursor:"pointer"}
+        },"✅ הוסף לפורטפוליו שלי")
+      )
+    );
   }
+
   function Matches() {
     const sw = MATCHES[swI % MATCHES.length];
     function doSwipe(dir) {
